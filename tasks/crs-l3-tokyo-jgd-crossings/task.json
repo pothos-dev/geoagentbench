@@ -1,0 +1,47 @@
+{
+  "task_id": "crs-l3-tokyo-jgd-crossings",
+  "version": 4,
+  "tags": {
+    "region": ["tokyo"],
+    "data_source": ["overpass"],
+    "formats": ["gpkg"],
+    "crs": ["EPSG:4326", "EPSG:6677"],
+    "geometry_type": ["linestring", "polygon", "point"],
+    "operations": ["join_crosses", "buffer_planar", "intersection", "reprojection", "area_calculation"],
+    "themes": ["highway", "boundary_administrative"],
+    "quality_issues": ["null_attributes", "non_latin_script"],
+    "scale": "medium"
+  },
+  "instruction": "I'm rebuilding the road-safety dashboard for Tokyo's 23 special wards. For each ward I need to know how often the drivable road network crosses the ward boundary (please skip service roads), plus a 50 m buffer around every crossing for jurisdictional reporting. Pull the data from current OSM via Overpass. Run the engineering layers in the regional metric coordinate system so the distances and areas come out in real metres.\n\nSave everything to a single `tokyo_crossings.gpkg` with five layers:\n\n- `wards_jgd` (Polygon): the 23 ward boundaries.\n- `crossing_points` (Point): one point at each place a road crosses a ward boundary.\n- `crossing_buffers_50m` (Polygon): a 50 m buffer around each crossing point.\n- `buffer_ward_intersection` (Polygon): each buffer clipped to the ward whose boundary it crossed.\n- `ward_crossing_density_wgs84` (Polygon): one row per ward with `ward_id`, `crossing_count`, `ward_area_km2`, and `crossings_per_km2`. This is what the public dashboard reads, so it goes in WGS84 while the other four stay in the metric grid.\n\nUse each ward's OSM relation id as `ward_id`, and carry the English and native ward names as `ward_name_en` and `ward_name` on every layer that's tied to a specific ward.",
+  "analyst_notes": {
+    "description": "This task tests whether the agent can run a full CRS round-trip workflow over live Overpass data. The prompt asks for \"the regional metric coordinate system\" without naming an EPSG; the canonical answer is JGD2011 / Japan Plane Rectangular Zone IX (EPSG:6677), the conformal national grid covering Tokyo, and any other choice on the four engineering layers fails their per-layer CRS subchecks plus the coordinate-envelope check. The hidden gotcha sits one level deeper than picking the right code: planar buffers and area calculations have to happen in the projected frame, so an agent that calls set_crs(6677) without to_crs(6677) leaves geometries in lon/lat and produces 50-degree-wide buffers that cover half of Asia.",
+    "approach": [
+      "Query Overpass for Tokyo's 23 special wards as admin_level=7 boundary relations inside the Tokyo Metropolis area, and for the drivable road network (motorway through living_street, no service or footway or cycleway or path) in their bounding box.",
+      "Reproject both layers into JGD2011 / Japan Plane Rectangular Zone IX (EPSG:6677) before doing any geometric work, so distances and areas are in honest metres.",
+      "Find each point where a road LineString crosses a ward boundary, keeping the source ward's id and name alongside each crossing.",
+      "Build a 50 m planar buffer around each crossing point, then clip each buffer to the ward whose boundary produced it.",
+      "Compute crossings_per_km2 per ward as crossing_count divided by ward area in km², and reproject only the density layer back to WGS84.",
+      "Write all five layers into a single GPKG, with the four engineering layers in EPSG:6677 and the density layer in EPSG:4326."
+    ],
+    "pitfalls": [
+      "Stamping CRS metadata on the layer without actually calling to_crs leaves the geometry in lon/lat, so the 50 m buffer becomes 50 degrees wide and area calculations are off by roughly a factor of 10^10.",
+      "Reading \"the regional metric coordinate system\" as Web Mercator (EPSG:3857) instead of JGD2011 Plane IX (EPSG:6677) passes the buffer-area sanity check but fails the wards_jgd coordinate-envelope subcheck.",
+      "Fetching every highway=* tag (including footway, cycleway, path, service) overshoots the reference crossing count by enough to break the ±15% tolerance, and may also exceed Overpass' practical response time.",
+      "Using the intersects predicate instead of crosses double-counts roads that run along the ward boundary, inflating the crossing count.",
+      "Buffering each road segment instead of each crossing point makes the buffer count equal to the road count (~85k, not ~5k) and the per-buffer area enormous.",
+      "Populating crossings_per_km2 with the raw crossing count instead of dividing by ward area flips the top of the dashboard list, because Tokyo wards span roughly ten-to-one in area.",
+      "Forgetting to reproject the final density layer back to WGS84 fails the dashboard CRS subcheck.",
+      "Selecting admin_level=8 instead of admin_level=7, or matching the Tokyo area by name instead of name:en, only assembles a couple of ward polygons, which fails the ward-count subcheck and leaves almost no matched wards for the density comparisons."
+    ]
+  },
+  "inputs": [],
+  "expected_outputs": [
+    {
+      "name": "tokyo_crossings.gpkg",
+      "format": "gpkg",
+      "crs": "EPSG:6677",
+      "geometry_type": "Mixed"
+    }
+  ],
+  "deadline_seconds": 1200
+}

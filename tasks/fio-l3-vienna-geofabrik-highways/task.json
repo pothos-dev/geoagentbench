@@ -1,0 +1,46 @@
+{
+  "task_id": "fio-l3-vienna-geofabrik-highways",
+  "version": 3,
+  "tags": {
+    "region": ["vienna"],
+    "data_source": ["geofabrik"],
+    "formats": ["osm_pbf", "gpkg"],
+    "crs": ["EPSG:4326", "EPSG:31287"],
+    "geometry_type": ["linestring", "multilinestring"],
+    "operations": ["join_intersects", "buffer_planar", "format_conversion", "reprojection"],
+    "themes": ["highway", "public_transport_route"],
+    "quality_issues": ["encoding_issues"],
+    "scale": "medium"
+  },
+  "instruction": "I'm building a traffic-noise model of the Gürtel corridor for the City of Vienna and need the surrounding network as a single GeoPackage. Can you pull every highway from the current Geofabrik Austria PBF (https://download.geofabrik.de/europe/austria-latest.osm.pbf) that intersects a 500 m buffer around Vienna's Gürtel, defined as the highway ways whose name ends in 'Gürtel'? I also need every public-transport route relation (bus, tram, subway, train, trolleybus, light_rail) that crosses the same buffer, with each route as a single feature. Keep the OSM attributes full and untruncated: name, highway, maxspeed, lanes, surface, and oneway on highways; ref, name, operator, and route on the PT routes. Please write both layers to vienna_network.gpkg, with the highways layer as LineString and the pt_routes layer as MultiLineString, in Austria's standard projected coordinate system.",
+  "analyst_notes": {
+    "description": "An L3 format-I/O task that tests whether the agent can pull live OSM data, identify the Gürtel ring road by name, buffer it correctly in a metric CRS, and assemble two qualitatively different OSM extractions (way-level highways and relation-level public-transport routes) into one multi-layer GeoPackage. The deliberately implicit piece is the CRS pick: the prompt says 'Austria's standard projected coordinate system' rather than naming EPSG:31287, so the agent has to know MGI / Austria Lambert from regional convention. The other hidden gotcha is buffering: 500 m in degrees would balloon the catchment by several orders of magnitude, so the buffer has to happen in the projected CRS before the spatial filter runs.",
+    "approach": [
+      "Decide on a data source: the full Austria PBF is large enough that a naive parse blows the time budget, so the Overpass API is usually the more practical route.",
+      "Identify the Gürtel by querying for ways whose name contains 'Gürtel', union them, and reproject into Austria's national grid before buffering by 500 m.",
+      "Use that buffer to filter for every highway way that intersects it, keeping the OSM tag attributes verbatim including German diacritics.",
+      "Separately query for public-transport route relations (bus, tram, subway, train, trolleybus, light_rail) that touch the buffer and assemble each relation's member ways into a single MultiLineString per route.",
+      "Write both layers to vienna_network.gpkg in EPSG:31287, making sure attribute names are not truncated and the encoding round-trips umlauts cleanly."
+    ],
+    "pitfalls": [
+      "Buffering in geographic degrees instead of metres produces a buffer that is vastly the wrong size, so the highway count comes out far outside tolerance and the coordinate range check fails.",
+      "Stamping the GeoPackage CRS as EPSG:31287 without actually reprojecting the geometries leaves coordinates in degrees, which the coordinate-range subchecks catch.",
+      "Routing the attribute table through a Shapefile intermediate truncates column names to 10 characters (maxspeed becomes maxspd, etc.) and breaks the schema gate.",
+      "Mishandling UTF-8 along the way turns 'Gürtel' into 'Gurtel' and similar, which trips the diacritics subcheck.",
+      "Exporting each member way of a PT relation as its own row instead of one MultiLineString per relation inflates the route count and drops the MultiLineString fraction.",
+      "Searching for 'Ring' or other Vienna ring-road names instead of 'Gürtel' catches the wrong streets, which shows up as a wildly wrong highway count and no 'ürtel' substring in names.",
+      "Downloading the full 800 MB Austria PBF and parsing it synchronously inside the agent loop tends to time out before any output is produced."
+    ]
+  },
+  "inputs": [],
+  "expected_outputs": [
+    {
+      "name": "vienna_network.gpkg",
+      "format": "gpkg",
+      "crs": "EPSG:31287",
+      "geometry_type": "LineString, MultiLineString",
+      "layers": ["highways", "pt_routes"]
+    }
+  ],
+  "deadline_seconds": 900
+}

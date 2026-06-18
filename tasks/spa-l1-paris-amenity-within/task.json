@@ -1,0 +1,54 @@
+{
+  "task_id": "spa-l1-paris-amenity-within",
+  "version": 2,
+  "tags": {
+    "region": ["paris"],
+    "data_source": ["bundled"],
+    "formats": ["gpkg", "csv"],
+    "crs": ["EPSG:2154"],
+    "geometry_type": ["point", "polygon"],
+    "operations": ["join_within"],
+    "themes": ["amenity"],
+    "quality_issues": [],
+    "scale": "small"
+  },
+  "instruction": "I'm putting together a neighbourhood demographic crosswalk for the INSEE census team and need each amenity tagged with the Paris arrondissement it falls inside. Can you join `amenities` to `arrondissements` and write the result to `amenity_to_arrondissement.csv` with one row per amenity? The columns are `osm_id`, `amenity_class`, `arrondissement_number` (integer), and `arrondissement_name` (string).",
+  "analyst_notes": {
+    "description": "Tests an L1 spatial join with the within predicate over a two-layer GeoPackage, plus an attribute-parsing wrinkle: the arrondissement number has to come out as a plain integer, but the source layer only carries the French ordinal name (Paris 1er Arrondissement, Paris 2e Arrondissement, ..., Paris 20e Arrondissement). The prompt deliberately omits any hint about the ordinal, the join predicate, and the input CRS, so the agent has to read the GeoPackage layers, recognise that within is the right predicate, and parse the integer out of the name on its own.",
+    "approach": [
+      "Open the GeoPackage and list its layers to find the amenity points and the arrondissement polygons.",
+      "Spatially join each amenity to the arrondissement that contains it.",
+      "Carry the arrondissement name through to the output verbatim and parse the integer number out of the French ordinal embedded in that name.",
+      "Carry `osm_id` and `amenity_class` through from the amenity layer unchanged.",
+      "Write a flat CSV with one row per amenity and the four required columns."
+    ],
+    "pitfalls": [
+      "Leaving `arrondissement_number` as the French ordinal string (1er, 2e, ..., 20e) instead of parsing it to a plain integer, which is the persona's hidden gotcha and breaks the downstream join into the rest of the INSEE pipeline.",
+      "Confusing the arrondissement layer's `id` (an Overture UUID) with its `name` column after the join, so the Overture id ends up in `arrondissement_name`.",
+      "Inverting the join and writing one row per arrondissement with a list of amenities, which collapses 85 rows down to 20.",
+      "Using `intersects` or a nearest-neighbour join instead of the `within` predicate, which would matter on a fixture with boundary-edge points.",
+      "Dropping the `arrondissement_number` column entirely because the name already carries the information."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "amenities",
+      "url": "tasks/spa-l1-paris-amenity-within/inputs/paris_amenities.gpkg",
+      "format": "gpkg"
+    },
+    {
+      "name": "arrondissements",
+      "url": "tasks/spa-l1-paris-amenity-within/inputs/paris_amenities.gpkg",
+      "format": "gpkg"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "amenity_to_arrondissement.csv",
+      "format": "csv",
+      "crs": null,
+      "geometry_type": null
+    }
+  ],
+  "deadline_seconds": 600
+}

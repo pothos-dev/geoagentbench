@@ -1,0 +1,48 @@
+task_id: spa-l1-capetown-hospital-nn
+category: spatial_analysis
+difficulty: L1
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.95
+  geom_eps_m: 50.0
+  rationale: |
+    Input is now WGS84 (120 address points + 37 hospital points).  The
+    model must independently choose a projected CRS for metric distance
+    computation.  Distance tolerance widened to 50 m (from 1 m) to accept
+    any reasonable projected CRS for the Cape Town region (UTM 34S, UTM 35S,
+    etc.).  All reasonable projections agree to well within 50 m for the
+    distances involved (~50-6000 m).  A model computing in WGS84 degrees
+    will produce values off by ~10^5, easily caught.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent wrote GeoJSON instead of GPKG.  Gate 1 rejects.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  degrees_distance:
+    description: |
+      Agent computed NN in WGS84 without reprojecting — distances in
+      degrees.  Primary target failure for this task redesign.  Hospital
+      names partially match (93%) due to ordering differences.  Fails both
+      central subchecks (distance + name match), so it loses 8 of the 13
+      weight units.
+    expected_score_range: [0.35, 0.45]
+    measured_score: 0.3846
+  wrong_hospital:
+    description: |
+      Agent assigned constant hospital to every address with recomputed
+      distance.  Both central subchecks (distance + name match) fail, so it
+      loses 8 of the 13 weight units.
+    expected_score_range: [0.35, 0.45]
+    measured_score: 0.3846
+  distance_in_km:
+    description: |
+      Correct hospital, distance in km not m.  Only the central distance
+      subcheck (weight 4) fails; the hospital assignment is right.  Lighter
+      penalty than the both-central failures above.
+    expected_score_range: [0.65, 0.75]
+    measured_score: 0.6923

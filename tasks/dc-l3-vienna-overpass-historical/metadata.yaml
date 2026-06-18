@@ -1,0 +1,39 @@
+task_id: dc-l3-vienna-overpass-historical
+category: data_cleaning
+difficulty: L3
+author: task-design-agent
+date: "2026-05-12"
+drift_sensitivity: med
+tolerances:
+  count_pct: 0.20
+  area_pct: 0.15
+  jaccard_min: 0.75
+  geom_eps_m: null
+  rationale: |
+    L3 live-data task: the "current" Overpass snapshot drifts with each
+    OSM edit, so count and area tolerances are wider than the default 5%.
+    The 2014 historical snapshot is pinned via the attic API and should be
+    stable. District name Jaccard is set at 0.75 (not 0.9) because an
+    agent might normalise names slightly differently — the set of 23
+    Bezirke is well-known, but edge cases in prefix stripping can cause
+    mismatches for a few districts. Coverage IoU at 0.80 absorbs minor
+    boundary digitisation differences. The unchanged-area-dominates check
+    (>= 0.85) is principled: Vienna's Bezirke boundaries have not changed
+    since 1955, so any symmetric difference is purely OSM editing noise.
+broken_solutions:
+  wrong_format:
+    description: Missing required columns (change_type, touches_changed) — fails Gate 1
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  wrong_geometry:
+    description: Only 23 features (unchanged geometries relabelled round-robin) — fails count, area, per-type checks
+    expected_score_range: [0.3, 0.7]
+    measured_score: 0.50  # re-measured 2026-06-14 under severity-tiered weights (Tier-A 4.0 / Tier-B 2.0 / Tier-C 1.0; denom 28)
+  wrong_attributes:
+    description: District names permuted, touches_changed inverted — correct geometry but wrong attribute assignment
+    expected_score_range: [0.8, 1.0]
+    measured_score: 0.93  # re-measured 2026-06-14 under severity-tiered weights (Tier-A 4.0 / Tier-B 2.0 / Tier-C 1.0; denom 28)
+notes:
+  - The 2014 Overpass area query sometimes returns Gerasdorf bei Wien (a Lower Austrian municipality) which must be filtered out by geographic overlap with current Vienna coverage.
+  - All 23 Bezirke have both added and removed slivers because of continuous OSM digitisation improvements, not actual administrative boundary changes.
+  - touches_changed is True for all 69 reference features because every district has at least one micro-sliver of boundary change.

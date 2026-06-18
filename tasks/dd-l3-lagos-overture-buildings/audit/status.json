@@ -1,0 +1,24 @@
+{
+  "task_id": "dd-l3-lagos-overture-buildings",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": [
+    "grade.py",
+    "metadata.yaml",
+    "README.md",
+    "audit/AUTHORING_HISTORY.md",
+    "audit/status.json"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-001",
+      "category": "inventory-mismatch",
+      "severity": "low",
+      "summary": "authoring/inventory.md:165 (Format in) and :172 (Overture themes) still credit this task with `buildings.building_part`; thesis line 1089 (<overture-theme-table> aggregate) does the same. The reference queries only `buildings.building` (+ `divisions.division_area`). Drop `buildings.building_part` from the inventory row, the format-in line, and the thesis aggregate, OR (less likely intended for a flood-risk footprint roll-up) extend the reference to query building parts (which would require regenerating reference outputs, re-checking broken sets, and a version bump). Carried over from all six prior evaluator passes; not a weighting HR."
+    }
+  ],
+  "blocker": null
+}

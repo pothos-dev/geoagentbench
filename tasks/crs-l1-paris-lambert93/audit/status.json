@@ -1,0 +1,30 @@
+{
+  "task_id": "crs-l1-paris-lambert93",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": [
+    "grade.py",
+    "metadata.yaml",
+    "README.md",
+    "audit/AUTHORING_HISTORY.md",
+    "audit/status.json"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-002",
+      "category": "inventory-mismatch",
+      "severity": "low",
+      "summary": "Inventory row (authoring/inventory.md lines 339-362) still records Format out: GeoJSON and output artifact paris_buildings_lambert93.geojson; commit b0bc006 migrated the task to GeoPackage but the inventory was never updated. Carried forward from the 2026-06-06 block."
+    },
+    {
+      "id": "HR-003",
+      "category": "design-rationale",
+      "severity": "low",
+      "summary": "Commit b4583b4 (2026-05-17) stripped explicit EPSG:2154 / Lambert-93 names from the instruction; commit message does not justify, rationale inferred from instruction-stripping-guide.md. Carried forward from four prior evaluator blocks."
+    }
+  ],
+  "blocker": null
+}

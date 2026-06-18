@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}tasks · eval{% endblock %}
+{% block nav_tasks %}active{% endblock %}
+{% block breadcrumbs %}
+<nav class="breadcrumbs">
+  <a href="/">Tasks</a>
+</nav>
+{% endblock %}
+{% block body %}
+<h1>Task suite</h1>
+<div class="card-gallery">
+{% for t in tasks %}
+  {% if '-l3-' in t.task_id %}{% set lvl = 'l3' %}{% elif '-l2-' in t.task_id %}{% set lvl = 'l2' %}{% else %}{% set lvl = 'l1' %}{% endif %}
+  <a class="card card-{{ lvl }}" href="/tasks/{{ t.task_id }}">
+    <div class="card-body">
+      <div class="card-title">{{ t.task_id }}</div>
+      {% if t.tags %}
+      <div class="card-tags">
+        {% for key, val in t.tags.items() %}
+          {% if val is string %}
+            <span class="pill pill-{{ key }}">{{ val }}</span>
+          {% else %}
+            {% for v in val %}
+              <span class="pill pill-{{ key }}">{{ v }}</span>
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </a>
+{% else %}
+  <p><em>no tasks loaded</em></p>
+{% endfor %}
+</div>
+{% endblock %}

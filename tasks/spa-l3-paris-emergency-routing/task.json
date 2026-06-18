@@ -1,0 +1,51 @@
+{
+  "task_id": "spa-l3-paris-emergency-routing",
+  "version": 2,
+  "tags": {
+    "region": ["paris"],
+    "data_source": ["overpass"],
+    "formats": ["gpkg"],
+    "crs": ["EPSG:4326", "EPSG:2154"],
+    "geometry_type": ["point", "linestring", "multipolygon"],
+    "operations": ["shortest_path", "closest_facility", "network_distance_matrix", "isochrone", "reprojection"],
+    "themes": ["highway", "amenity"],
+    "quality_issues": [],
+    "scale": "medium"
+  },
+  "instruction": "Need the dispatch coverage model rebuilt before Thursday's briefing. The eight historical emergency-call locations are in `incidents.csv` (columns: incident_id, latitude, longitude, label). Pull the driveable road network and all hospitals from OpenStreetMap via Overpass for the area bbox 48.83,2.30 to 48.88,2.38. I need three deliverables: the shortest driving route from each incident to its closest hospital, a distance matrix of each incident against its three nearest hospitals, and a 15-minute drive-time isochrone around every hospital to visualise coverage gaps. Assume 30 km/h for edges without a maxspeed tag; use posted maxspeed otherwise.\n\nEverything goes into a single GPKG called `emergency_routing.gpkg` with all layers in the official metric coordinate system for Paris and exactly these four layer names. The `incidents` layer has Point (or MultiPoint) geometry and an `incident_id` column. The `closest_hospital` layer has LineString (or MultiLineString) geometry representing the route, with columns `incident_id`, `hospital_name`, and `network_distance_m` (numeric, metres). One row per incident. The `distance_matrix` layer is tabular (geometry may be empty or null) with columns `incident_id`, `hospital_name`, `rank` (integer 1 through 3, ascending by `network_distance_m` within each incident), and `network_distance_m`. The `isochrones_15min` layer has MultiPolygon geometry (Polygon also accepted) with columns `hospital_name` and `travel_time_min`. One row per hospital.",
+  "inputs": [
+    {
+      "name": "incidents.csv",
+      "url": "tasks/spa-l3-paris-emergency-routing/inputs/incidents.csv",
+      "format": "csv"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "emergency_routing.gpkg",
+      "format": "gpkg",
+      "crs": "EPSG:2154",
+      "geometry_type": "mixed"
+    }
+  ],
+  "deadline_seconds": 1200,
+  "analyst_notes": {
+    "description": "This task tests whether the agent can run an end-to-end routing workflow on a live-fetched OSM graph and ship the four-layer GPKG a SAMU GIS team would actually open. The hidden gotcha is the CRS: the prompt says 'the official metric coordinate system for Paris' without naming Lambert-93 (EPSG:2154), and the agent is expected to infer the national grid from regional convention rather than fall back on a generic UTM zone.",
+    "approach": [
+      "Pull the driveable highway network and all hospitals from Overpass for the given bbox, watching the query size so it does not time out.",
+      "Build a directed routing graph that respects oneway tags and weights edges by travel time (posted maxspeed where present, 30 km/h otherwise).",
+      "For each incident in incidents.csv, snap to the nearest network node and run a shortest-path search to find the closest hospital by network distance; export the route geometry as a LineString.",
+      "Compute the network distance from each incident to its three nearest hospitals and order them by rank within each incident.",
+      "Generate a 15-minute drive-time isochrone around every hospital (a convex or concave hull over the set of nodes reachable inside the time budget is acceptable).",
+      "Reproject every spatial layer to Lambert-93 (the national grid for metropolitan France) and write a single multi-layer GeoPackage with the four required layers and column names."
+    ],
+    "pitfalls": [
+      "Picking a generic UTM zone (32631) instead of Lambert-93 still scores most of the task but costs the canonical-CRS subcheck, because the prompt asks for the official metric CRS for Paris rather than any defensible metric CRS.",
+      "Using Euclidean (straight-line) distance instead of network distance produces hospital matches and isochrones that look superficially right but fail the distance and IoU subchecks.",
+      "Building an undirected graph or ignoring oneway tags lets the router cut against traffic, which systematically shortens distances and skews the rank ordering.",
+      "Forgetting to translate maxspeed into a travel-time weight produces isochrones sized by raw distance, which collapses them on dense networks and inflates them on sparse ones.",
+      "Writing GeoJSON or a separate file per layer instead of a single multi-layer GPKG fails Gate 1 because the four required layer names cannot be located.",
+      "Losing CRS metadata on any spatial layer makes the file fail the format gate, and storing degree coordinates while declaring a projected CRS trips the coordinate-range sanity subcheck."
+    ]
+  }
+}

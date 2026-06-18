@@ -1,0 +1,2287 @@
+{
+  "type": "FeatureCollection",
+  "name": "capetown_waterways",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "feature_id": 1,
+        "name": "Black River Stream",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "feature_id": 2,
+        "name": "Salt Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "feature_id": 3,
+        "name": "Diep River",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "feature_id": 4,
+        "name": "Eerste Stream",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "feature_id": 5,
+        "name": "Lourens Stream",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      },
+      "properties": {
+        "feature_id": 6,
+        "name": "Hout Bay River",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      },
+      "properties": {
+        "feature_id": 7,
+        "name": "Disa Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      },
+      "properties": {
+        "feature_id": 8,
+        "name": "Sand Stream",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      },
+      "properties": {
+        "feature_id": 9,
+        "name": "Soet River",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      },
+      "properties": {
+        "feature_id": 10,
+        "name": "Klein Liesbeek Stream",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "feature_id": 11,
+        "name": "Kuils Stream",
+        "waterway_type": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "feature_id": 12,
+        "name": "Modder River",
+        "waterway_type": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "feature_id": 13,
+        "name": "Princess Vlei Stream",
+        "waterway_type": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "feature_id": 14,
+        "name": "Riet Stream",
+        "waterway_type": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "feature_id": 15,
+        "name": "Schaapen River",
+        "waterway_type": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.675131,
+            -34.097358
+          ],
+          [
+            18.644434,
+            -34.095261
+          ],
+          [
+            18.593333,
+            -34.054287
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 16,
+        "name": "Steenbras Stream",
+        "waterway_type": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.476831,
+            -34.056422
+          ],
+          [
+            18.432213,
+            -34.00126
+          ],
+          [
+            18.38696,
+            -33.920017
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 17,
+        "name": "Sir Lowry Stream",
+        "waterway_type": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.350029,
+            -33.922963
+          ],
+          [
+            18.357716,
+            -33.862693
+          ],
+          [
+            18.38548,
+            -33.811815
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 18,
+        "name": "Constantia River",
+        "waterway_type": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.482936,
+            -33.81301
+          ],
+          [
+            18.531519,
+            -33.800031
+          ],
+          [
+            18.591089,
+            -33.823751
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 19,
+        "name": "Klipfontein Stream",
+        "waterway_type": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.678279,
+            -33.822156
+          ],
+          [
+            18.695646,
+            -33.867752
+          ],
+          [
+            18.698602,
+            -33.945448
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 20,
+        "name": "Plumstead Stream",
+        "waterway_type": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.64611,
+            -33.94245
+          ],
+          [
+            18.606483,
+            -34.006979
+          ],
+          [
+            18.548438,
+            -34.071103
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 21,
+        "name": null,
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.434177,
+            -34.069308
+          ],
+          [
+            18.396375,
+            -34.096669
+          ],
+          [
+            18.363484,
+            -34.091471
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 22,
+        "name": null,
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.357053,
+            -34.092439
+          ],
+          [
+            18.377185,
+            -34.058844
+          ],
+          [
+            18.418269,
+            -33.988844
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 23,
+        "name": null,
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.529212,
+            -33.991734
+          ],
+          [
+            18.577397,
+            -33.92639
+          ],
+          [
+            18.631474,
+            -33.852446
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 24,
+        "name": null,
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.69512,
+            -33.854745
+          ],
+          [
+            18.699836,
+            -33.814463
+          ],
+          [
+            18.68664,
+            -33.800862
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 25,
+        "name": null,
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.608518,
+            -33.800571
+          ],
+          [
+            18.562766,
+            -33.820372
+          ],
+          [
+            18.501884,
+            -33.878938
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 26,
+        "name": "Liesbeek Stream",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.397951,
+            -33.876311
+          ],
+          [
+            18.36964,
+            -33.938979
+          ],
+          [
+            18.351439,
+            -34.018796
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 27,
+        "name": "Black River River",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.375963,
+            -34.016116
+          ],
+          [
+            18.407114,
+            -34.067168
+          ],
+          [
+            18.458611,
+            -34.098842
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 28,
+        "name": "Salt Stream",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.575191,
+            -34.09844
+          ],
+          [
+            18.619566,
+            -34.093491
+          ],
+          [
+            18.664324,
+            -34.049485
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 29,
+        "name": "Diep Stream",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.699921,
+            -34.05171
+          ],
+          [
+            18.691653,
+            -33.995063
+          ],
+          [
+            18.663239,
+            -33.913635
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 30,
+        "name": "Eerste River",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.565016,
+            -33.916553
+          ],
+          [
+            18.516377,
+            -33.857457
+          ],
+          [
+            18.456965,
+            -33.809401
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 31,
+        "name": "Lourens Stream",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.370716,
+            -33.810475
+          ],
+          [
+            18.3539,
+            -33.800308
+          ],
+          [
+            18.351676,
+            -33.827404
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 32,
+        "name": "Hout Bay Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.405419,
+            -33.8257
+          ],
+          [
+            18.445387,
+            -33.873302
+          ],
+          [
+            18.503651,
+            -33.951992
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 33,
+        "name": "Disa River",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.617617,
+            -33.948992
+          ],
+          [
+            18.655044,
+            -34.012977
+          ],
+          [
+            18.687315,
+            -34.074848
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 34,
+        "name": "Sand Stream",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.692343,
+            -34.07316
+          ],
+          [
+            18.671677,
+            -34.0979
+          ],
+          [
+            18.630054,
+            -34.089161
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 35,
+        "name": "Soet Stream",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.518682,
+            -34.090253
+          ],
+          [
+            18.470597,
+            -34.054239
+          ],
+          [
+            18.416862,
+            -33.982488
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 36,
+        "name": "Klein Liesbeek River",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.354399,
+            -33.98541
+          ],
+          [
+            18.350268,
+            -33.919952
+          ],
+          [
+            18.364179,
+            -33.847569
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 37,
+        "name": "Kuils Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.443339,
+            -33.849781
+          ],
+          [
+            18.489293,
+            -33.811789
+          ],
+          [
+            18.550203,
+            -33.801704
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 38,
+        "name": "Modder Stream",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.653489,
+            -33.801283
+          ],
+          [
+            18.681318,
+            -33.823787
+          ],
+          [
+            18.698818,
+            -33.884768
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 39,
+        "name": "Princess Vlei River",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.672923,
+            -33.882079
+          ],
+          [
+            18.64132,
+            -33.945514
+          ],
+          [
+            18.589435,
+            -34.024544
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 40,
+        "name": "Riet Stream",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.472795,
+            -34.021926
+          ],
+          [
+            18.428668,
+            -34.071142
+          ],
+          [
+            18.384411,
+            -34.099512
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 41,
+        "name": "Schaapen Stream",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.350155,
+            -34.09924
+          ],
+          [
+            18.359001,
+            -34.091448
+          ],
+          [
+            18.388063,
+            -34.044494
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 42,
+        "name": "Steenbras River",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.487037,
+            -34.046805
+          ],
+          [
+            18.535726,
+            -33.98878
+          ],
+          [
+            18.59497,
+            -33.907323
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 43,
+        "name": "Sir Lowry Stream",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.680267,
+            -33.910207
+          ],
+          [
+            18.69653,
+            -33.852396
+          ],
+          [
+            18.698021,
+            -33.807255
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 44,
+        "name": "Constantia Stream",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.643034,
+            -33.808206
+          ],
+          [
+            18.602732,
+            -33.800869
+          ],
+          [
+            18.544256,
+            -33.83129
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 45,
+        "name": "Klipfontein River",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.430603,
+            -33.82948
+          ],
+          [
+            18.393556,
+            -33.878997
+          ],
+          [
+            18.36191,
+            -33.958531
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 46,
+        "name": "Plumstead Stream",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.358285,
+            -33.955535
+          ],
+          [
+            18.379483,
+            -34.018855
+          ],
+          [
+            18.421638,
+            -34.078355
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 47,
+        "name": "Camps Bay Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.533422,
+            -34.076777
+          ],
+          [
+            18.581401,
+            -34.09885
+          ],
+          [
+            18.634786,
+            -34.086587
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 48,
+        "name": "Bokramspruit River",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.696058,
+            -34.0878
+          ],
+          [
+            18.699603,
+            -34.049435
+          ],
+          [
+            18.684979,
+            -33.97607
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 49,
+        "name": "Mosselbank Stream",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.604792,
+            -33.979019
+          ],
+          [
+            18.558642,
+            -33.913571
+          ],
+          [
+            18.497715,
+            -33.842887
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 50,
+        "name": "Skoolspruit Stream",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.395091,
+            -33.845009
+          ],
+          [
+            18.367746,
+            -33.809378
+          ],
+          [
+            18.35095,
+            -33.802829
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 51,
+        "name": "Vergenoegd River",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.378214,
+            -33.802278
+          ],
+          [
+            18.410262,
+            -33.827442
+          ],
+          [
+            18.462528,
+            -33.890721
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 52,
+        "name": "Liesbeek Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.579211,
+            -33.887977
+          ],
+          [
+            18.623083,
+            -33.952058
+          ],
+          [
+            18.666833,
+            -34.03015
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 53,
+        "name": "Black River Stream",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.699743,
+            -34.027599
+          ],
+          [
+            18.69032,
+            -34.074885
+          ],
+          [
+            18.660616,
+            -34.099897
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 54,
+        "name": "Salt River",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.560904,
+            -34.099756
+          ],
+          [
+            18.512172,
+            -34.089136
+          ],
+          [
+            18.453104,
+            -34.039323
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 55,
+        "name": "Diep Stream",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.368772,
+            -34.041715
+          ],
+          [
+            18.353065,
+            -33.982423
+          ],
+          [
+            18.352308,
+            -33.901092
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 56,
+        "name": "Eerste Stream",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.40853,
+            -33.903937
+          ],
+          [
+            18.449161,
+            -33.847521
+          ],
+          [
+            18.507838,
+            -33.805381
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 57,
+        "name": "Lourens River",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.621164,
+            -33.806206
+          ],
+          [
+            18.657825,
+            -33.801714
+          ],
+          [
+            18.688842,
+            -33.835403
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 58,
+        "name": "Hout Bay Stream",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.691062,
+            -33.83349
+          ],
+          [
+            18.669337,
+            -33.884828
+          ],
+          [
+            18.626655,
+            -33.965055
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 59,
+        "name": "Disa Stream",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.514474,
+            -33.962067
+          ],
+          [
+            18.466609,
+            -34.024602
+          ],
+          [
+            18.413581,
+            -34.081619
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 60,
+        "name": "Sand River",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.35351,
+            -34.080153
+          ],
+          [
+            18.350551,
+            -34.099517
+          ],
+          [
+            18.365886,
+            -34.083753
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 61,
+        "name": "Soet Stream",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.447088,
+            -34.085084
+          ],
+          [
+            18.493427,
+            -34.044442
+          ],
+          [
+            18.554364,
+            -33.969602
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 62,
+        "name": "Klein Liesbeek Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.656311,
+            -33.972572
+          ],
+          [
+            18.683167,
+            -33.907259
+          ],
+          [
+            18.699257,
+            -33.838409
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 63,
+        "name": "Kuils River",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.670629,
+            -33.840436
+          ],
+          [
+            18.638139,
+            -33.807235
+          ],
+          [
+            18.5855,
+            -33.804233
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 64,
+        "name": "Modder Stream",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.46879,
+            -33.803555
+          ],
+          [
+            18.425179,
+            -33.831331
+          ],
+          [
+            18.381943,
+            -33.896787
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 65,
+        "name": "Princess Vlei Stream",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.350383,
+            -33.893993
+          ],
+          [
+            18.360383,
+            -33.958598
+          ],
+          [
+            18.390725,
+            -34.035604
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 66,
+        "name": "Riet River",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.491161,
+            -34.033124
+          ],
+          [
+            18.539928,
+            -34.07839
+          ],
+          [
+            18.598811,
+            -34.099997
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 67,
+        "name": "Schaapen Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.682166,
+            -34.099986
+          ],
+          [
+            18.697315,
+            -34.08656
+          ],
+          [
+            18.697339,
+            -34.033982
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 68,
+        "name": "Steenbras Stream",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.63989,
+            -34.036451
+          ],
+          [
+            18.598935,
+            -33.976004
+          ],
+          [
+            18.540064,
+            -33.894953
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 69,
+        "name": "Sir Lowry River",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.427083,
+            -33.897755
+          ],
+          [
+            18.390813,
+            -33.842841
+          ],
+          [
+            18.360429,
+            -33.803782
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 70,
+        "name": "Constantia Stream",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.359614,
+            -33.804481
+          ],
+          [
+            18.381865,
+            -33.802842
+          ],
+          [
+            18.425067,
+            -33.839733
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 71,
+        "name": "Klipfontein Stream",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.537628,
+            -33.837721
+          ],
+          [
+            18.585372,
+            -33.890782
+          ],
+          [
+            18.638035,
+            -33.97155
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 72,
+        "name": "Plumstead River",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.696898,
+            -33.968577
+          ],
+          [
+            18.699269,
+            -34.030207
+          ],
+          [
+            18.683225,
+            -34.084631
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 73,
+        "name": "Camps Bay Stream",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.60102,
+            -34.083282
+          ],
+          [
+            18.554499,
+            -34.099899
+          ],
+          [
+            18.493562,
+            -34.080664
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 74,
+        "name": "Bokramspruit Stream",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.392306,
+            -34.082111
+          ],
+          [
+            18.365943,
+            -34.039269
+          ],
+          [
+            18.350562,
+            -33.963097
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 75,
+        "name": "Mosselbank River",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.38055,
+            -33.966083
+          ],
+          [
+            18.413476,
+            -33.901029
+          ],
+          [
+            18.466481,
+            -33.834144
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 76,
+        "name": "Skoolspruit Stream",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.583201,
+            -33.836072
+          ],
+          [
+            18.626544,
+            -33.805364
+          ],
+          [
+            18.669259,
+            -33.805916
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 77,
+        "name": "Vergenoegd Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.699465,
+            -33.80511
+          ],
+          [
+            18.68889,
+            -33.835446
+          ],
+          [
+            18.657914,
+            -33.902955
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 78,
+        "name": "Liesbeek River",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.55677,
+            -33.900116
+          ],
+          [
+            18.507975,
+            -33.965121
+          ],
+          [
+            18.449284,
+            -34.040895
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 79,
+        "name": "Black River Stream",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.366919,
+            -34.03849
+          ],
+          [
+            18.35233,
+            -34.081651
+          ],
+          [
+            18.353039,
+            -34.099811
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 80,
+        "name": "Salt Stream",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.411707,
+            -34.099932
+          ],
+          [
+            18.452979,
+            -34.083723
+          ],
+          [
+            18.512036,
+            -34.028481
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 81,
+        "name": "Diep River",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.624656,
+            -34.031022
+          ],
+          [
+            18.660529,
+            -33.969536
+          ],
+          [
+            18.690275,
+            -33.88892
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 82,
+        "name": "Eerste Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.689685,
+            -33.891672
+          ],
+          [
+            18.666913,
+            -33.838365
+          ],
+          [
+            18.623197,
+            -33.802461
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 83,
+        "name": "Lourens Stream",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.510272,
+            -33.803032
+          ],
+          [
+            18.462655,
+            -33.804249
+          ],
+          [
+            18.410365,
+            -33.844273
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 84,
+        "name": "Hout Bay River",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.35272,
+            -33.842166
+          ],
+          [
+            18.350936,
+            -33.896849
+          ],
+          [
+            18.367686,
+            -33.978004
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 85,
+        "name": "Disa Stream",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.450883,
+            -33.975051
+          ],
+          [
+            18.49758,
+            -34.035659
+          ],
+          [
+            18.558508,
+            -34.087388
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 86,
+        "name": "Sand Stream",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.659058,
+            -34.086157
+          ],
+          [
+            18.684924,
+            -34.099996
+          ],
+          [
+            18.699594,
+            -34.077327
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 87,
+        "name": "Soet River",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.668251,
+            -34.078887
+          ],
+          [
+            18.634893,
+            -34.033927
+          ],
+          [
+            18.58153,
+            -33.956568
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 88,
+        "name": "Klein Liesbeek Stream",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.464817,
+            -33.959563
+          ],
+          [
+            18.421748,
+            -33.894891
+          ],
+          [
+            18.379559,
+            -33.830098
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 89,
+        "name": "Kuils Stream",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.350713,
+            -33.831925
+          ],
+          [
+            18.36186,
+            -33.803767
+          ],
+          [
+            18.393466,
+            -33.807872
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 90,
+        "name": "Modder River",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.495303,
+            -33.806941
+          ],
+          [
+            18.544121,
+            -33.839778
+          ],
+          [
+            18.602609,
+            -33.909212
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 91,
+        "name": "Princess Vlei Stream",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.683973,
+            -33.906333
+          ],
+          [
+            18.698,
+            -33.971616
+          ],
+          [
+            18.696557,
+            -34.046013
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 92,
+        "name": "Riet Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.636679,
+            -34.043689
+          ],
+          [
+            18.595096,
+            -34.084661
+          ],
+          [
+            18.535863,
+            -34.09934
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 93,
+        "name": "Schaapen River",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.42362,
+            -34.099592
+          ],
+          [
+            18.388148,
+            -34.080632
+          ],
+          [
+            18.359045,
+            -34.022831
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 94,
+        "name": "Steenbras Stream",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.361039,
+            -34.025439
+          ],
+          [
+            18.38433,
+            -33.963031
+          ],
+          [
+            18.428554,
+            -33.883003
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 95,
+        "name": "Sir Lowry Stream",
+        "waterway_type": "stream"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.541825,
+            -33.8857
+          ],
+          [
+            18.589308,
+            -33.834101
+          ],
+          [
+            18.641218,
+            -33.801421
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 96,
+        "name": "Constantia River",
+        "waterway_type": "river"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.697637,
+            -33.801863
+          ],
+          [
+            18.698834,
+            -33.805934
+          ],
+          [
+            18.68138,
+            -33.849015
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 97,
+        "name": "Klipfontein Stream",
+        "waterway_type": "drain"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.597204,
+            -33.846817
+          ],
+          [
+            18.550338,
+            -33.903018
+          ],
+          [
+            18.489427,
+            -33.984405
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 98,
+        "name": "Plumstead Stream",
+        "waterway_type": "canal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.389598,
+            -33.981478
+          ],
+          [
+            18.364233,
+            -34.040948
+          ],
+          [
+            18.350275,
+            -34.089883
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 99,
+        "name": "Camps Bay River",
+        "waterway_type": "ditch"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.382969,
+            -34.088772
+          ],
+          [
+            18.416754,
+            -34.099808
+          ],
+          [
+            18.470467,
+            -34.073747
+          ]
+        ]
+      },
+      "properties": {
+        "feature_id": 100,
+        "name": "Bokramspruit Stream",
+        "waterway_type": "stream"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "count": 80,
+  "bbox": [
+    18.380309,
+    -34.073855,
+    18.819549,
+    -33.701317
+  ],
+  "count_per_subdistrict": {
+    "Eastern": 10,
+    "Khayelitsha": 8,
+    "Klipfontein": 9,
+    "Mitchells Plain": 8,
+    "Northern": 10,
+    "Southern": 12,
+    "Tygerberg": 11,
+    "Western": 12
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "task_id": "geo-l1-capetown-building-centroids",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": [
+    "grade.py",
+    "metadata.yaml",
+    "README.md"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-001",
+      "category": "design-rationale",
+      "severity": "low",
+      "summary": "Commit 64740d0 ('Remove answer-giving nudges from data-cleaning task prompts') targeted dc-* tasks but also stripped 'in WGS84 (EPSG:4326)' from this geo-* task's closing sentence; per-task rationale not stated in the commit message. Documentation/intent gap only - the implicit-CRS instruction has repeatedly proven well-calibrated, most recently with two post-weighting DeepSeek runs scoring 0.947 (reprojection miss) while the geometric work passes in full."
+    }
+  ],
+  "blocker": null
+}

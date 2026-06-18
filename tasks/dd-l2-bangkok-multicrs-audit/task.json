@@ -1,0 +1,52 @@
+{
+  "task_id": "dd-l2-bangkok-multicrs-audit",
+  "version": 2,
+  "tags": {
+    "region": ["bangkok"],
+    "data_source": ["bundled"],
+    "formats": ["gpkg", "csv"],
+    "crs": ["EPSG:24047", "EPSG:32647", "EPSG:4326"],
+    "geometry_type": ["polygon", "linestring", "point"],
+    "operations": ["schema_introspection"],
+    "themes": ["highway"],
+    "quality_issues": ["mixed_crs", "encoding_issues", "non_latin_script"],
+    "scale": "medium"
+  },
+  "instruction": "A contractor just shipped `bangkok_contractor_delivery.gpkg` and I need a defect cite-sheet before I sign off. Please walk every layer in the file and write one row per layer to `crs_audit.csv` with these columns: layer_name, declared_crs (formatted as `EPSG:NNNN`), geometry_type, feature_count, sample_x and sample_y for a sample coordinate taken from the layer as it sits on disk, and encoding_detected. For encoding_detected, look at the text attributes for anomalies and report either `latin1-mojibake` or `utf-8`.",
+  "inputs": [
+    {
+      "name": "bangkok_contractor_delivery",
+      "url": "tasks/dd-l2-bangkok-multicrs-audit/inputs/bangkok_contractor_delivery.gpkg",
+      "format": "gpkg"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "crs_audit.csv",
+      "format": "csv",
+      "crs": "n/a",
+      "geometry_type": "n/a"
+    }
+  ],
+  "deadline_seconds": 600,
+  "analyst_notes": {
+    "description": "An L2 data-discovery probe testing whether the agent can enumerate every layer in a multi-layer GPKG, read each layer's declared CRS without silently reprojecting, sample a coordinate in the layer's own units, and spot a Latin-1 mojibake corruption on the Thai-script labels. The prompt names the two allowed encoding labels and the output schema but deliberately leaves the detection recipe and the multi-layer structure implicit, so the agent has to figure out from \"encoding anomalies\" what to look for and remember that a GeoPackage is a container with potentially many layers.",
+    "approach": [
+      "List every layer in the GeoPackage rather than opening it as a single dataset.",
+      "For each layer, read the declared CRS, geometry type, and feature count straight from the layer metadata without reprojecting.",
+      "Pick any one feature per layer and report its coordinates in the layer's own CRS, so an EPSG:24047 row reports metres and an EPSG:4326 row reports degrees.",
+      "For each layer's Thai-script text column, check whether decoding the bytes as Latin-1 and re-encoding as UTF-8 yields a different string, which is the signature of the classic UTF-8 then Latin-1 then UTF-8 double-decode bug.",
+      "Tag each layer as `latin1-mojibake` if that round trip changes the text, otherwise `utf-8`.",
+      "Assemble one row per layer into `crs_audit.csv` with the column names listed in the prompt."
+    ],
+    "pitfalls": [
+      "Opening the GeoPackage as if it were a single-layer file and only reading the default first layer drops two thirds of the audit and fails the layers-complete check plus the two missing layers' subchecks.",
+      "Silently reprojecting every layer to EPSG:4326 before sampling coordinates produces lon/lat values for layers whose declared CRS is metric, so the sample-coordinate plausibility window rejects them.",
+      "Sampling a coordinate in one CRS but reporting the declared CRS of another (or vice versa) lands the values six orders of magnitude away from the plausibility window for the declared CRS.",
+      "Reporting the CRS as `24047` or `Indian 1975 / UTM zone 47N` instead of the canonical `EPSG:24047` fails the CRS-string check on every layer.",
+      "Skipping the mojibake check and reporting every layer as `utf-8` misses the two corrupted layers, which is the documented partial-credit failure mode.",
+      "Flagging the clean Thai layer as `latin1-mojibake` just because its text is non-ASCII, without checking that the round trip actually changes the bytes, fails the clean-layer encoding subcheck.",
+      "Emitting the audit as JSON or a GeoPackage instead of CSV fails Gate 1 outright."
+    ]
+  }
+}

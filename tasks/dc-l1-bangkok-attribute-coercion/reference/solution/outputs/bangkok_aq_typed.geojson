@@ -1,0 +1,1812 @@
+{
+  "type": "FeatureCollection",
+  "name": "bangkok_aq_typed",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5294,
+          13.7464
+        ]
+      },
+      "properties": {
+        "station_id": 1,
+        "name_th": "สนามกีฬาแห่งชาติ",
+        "name_en": "National Stadium",
+        "sensor_value": 84.55,
+        "pm25_ug_m3": 63.6,
+        "elevation_m": 11.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5343,
+          13.7456
+        ]
+      },
+      "properties": {
+        "station_id": 2,
+        "name_th": "สยาม",
+        "name_en": "Siam",
+        "sensor_value": 87.0,
+        "pm25_ug_m3": 60.5,
+        "elevation_m": 12.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5436,
+          13.7441
+        ]
+      },
+      "properties": {
+        "station_id": 3,
+        "name_th": "ชิดลม",
+        "name_en": "Chit Lom",
+        "sensor_value": 80.95,
+        "pm25_ug_m3": 54.8,
+        "elevation_m": 14.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5485,
+          13.7434
+        ]
+      },
+      "properties": {
+        "station_id": 4,
+        "name_th": "เพลินจิต",
+        "name_en": "Phloen Chit",
+        "sensor_value": 73.94,
+        "pm25_ug_m3": 49.0,
+        "elevation_m": 15.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.555,
+          13.7407
+        ]
+      },
+      "properties": {
+        "station_id": 5,
+        "name_th": "นานา",
+        "name_en": "Nana",
+        "sensor_value": 72.1,
+        "pm25_ug_m3": 45.6,
+        "elevation_m": 16.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5604,
+          13.7373
+        ]
+      },
+      "properties": {
+        "station_id": 6,
+        "name_th": "อโศก",
+        "name_en": "Asok",
+        "sensor_value": 75.29,
+        "pm25_ug_m3": 45.1,
+        "elevation_m": 17.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5694,
+          13.7305
+        ]
+      },
+      "properties": {
+        "station_id": 7,
+        "name_th": "พร้อมพงษ์",
+        "name_en": "Phrom Phong",
+        "sensor_value": 77.39,
+        "pm25_ug_m3": 46.7,
+        "elevation_m": 18.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.578,
+          13.724
+        ]
+      },
+      "properties": {
+        "station_id": 8,
+        "name_th": "ทองหล่อ",
+        "name_en": "Thong Lo",
+        "sensor_value": 71.34,
+        "pm25_ug_m3": 47.9,
+        "elevation_m": 19.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5852,
+          13.7197
+        ]
+      },
+      "properties": {
+        "station_id": 9,
+        "name_th": "เอกมัย",
+        "name_en": "Ekkamai",
+        "sensor_value": 55.17,
+        "pm25_ug_m3": 46.4,
+        "elevation_m": 19.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5916,
+          13.7152
+        ]
+      },
+      "properties": {
+        "station_id": 10,
+        "name_th": "พระโขนง",
+        "name_en": "Phra Khanong",
+        "sensor_value": 34.09,
+        "pm25_ug_m3": 40.9,
+        "elevation_m": 20.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.6014,
+          13.7058
+        ]
+      },
+      "properties": {
+        "station_id": 11,
+        "name_th": "อ่อนนุช",
+        "name_en": "On Nut",
+        "sensor_value": 17.21,
+        "pm25_ug_m3": 32.2,
+        "elevation_m": 19.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.6053,
+          13.6963
+        ]
+      },
+      "properties": {
+        "station_id": 12,
+        "name_th": "บางจาก",
+        "name_en": "Bang Chak",
+        "sensor_value": 11.16,
+        "pm25_ug_m3": 22.3,
+        "elevation_m": 19.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.6106,
+          13.689
+        ]
+      },
+      "properties": {
+        "station_id": 13,
+        "name_th": "ปุณณวิถี",
+        "name_en": "Punnawithi",
+        "sensor_value": 15.58,
+        "pm25_ug_m3": 14.2,
+        "elevation_m": 19.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.6166,
+          13.6794
+        ]
+      },
+      "properties": {
+        "station_id": 14,
+        "name_th": "อุดมสุข",
+        "name_en": "Udom Suk",
+        "sensor_value": 23.9,
+        "pm25_ug_m3": 10.1,
+        "elevation_m": 18.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.6256,
+          13.668
+        ]
+      },
+      "properties": {
+        "station_id": 15,
+        "name_th": "บางนา",
+        "name_en": "Bang Na",
+        "sensor_value": 28.68,
+        "pm25_ug_m3": 10.5,
+        "elevation_m": 17.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.6354,
+          13.661
+        ]
+      },
+      "properties": {
+        "station_id": 16,
+        "name_th": "แบริ่ง",
+        "name_en": "Bearing",
+        "sensor_value": 27.49,
+        "pm25_ug_m3": 14.2,
+        "elevation_m": 16.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5403,
+          13.7398
+        ]
+      },
+      "properties": {
+        "station_id": 17,
+        "name_th": "ราชดำริ",
+        "name_en": "Ratchadamri",
+        "sensor_value": 24.65,
+        "pm25_ug_m3": 18.6,
+        "elevation_m": 14.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5345,
+          13.7286
+        ]
+      },
+      "properties": {
+        "station_id": 18,
+        "name_th": "ศาลาแดง",
+        "name_en": "Sala Daeng",
+        "sensor_value": 27.55,
+        "pm25_ug_m3": 21.2,
+        "elevation_m": 13.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5293,
+          13.7235
+        ]
+      },
+      "properties": {
+        "station_id": 19,
+        "name_th": "ช่องนนทรี",
+        "name_en": "Chong Nonsi",
+        "sensor_value": 40.5,
+        "pm25_ug_m3": 21.0,
+        "elevation_m": 11.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5223,
+          13.7197
+        ]
+      },
+      "properties": {
+        "station_id": 20,
+        "name_th": "สุรศักดิ์",
+        "name_en": "Surasak",
+        "sensor_value": 60.71,
+        "pm25_ug_m3": 18.5,
+        "elevation_m": 10.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5147,
+          13.719
+        ]
+      },
+      "properties": {
+        "station_id": 21,
+        "name_th": "สะพานตากสิน",
+        "name_en": "Saphan Taksin",
+        "sensor_value": 79.8,
+        "pm25_ug_m3": 15.9,
+        "elevation_m": 8.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.517,
+          13.7378
+        ]
+      },
+      "properties": {
+        "station_id": 22,
+        "name_th": "หัวลำโพง",
+        "name_en": "Hua Lamphong",
+        "sensor_value": 89.59,
+        "pm25_ug_m3": 15.7,
+        "elevation_m": 7.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.529,
+          13.7325
+        ]
+      },
+      "properties": {
+        "station_id": 23,
+        "name_th": "สามย่าน",
+        "name_en": "Sam Yan",
+        "sensor_value": 87.74,
+        "pm25_ug_m3": 19.6,
+        "elevation_m": 5.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5346,
+          13.729
+        ]
+      },
+      "properties": {
+        "station_id": 24,
+        "name_th": "สีลม",
+        "name_en": "Si Lom",
+        "sensor_value": 79.14,
+        "pm25_ug_m3": 27.5,
+        "elevation_m": 4.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5443,
+          13.7253
+        ]
+      },
+      "properties": {
+        "station_id": 25,
+        "name_th": "ลุมพินี",
+        "name_en": "Lumphini",
+        "sensor_value": 71.71,
+        "pm25_ug_m3": 37.5,
+        "elevation_m": 3.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5545,
+          13.7223
+        ]
+      },
+      "properties": {
+        "station_id": 26,
+        "name_th": "คลองเตย",
+        "name_en": "Khlong Toei",
+        "sensor_value": 70.26,
+        "pm25_ug_m3": 46.9,
+        "elevation_m": 2.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5579,
+          13.7233
+        ]
+      },
+      "properties": {
+        "station_id": 27,
+        "name_th": "ศูนย์การประชุมแห่งชาติสิริกิติ์",
+        "name_en": "Queen Sirikit Centre",
+        "sensor_value": 72.77,
+        "pm25_ug_m3": 53.1,
+        "elevation_m": 2.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5604,
+          13.7378
+        ]
+      },
+      "properties": {
+        "station_id": 28,
+        "name_th": "สุขุมวิท",
+        "name_en": "Sukhumvit",
+        "sensor_value": 72.31,
+        "pm25_ug_m3": 55.0,
+        "elevation_m": 2.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5635,
+          13.7479
+        ]
+      },
+      "properties": {
+        "station_id": 29,
+        "name_th": "เพชรบุรี",
+        "name_en": "Phetchaburi",
+        "sensor_value": 62.85,
+        "pm25_ug_m3": 53.3,
+        "elevation_m": 2.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5654,
+          13.757
+        ]
+      },
+      "properties": {
+        "station_id": 30,
+        "name_th": "พระราม 9",
+        "name_en": "Phra Ram 9",
+        "sensor_value": 44.53,
+        "pm25_ug_m3": 50.4,
+        "elevation_m": 2.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5701,
+          13.7665
+        ]
+      },
+      "properties": {
+        "station_id": 31,
+        "name_th": "ศูนย์วัฒนธรรมแห่งประเทศไทย",
+        "name_en": "Thailand Cultural Centre",
+        "sensor_value": 24.22,
+        "pm25_ug_m3": 48.6,
+        "elevation_m": 2.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5736,
+          13.777
+        ]
+      },
+      "properties": {
+        "station_id": 32,
+        "name_th": "ห้วยขวาง",
+        "name_en": "Huai Khwang",
+        "sensor_value": 10.93,
+        "pm25_ug_m3": 49.7,
+        "elevation_m": 3.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5747,
+          13.7886
+        ]
+      },
+      "properties": {
+        "station_id": 33,
+        "name_th": "สุทธิสาร",
+        "name_en": "Sutthisan",
+        "sensor_value": 9.48,
+        "pm25_ug_m3": 53.3,
+        "elevation_m": 4.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.574,
+          13.7995
+        ]
+      },
+      "properties": {
+        "station_id": 34,
+        "name_th": "รัชดาภิเษก",
+        "name_en": "Ratchadaphisek",
+        "sensor_value": 17.28,
+        "pm25_ug_m3": 57.6,
+        "elevation_m": 5.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.574,
+          13.8062
+        ]
+      },
+      "properties": {
+        "station_id": 35,
+        "name_th": "ลาดพร้าว",
+        "name_en": "Lat Phrao",
+        "sensor_value": 26.71,
+        "pm25_ug_m3": 60.0,
+        "elevation_m": 6.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5618,
+          13.8141
+        ]
+      },
+      "properties": {
+        "station_id": 36,
+        "name_th": "พหลโยธิน",
+        "name_en": "Phahon Yothin",
+        "sensor_value": 31.13,
+        "pm25_ug_m3": 58.3,
+        "elevation_m": 8.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5535,
+          13.8138
+        ]
+      },
+      "properties": {
+        "station_id": 37,
+        "name_th": "สวนจตุจักร",
+        "name_en": "Chatuchak Park",
+        "sensor_value": 29.98,
+        "pm25_ug_m3": 52.2,
+        "elevation_m": 9.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5495,
+          13.8027
+        ]
+      },
+      "properties": {
+        "station_id": 38,
+        "name_th": "กำแพงเพชร",
+        "name_en": "Kamphaeng Phet",
+        "sensor_value": 28.91,
+        "pm25_ug_m3": 42.9,
+        "elevation_m": 11.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5365,
+          13.8027
+        ]
+      },
+      "properties": {
+        "station_id": 39,
+        "name_th": "บางซื่อ",
+        "name_en": "Bang Sue",
+        "sensor_value": 34.98,
+        "pm25_ug_m3": 33.2,
+        "elevation_m": 12.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5289,
+          13.8055
+        ]
+      },
+      "properties": {
+        "station_id": 40,
+        "name_th": "เตาปูน",
+        "name_en": "Tao Poon",
+        "sensor_value": 50.61,
+        "pm25_ug_m3": 25.7,
+        "elevation_m": 14.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.524,
+          13.8113
+        ]
+      },
+      "properties": {
+        "station_id": 41,
+        "name_th": "บางซ่อน",
+        "name_en": "Bang Son",
+        "sensor_value": 71.02,
+        "pm25_ug_m3": 22.1,
+        "elevation_m": 15.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5197,
+          13.8195
+        ]
+      },
+      "properties": {
+        "station_id": 42,
+        "name_th": "วงศ์สว่าง",
+        "name_en": "Wong Sawang",
+        "sensor_value": 87.25,
+        "pm25_ug_m3": 22.1,
+        "elevation_m": 16.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.505,
+          13.7935
+        ]
+      },
+      "properties": {
+        "station_id": 43,
+        "name_th": "บางพลัด",
+        "name_en": "Bang Phlat",
+        "sensor_value": 92.41,
+        "pm25_ug_m3": 23.8,
+        "elevation_m": 17.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5341,
+          13.7568
+        ]
+      },
+      "properties": {
+        "station_id": 44,
+        "name_th": "พญาไท",
+        "name_en": "Phaya Thai",
+        "sensor_value": 86.47,
+        "pm25_ug_m3": 24.8,
+        "elevation_m": 18.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5413,
+          13.7566
+        ]
+      },
+      "properties": {
+        "station_id": 45,
+        "name_th": "ราชปรารภ",
+        "name_en": "Ratchaprarop",
+        "sensor_value": 75.93,
+        "pm25_ug_m3": 23.0,
+        "elevation_m": 19.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.561,
+          13.7508
+        ]
+      },
+      "properties": {
+        "station_id": 46,
+        "name_th": "มักกะสัน",
+        "name_en": "Makkasan",
+        "sensor_value": 68.57,
+        "pm25_ug_m3": 18.4,
+        "elevation_m": 19.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.6033,
+          13.7475
+        ]
+      },
+      "properties": {
+        "station_id": 47,
+        "name_th": "รามคำแหง",
+        "name_en": "Ramkhamhaeng",
+        "sensor_value": 67.52,
+        "pm25_ug_m3": 12.4,
+        "elevation_m": 20.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.6418,
+          13.747
+        ]
+      },
+      "properties": {
+        "station_id": 48,
+        "name_th": "หัวหมาก",
+        "name_en": "Hua Mak",
+        "sensor_value": 69.05,
+        "pm25_ug_m3": 7.7,
+        "elevation_m": 19.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.6657,
+          13.7463
+        ]
+      },
+      "properties": {
+        "station_id": 49,
+        "name_th": "บ้านทับช้าง",
+        "name_en": "Ban Thap Chang",
+        "sensor_value": 65.92,
+        "pm25_ug_m3": 6.6,
+        "elevation_m": 19.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.7494,
+          13.7268
+        ]
+      },
+      "properties": {
+        "station_id": 50,
+        "name_th": "ลาดกระบัง",
+        "name_en": "Lat Krabang",
+        "sensor_value": 53.52,
+        "pm25_ug_m3": 10.3,
+        "elevation_m": 19.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.751,
+          13.69
+        ]
+      },
+      "properties": {
+        "station_id": 51,
+        "name_th": "สุวรรณภูมิ",
+        "name_en": "Suvarnabhumi",
+        "sensor_value": 34.1,
+        "pm25_ug_m3": 17.9,
+        "elevation_m": 18.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.530263,
+          13.746968
+        ]
+      },
+      "properties": {
+        "station_id": 52,
+        "name_th": "สนามกีฬาแห่งชาติ เซนเซอร์ 2",
+        "name_en": "National Stadium Sensor 2",
+        "sensor_value": 15.77,
+        "pm25_ug_m3": 27.1,
+        "elevation_m": 17.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5349,
+          13.745433
+        ]
+      },
+      "properties": {
+        "station_id": 53,
+        "name_th": "สยาม เซนเซอร์ 2",
+        "name_en": "Siam Sensor 2",
+        "sensor_value": 6.85,
+        "pm25_ug_m3": 35.0,
+        "elevation_m": 16.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.54325,
+          13.743316
+        ]
+      },
+      "properties": {
+        "station_id": 54,
+        "name_th": "ชิดลม เซนเซอร์ 2",
+        "name_en": "Chit Lom Sensor 2",
+        "sensor_value": 10.01,
+        "pm25_ug_m3": 39.6,
+        "elevation_m": 14.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.547601,
+          13.742556
+        ]
+      },
+      "properties": {
+        "station_id": 55,
+        "name_th": "เพลินจิต เซนเซอร์ 2",
+        "name_en": "Phloen Chit Sensor 2",
+        "sensor_value": 20.62,
+        "pm25_ug_m3": 40.7,
+        "elevation_m": 13.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.554583,
+          13.740396
+        ]
+      },
+      "properties": {
+        "station_id": 56,
+        "name_th": "นานา เซนเซอร์ 2",
+        "name_en": "Nana Sensor 2",
+        "sensor_value": 30.54,
+        "pm25_ug_m3": 39.7,
+        "elevation_m": 11.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.560943,
+          13.737751
+        ]
+      },
+      "properties": {
+        "station_id": 57,
+        "name_th": "อโศก เซนเซอร์ 2",
+        "name_en": "Asok Sensor 2",
+        "sensor_value": 34.37,
+        "pm25_ug_m3": 39.2,
+        "elevation_m": 10.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.570281,
+          13.731386
+        ]
+      },
+      "properties": {
+        "station_id": 58,
+        "name_th": "พร้อมพงษ์ เซนเซอร์ 2",
+        "name_en": "Phrom Phong Sensor 2",
+        "sensor_value": 33.45,
+        "pm25_ug_m3": 41.2,
+        "elevation_m": 8.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.578208,
+          13.724692
+        ]
+      },
+      "properties": {
+        "station_id": 59,
+        "name_th": "ทองหล่อ เซนเซอร์ 2",
+        "name_en": "Thong Lo Sensor 2",
+        "sensor_value": 34.38,
+        "pm25_ug_m3": 46.5,
+        "elevation_m": 7.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.584497,
+          13.719706
+        ]
+      },
+      "properties": {
+        "station_id": 60,
+        "name_th": "เอกมัย เซนเซอร์ 2",
+        "name_en": "Ekkamai Sensor 2",
+        "sensor_value": 43.38,
+        "pm25_ug_m3": 53.9,
+        "elevation_m": 5.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.590792,
+          13.714516
+        ]
+      },
+      "properties": {
+        "station_id": 61,
+        "name_th": "พระโขนง เซนเซอร์ 2",
+        "name_en": "Phra Khanong Sensor 2",
+        "sensor_value": 60.81,
+        "pm25_ug_m3": 60.8,
+        "elevation_m": 4.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.601413,
+          13.704912
+        ]
+      },
+      "properties": {
+        "station_id": 62,
+        "name_th": "อ่อนนุช เซนเซอร์ 2",
+        "name_en": "On Nut Sensor 2",
+        "sensor_value": 80.21,
+        "pm25_ug_m3": 64.7,
+        "elevation_m": 3.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.60612,
+          13.695839
+        ]
+      },
+      "properties": {
+        "station_id": 63,
+        "name_th": "บางจาก เซนเซอร์ 2",
+        "name_en": "Bang Chak Sensor 2",
+        "sensor_value": 92.61,
+        "pm25_ug_m3": 63.9,
+        "elevation_m": 2.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.611286,
+          13.689293
+        ]
+      },
+      "properties": {
+        "station_id": 64,
+        "name_th": "ปุณณวิถี เซนเซอร์ 2",
+        "name_en": "Punnawithi Sensor 2",
+        "sensor_value": 92.89,
+        "pm25_ug_m3": 58.6,
+        "elevation_m": 2.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.616366,
+          13.68024
+        ]
+      },
+      "properties": {
+        "station_id": 65,
+        "name_th": "อุดมสุข เซนเซอร์ 2",
+        "name_en": "Udom Suk Sensor 2",
+        "sensor_value": 83.31,
+        "pm25_ug_m3": 50.9,
+        "elevation_m": 2.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.624714,
+          13.668789
+        ]
+      },
+      "properties": {
+        "station_id": 66,
+        "name_th": "บางนา เซนเซอร์ 2",
+        "name_en": "Bang Na Sensor 2",
+        "sensor_value": 71.53,
+        "pm25_ug_m3": 43.4,
+        "elevation_m": 2.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.634878,
+          13.661178
+        ]
+      },
+      "properties": {
+        "station_id": 67,
+        "name_th": "แบริ่ง เซนเซอร์ 2",
+        "name_en": "Bearing Sensor 2",
+        "sensor_value": 64.67,
+        "pm25_ug_m3": 38.5,
+        "elevation_m": 2.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.540741,
+          13.739241
+        ]
+      },
+      "properties": {
+        "station_id": 68,
+        "name_th": "ราชดำริ เซนเซอร์ 2",
+        "name_en": "Ratchadamri Sensor 2",
+        "sensor_value": 63.98,
+        "pm25_ug_m3": 37.0,
+        "elevation_m": 2.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.535398,
+          13.7277
+        ]
+      },
+      "properties": {
+        "station_id": 69,
+        "name_th": "ศาลาแดง เซนเซอร์ 2",
+        "name_en": "Sala Daeng Sensor 2",
+        "sensor_value": 64.3,
+        "pm25_ug_m3": 37.7,
+        "elevation_m": 3.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.529625,
+          13.722899
+        ]
+      },
+      "properties": {
+        "station_id": 70,
+        "name_th": "ช่องนนทรี เซนเซอร์ 2",
+        "name_en": "Chong Nonsi Sensor 2",
+        "sensor_value": 58.54,
+        "pm25_ug_m3": 38.3,
+        "elevation_m": 4.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.52168,
+          13.719825
+        ]
+      },
+      "properties": {
+        "station_id": 71,
+        "name_th": "สุรศักดิ์ เซนเซอร์ 2",
+        "name_en": "Surasak Sensor 2",
+        "sensor_value": 43.84,
+        "pm25_ug_m3": 36.6,
+        "elevation_m": 5.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.513846,
+          13.719762
+        ]
+      },
+      "properties": {
+        "station_id": 72,
+        "name_th": "สะพานตากสิน เซนเซอร์ 2",
+        "name_en": "Saphan Taksin Sensor 2",
+        "sensor_value": 24.48,
+        "pm25_ug_m3": 31.3,
+        "elevation_m": 6.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.516891,
+          13.738658
+        ]
+      },
+      "properties": {
+        "station_id": 73,
+        "name_th": "หัวลำโพง เซนเซอร์ 2",
+        "name_en": "Hua Lamphong Sensor 2",
+        "sensor_value": 9.23,
+        "pm25_ug_m3": 23.1,
+        "elevation_m": 8.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.529761,
+          13.732844
+        ]
+      },
+      "properties": {
+        "station_id": 74,
+        "name_th": "สามย่าน เซนเซอร์ 2",
+        "name_en": "Sam Yan Sensor 2",
+        "sensor_value": 5.17,
+        "pm25_ug_m3": 14.4,
+        "elevation_m": 9.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.535359,
+          13.728587
+        ]
+      },
+      "properties": {
+        "station_id": 75,
+        "name_th": "สีลม เซนเซอร์ 2",
+        "name_en": "Si Lom Sensor 2",
+        "sensor_value": 12.67,
+        "pm25_ug_m3": 7.9,
+        "elevation_m": 11.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.544186,
+          13.724422
+        ]
+      },
+      "properties": {
+        "station_id": 76,
+        "name_th": "ลุมพินี เซนเซอร์ 2",
+        "name_en": "Lumphini Sensor 2",
+        "sensor_value": 25.39,
+        "pm25_ug_m3": 5.8,
+        "elevation_m": 12.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.553644,
+          13.721582
+        ]
+      },
+      "properties": {
+        "station_id": 77,
+        "name_th": "คลองเตย เซนเซอร์ 2",
+        "name_en": "Khlong Toei Sensor 2",
+        "sensor_value": 35.17,
+        "pm25_ug_m3": 8.4,
+        "elevation_m": 14.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.557284,
+          13.723251
+        ]
+      },
+      "properties": {
+        "station_id": 78,
+        "name_th": "ศูนย์การประชุมแห่งชาติสิริกิติ์ เซนเซอร์ 2",
+        "name_en": "Queen Sirikit Centre Sensor 2",
+        "sensor_value": 38.26,
+        "pm25_ug_m3": 14.1,
+        "elevation_m": 15.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.56073,
+          13.738455
+        ]
+      },
+      "properties": {
+        "station_id": 79,
+        "name_th": "สุขุมวิท เซนเซอร์ 2",
+        "name_en": "Sukhumvit Sensor 2",
+        "sensor_value": 37.77,
+        "pm25_ug_m3": 20.5,
+        "elevation_m": 16.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.564398,
+          13.748794
+        ]
+      },
+      "properties": {
+        "station_id": 80,
+        "name_th": "เพชรบุรี เซนเซอร์ 2",
+        "name_en": "Phetchaburi Sensor 2",
+        "sensor_value": 40.8,
+        "pm25_ug_m3": 25.0,
+        "elevation_m": 17.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.565836,
+          13.757498
+        ]
+      },
+      "properties": {
+        "station_id": 81,
+        "name_th": "พระราม 9 เซนเซอร์ 2",
+        "name_en": "Phra Ram 9 Sensor 2",
+        "sensor_value": 52.3,
+        "pm25_ug_m3": 26.4,
+        "elevation_m": 18.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.569574,
+          13.766248
+        ]
+      },
+      "properties": {
+        "station_id": 82,
+        "name_th": "ศูนย์วัฒนธรรมแห่งประเทศไทย เซนเซอร์ 2",
+        "name_en": "Thailand Cultural Centre Sensor 2",
+        "sensor_value": 70.53,
+        "pm25_ug_m3": 25.4,
+        "elevation_m": 19.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.572715,
+          13.776177
+        ]
+      },
+      "properties": {
+        "station_id": 83,
+        "name_th": "ห้วยขวาง เซนเซอร์ 2",
+        "name_en": "Huai Khwang Sensor 2",
+        "sensor_value": 87.75,
+        "pm25_ug_m3": 24.0,
+        "elevation_m": 19.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.574471,
+          13.787791
+        ]
+      },
+      "properties": {
+        "station_id": 84,
+        "name_th": "สุทธิสาร เซนเซอร์ 2",
+        "name_en": "Sutthisan Sensor 2",
+        "sensor_value": 95.59,
+        "pm25_ug_m3": 24.9,
+        "elevation_m": 20.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.574689,
+          13.79928
+        ]
+      },
+      "properties": {
+        "station_id": 85,
+        "name_th": "รัชดาภิเษก เซนเซอร์ 2",
+        "name_en": "Ratchadaphisek Sensor 2",
+        "sensor_value": 91.03,
+        "pm25_ug_m3": 29.5,
+        "elevation_m": 19.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.574818,
+          13.806725
+        ]
+      },
+      "properties": {
+        "station_id": 86,
+        "name_th": "ลาดพร้าว เซนเซอร์ 2",
+        "name_en": "Lat Phrao Sensor 2",
+        "sensor_value": 78.46,
+        "pm25_ug_m3": 37.6,
+        "elevation_m": 19.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.561808,
+          13.814997
+        ]
+      },
+      "properties": {
+        "station_id": 87,
+        "name_th": "พหลโยธิน เซนเซอร์ 2",
+        "name_en": "Phahon Yothin Sensor 2",
+        "sensor_value": 66.19,
+        "pm25_ug_m3": 47.3,
+        "elevation_m": 19.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.55269,
+          13.814432
+        ]
+      },
+      "properties": {
+        "station_id": 88,
+        "name_th": "สวนจตุจักร เซนเซอร์ 2",
+        "name_en": "Chatuchak Park Sensor 2",
+        "sensor_value": 60.19,
+        "pm25_ug_m3": 55.8,
+        "elevation_m": 18.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5488,
+          13.802618
+        ]
+      },
+      "properties": {
+        "station_id": 89,
+        "name_th": "กำแพงเพชร เซนเซอร์ 2",
+        "name_en": "Kamphaeng Phet Sensor 2",
+        "sensor_value": 59.79,
+        "pm25_ug_m3": 60.6,
+        "elevation_m": 17.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.536713,
+          13.801962
+        ]
+      },
+      "properties": {
+        "station_id": 90,
+        "name_th": "บางซื่อ เซนเซอร์ 2",
+        "name_en": "Bang Sue Sensor 2",
+        "sensor_value": 58.7,
+        "pm25_ug_m3": 60.8,
+        "elevation_m": 15.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.529782,
+          13.80463
+        ]
+      },
+      "properties": {
+        "station_id": 91,
+        "name_th": "เตาปูน เซนเซอร์ 2",
+        "name_en": "Tao Poon Sensor 2",
+        "sensor_value": 50.52,
+        "pm25_ug_m3": 57.3,
+        "elevation_m": 14.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.524539,
+          13.810916
+        ]
+      },
+      "properties": {
+        "station_id": 92,
+        "name_th": "บางซ่อน เซนเซอร์ 2",
+        "name_en": "Bang Son Sensor 2",
+        "sensor_value": 34.36,
+        "pm25_ug_m3": 52.4,
+        "elevation_m": 13.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.519278,
+          13.819875
+        ]
+      },
+      "properties": {
+        "station_id": 93,
+        "name_th": "วงศ์สว่าง เซนเซอร์ 2",
+        "name_en": "Wong Sawang Sensor 2",
+        "sensor_value": 16.21,
+        "pm25_ug_m3": 48.8,
+        "elevation_m": 11.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.504101,
+          13.794367
+        ]
+      },
+      "properties": {
+        "station_id": 94,
+        "name_th": "บางพลัด เซนเซอร์ 2",
+        "name_en": "Bang Phlat Sensor 2",
+        "sensor_value": 4.95,
+        "pm25_ug_m3": 48.0,
+        "elevation_m": 10.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.533754,
+          13.757544
+        ]
+      },
+      "properties": {
+        "station_id": 95,
+        "name_th": "พญาไท เซนเซอร์ 2",
+        "name_en": "Phaya Thai Sensor 2",
+        "sensor_value": 5.96,
+        "pm25_ug_m3": 49.8,
+        "elevation_m": 8.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.541904,
+          13.756692
+        ]
+      },
+      "properties": {
+        "station_id": 96,
+        "name_th": "ราชปรารภ เซนเซอร์ 2",
+        "name_en": "Ratchaprarop Sensor 2",
+        "sensor_value": 17.29,
+        "pm25_ug_m3": 52.3,
+        "elevation_m": 7.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.561861,
+          13.750175
+        ]
+      },
+      "properties": {
+        "station_id": 97,
+        "name_th": "มักกะสัน เซนเซอร์ 2",
+        "name_en": "Makkasan Sensor 2",
+        "sensor_value": 31.28,
+        "pm25_ug_m3": 52.9,
+        "elevation_m": 5.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.603431,
+          13.746602
+        ]
+      },
+      "properties": {
+        "station_id": 98,
+        "name_th": "รามคำแหง เซนเซอร์ 2",
+        "name_en": "Ramkhamhaeng Sensor 2",
+        "sensor_value": 40.38,
+        "pm25_ug_m3": 49.8,
+        "elevation_m": 4.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.64105,
+          13.746467
+        ]
+      },
+      "properties": {
+        "station_id": 99,
+        "name_th": "หัวหมาก เซนเซอร์ 2",
+        "name_en": "Hua Mak Sensor 2",
+        "sensor_value": 42.64,
+        "pm25_ug_m3": 42.6,
+        "elevation_m": 3.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.66493,
+          13.746511
+        ]
+      },
+      "properties": {
+        "station_id": 100,
+        "name_th": "บ้านทับช้าง เซนเซอร์ 2",
+        "name_en": "Ban Thap Chang Sensor 2",
+        "sensor_value": 42.77,
+        "pm25_ug_m3": 32.8,
+        "elevation_m": 2.9
+      }
+    }
+  ]
+}

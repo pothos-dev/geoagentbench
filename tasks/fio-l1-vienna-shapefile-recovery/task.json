@@ -1,0 +1,53 @@
+{
+  "task_id": "fio-l1-vienna-shapefile-recovery",
+  "version": 2,
+  "tags": {
+    "region": ["vienna"],
+    "data_source": ["bundled"],
+    "formats": ["shapefile", "geojson", "csv"],
+    "crs": ["EPSG:31287", "EPSG:4326"],
+    "geometry_type": ["polygon"],
+    "operations": ["format_conversion", "reprojection"],
+    "themes": [],
+    "quality_issues": ["column_truncation", "encoding_issues"],
+    "scale": "small"
+  },
+  "instruction": "I'm migrating an old parcel shapefile (`parcels.shp`) into our web viewer, and a reference file `column_map.csv` is provided alongside it. Can you produce a clean GeoJSON `parcels.geojson` with the correct full column names and proper character encoding? The features should come through as Polygon or MultiPolygon.",
+  "analyst_notes": {
+    "description": "Format-I/O task that probes three composed Shapefile-recovery skills on a hand-crafted Vienna parcel snapshot: honour the .cpg sidecar so the CP1252-encoded German diacritics survive, apply column_map.csv to recover the dBase 10-char-truncated attribute names, and reproject from MGI / Austria Lambert to WGS84. The prompt deliberately omits the input CRS, the encoding, the truncated-to-full column list, and even the output CRS (the GeoJSON spec pins WGS84), so the agent has to read the file metadata and lean on format conventions to discover each gotcha for itself.",
+    "approach": [
+      "Open the shapefile with a library that respects the .cpg sidecar so the CP1252 bytes decode as proper umlauts.",
+      "Load column_map.csv and apply it as a rename mapping over the loaded GeoDataFrame.",
+      "Inspect the .prj to confirm the source CRS is EPSG:31287 and reproject the geometry to EPSG:4326.",
+      "Write the result as parcels.geojson with the full column names, the original row count, and Polygon geometry."
+    ],
+    "pitfalls": [
+      "Reading the .dbf as UTF-8 instead of CP1252 mojibakes every Währing or Müller name into replacement characters and fails the diacritics subcheck and the heavily weighted per-id text subchecks.",
+      "Skipping the column_map.csv step and shipping the dBase 10-char aliases (KATASTRALG, GRUNDSTUEC, ...) fails all five column-rename subchecks but the value subchecks still pass via the truncated-alias fallback.",
+      "Writing the GeoJSON with the source CRS still declared loses the canonical-CRS subcheck (EPSG:31287 stays in the meaningful set), and mislabelling unprojected Austria Lambert metre coordinates as latitude/longitude fails the heavily weighted per-id centroid comparison instead.",
+      "Writing the output as Shapefile or CSV instead of GeoJSON fails the hard gate because parcels.geojson is missing.",
+      "ASCII-folding the umlauts (writing Waehring instead of Währing) fails the diacritics subcheck and the per-id text checks because the folded names do not match the reference."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "parcels",
+      "url": "tasks/fio-l1-vienna-shapefile-recovery/inputs/parcels.shp",
+      "format": "shapefile"
+    },
+    {
+      "name": "column_map",
+      "url": "tasks/fio-l1-vienna-shapefile-recovery/inputs/column_map.csv",
+      "format": "csv"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "parcels.geojson",
+      "format": "geojson",
+      "crs": "EPSG:4326",
+      "geometry_type": "Polygon"
+    }
+  ],
+  "deadline_seconds": 600
+}

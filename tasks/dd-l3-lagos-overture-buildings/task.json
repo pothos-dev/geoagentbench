@@ -1,0 +1,49 @@
+{
+  "task_id": "dd-l3-lagos-overture-buildings",
+  "tags": {
+    "region": ["lagos"],
+    "data_source": ["overture"],
+    "formats": ["geoparquet", "parquet"],
+    "crs": ["EPSG:4326", "EPSG:26331"],
+    "geometry_type": ["polygon", "multipolygon"],
+    "operations": ["attribute_filter", "area_calculation", "reprojection", "join_within", "spatial_aggregation"],
+    "themes": ["buildings.building", "divisions.division_area"],
+    "quality_issues": ["null_attributes"],
+    "scale": "large"
+  },
+  "instruction": "Updating the flood-risk model before rainy season. Need every building footprint exceeding 1000 m² across Lagos State (Nigeria) from Overture.\n\nAlso need a per-LGA roll-up: for each Lagos Local Government Area, the building count, total footprint area, count of buildings with a non-null Overture height, and the median height where available (null otherwise).\n\nWrite two output files. `lagos_buildings.geoparquet` should be EPSG:4326 GeoParquet with columns `id`, `height`, `footprint_area_m2`, `lga`, and `geometry`. `lagos_building_summary.parquet` should be a plain Parquet with no geometry column and columns `lga`, `n_buildings`, `total_footprint_m2`, `n_with_height`, and `p50_height_m`.",
+  "analyst_notes": {
+    "description": "This is an L3 data-discovery task that probes whether the agent can drive a real Overture S3 fetch from a polygon scope it discovers itself. The prompt deliberately omits the bounding box, the projected CRS used for area, the theme name for the LGA boundaries, and the spatial-join verb. A competent agent should reach for Overture's divisions theme to find the Lagos State polygon, derive a bbox from it for partition pushdown, reproject to a metric CRS to compute honest m² areas, filter to footprints over 1000 m², spatial-join the filtered buildings to the 20 Lagos LGAs, and emit a GeoParquet plus a plain Parquet summary with null-aware height stats.",
+    "approach": [
+      "Fetch the Lagos State boundary polygon from Overture's divisions theme (the region-level admin entry for Nigeria, Lagos) and use its bounds as the bbox for partition-pushed building queries.",
+      "Query Overture's buildings theme via DuckDB against S3 with that bbox, then clip or filter to features whose representative point falls inside the state polygon.",
+      "Reproject the building geometries to a metric CRS suitable for Lagos and compute the footprint area in m².",
+      "Keep only buildings whose footprint exceeds 1000 m².",
+      "Pull the 20 Lagos LGA polygons from Overture divisions (county-level for Lagos) and spatial-join each building to its LGA.",
+      "Write the per-building file in EPSG:4326 GeoParquet, then aggregate per LGA into a plain Parquet summary with count, total area, count-with-height, and median height (null where no heights are present)."
+    ],
+    "pitfalls": [
+      "Computing footprint area in WGS84 degrees instead of a projected metric CRS, so every value comes out around 10⁻⁸ and the 1000 m² filter silently keeps nothing or everything depending on how the comparison is wired.",
+      "Trying to download the entire Overture buildings theme instead of pushing a bbox predicate down to the S3 query, which blows the deadline or runs out of memory.",
+      "Drawing a hand-picked rectangle around Lagos instead of using the state polygon, which lets Ogun State buildings bleed into the result and inflates counts.",
+      "Skipping the area filter entirely and emitting tens of thousands of small buildings, which trips the count tolerance and the area-filter subcheck.",
+      "Forgetting the LGA spatial join and leaving the lga column null or constant, so the summary has one giant row instead of 20.",
+      "Emitting CSV or GeoJSON instead of GeoParquet and plain Parquet, which fails the format gate immediately.",
+      "Aggregating heights without handling nulls, so p50_height_m comes out NaN for every LGA or the count-with-height column is wrong."
+    ]
+  },
+  "inputs": [],
+  "expected_outputs": [
+    {
+      "name": "lagos_buildings.geoparquet",
+      "format": "geoparquet",
+      "crs": "EPSG:4326",
+      "geometry_type": "Polygon"
+    },
+    {
+      "name": "lagos_building_summary.parquet",
+      "format": "parquet"
+    }
+  ],
+  "deadline_seconds": 900
+}

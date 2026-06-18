@@ -1,0 +1,45 @@
+{
+  "task_id": "dc-l3-vienna-overpass-historical",
+  "version": 2,
+  "tags": {
+    "region": ["vienna"],
+    "data_source": ["overpass_historical", "overpass"],
+    "formats": ["geojson"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["polygon", "multipolygon"],
+    "operations": ["symmetric_difference", "difference", "union", "join_touches"],
+    "themes": ["divisions.division_boundary", "boundary_administrative"],
+    "quality_issues": ["inconsistent_values"],
+    "scale": "medium"
+  },
+  "instruction": "Fetch Vienna's current district polygons (Bezirke) and their 2014-01-01 counterparts from Overpass and identify which parts of the district boundaries have changed between then and now. District names changed casing and spelling between snapshots, so normalise them to match. Classify each resulting geometry fragment by how it changed: `added_since_2014` (in current but not 2014), `removed_since_2014` (in 2014 but not current), or `unchanged` (present in both snapshots). For each district flag whether its geometry borders any area that was added or removed. Output vienna_boundary_changes.geojson, MultiPolygon, each feature with change_type, district_name (normalised), and touches_changed (boolean).",
+  "inputs": [],
+  "expected_outputs": [
+    {
+      "name": "vienna_boundary_changes.geojson",
+      "format": "geojson",
+      "crs": "EPSG:4326",
+      "geometry_type": "MultiPolygon"
+    }
+  ],
+  "deadline_seconds": 1200,
+  "analyst_notes": {
+    "description": "An L3 live-data task that probes whether the agent can pull two Overpass snapshots (current and 2014-01-01 via the attic API), normalise the Bezirk names that drifted between snapshots, and compute per-district symmetric differences plus a touches-based adjacency flag. The hidden gotchas are the date-directive syntax for the historical snapshot, the need to filter out Lower-Austrian municipalities (Gerasdorf bei Wien) that the 2014 area query returns, and matching names back to the current snapshot's casing and diacritics so the reference comparison lines up.",
+    "approach": [
+      "Fetch Vienna's 23 Bezirke twice from Overpass: once for the current snapshot, once with a historical date directive against 2014-01-01.",
+      "Filter out anything that is not actually a Vienna district, since the 2014 area query also returns neighbouring municipalities.",
+      "Normalise district names across the two snapshots so they line up, keeping the current snapshot's casing and diacritics for the output.",
+      "For each district, compute the geometric difference and symmetric difference between the two snapshots and tag each fragment as added_since_2014, removed_since_2014, or unchanged.",
+      "Compute touches_changed per district by checking which districts border any geometry tagged as added or removed.",
+      "Write the result as a single GeoJSON with one MultiPolygon feature per (district, change_type) and the three required properties."
+    ],
+    "pitfalls": [
+      "Skipping the historical query or using the wrong date format yields a result where everything looks unchanged, which the unchanged-area-dominance check still passes but the per-type-count check fails.",
+      "Forgetting to filter Gerasdorf bei Wien inflates the district set and drags the name-overlap Jaccard below the threshold.",
+      "Normalising names by lowercasing or stripping diacritics (Döbling becomes dobling or doebling) makes the district-name Jaccard collapse to zero and cascades into a zero touches_changed accuracy, because the grader matches features by (change_type, district_name).",
+      "Computing touches_changed always-False or always-True loses the adjacency subcheck even when the geometries are otherwise correct.",
+      "Writing the output in a projected CRS instead of WGS84 fails the CRS gate and the Vienna-envelope check.",
+      "Emitting Polygons or LineStrings instead of MultiPolygons trips the structural-correctness gate."
+    ]
+  }
+}

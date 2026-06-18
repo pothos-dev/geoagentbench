@@ -1,0 +1,35 @@
+{
+  "layers": [
+    {
+      "name": "disagreement",
+      "pmtiles": "disagreement.pmtiles",
+      "source_layer": "disagreement",
+      "geometry_type": "MultiPolygon",
+      "style": {
+        "fill-color": "#1a4480",
+        "fill-opacity": 0.45,
+        "fill-outline-color": "#1a4480"
+      },
+      "tooltip": [
+        "cluster_id",
+        "source"
+      ]
+    },
+    {
+      "name": "label_anchors",
+      "pmtiles": "label_anchors.pmtiles",
+      "source_layer": "label_anchors",
+      "geometry_type": "Point",
+      "style": {
+        "circle-color": "#1a4480",
+        "circle-radius": 4,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-width": 1
+      },
+      "tooltip": [
+        "cluster_id"
+      ]
+    }
+  ],
+  "error": null
+}

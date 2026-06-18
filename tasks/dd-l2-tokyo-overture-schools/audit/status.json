@@ -1,0 +1,24 @@
+{
+  "task_id": "dd-l2-tokyo-overture-schools",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": ["grade.py", "metadata.yaml", "README.md", "reference/failures/_make_brokens.py", "reference/failures/broken_dropped_catch_all/outputs/tokyo_schools.geojson", "audit/AUTHORING_HISTORY.md", "audit/status.json"],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-002",
+      "category": "design-rationale",
+      "severity": "low",
+      "summary": "Bundled-input twin drift persists: task.json.inputs[].url serves the single file inputs/tokyo_places.parquet while reference/solution/generate.py, reference/failures/_make_brokens.py, and README.md target the Hive-bucketed inputs/tokyo_places/**/*.parquet. README failure-mode #1 (single-partition read) remains unreachable as a partition failure. Either revert the agent URL to the bucketed dir (prompt-change, version bump) or drop the bucketed copy and retarget generate.py/_make_brokens.py at the single file (touches inputs/ + reference/failures/ - not unilateral; human must bump version). Carried forward from the 2026-06-06 block's HR-001."
+    },
+    {
+      "id": "HR-003",
+      "category": "coverage-vocabulary-gap",
+      "severity": "low",
+      "summary": "task.json.tags.quality_issues = ['non_latin_script'] (CJK round-tripping, checked by cjk_names_preserved) has no matching slug under coverage-vocabulary.yaml > data_quality_issues; the thesis <data-quality-table> has no such row, so the gap is not additively fixable by the evaluator. coverage.yaml keeps data_quality_issues empty with a free-text note. Carried forward from the 2026-06-06 block's HR-002."
+    }
+  ],
+  "blocker": null
+}

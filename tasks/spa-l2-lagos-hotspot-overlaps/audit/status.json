@@ -1,0 +1,16 @@
+{
+  "task_id": "spa-l2-lagos-hotspot-overlaps",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed",
+  "verdict": "calibrated",
+  "unilateral_edits": [
+    "benchmark/tasks/spa-l2-lagos-hotspot-overlaps/grade.py",
+    "benchmark/tasks/spa-l2-lagos-hotspot-overlaps/metadata.yaml",
+    "benchmark/tasks/spa-l2-lagos-hotspot-overlaps/README.md",
+    "benchmark/tasks/spa-l2-lagos-hotspot-overlaps/audit/AUTHORING_HISTORY.md"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [],
+  "blocker": null
+}

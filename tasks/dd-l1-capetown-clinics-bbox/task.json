@@ -1,0 +1,48 @@
+{
+  "task_id": "dd-l1-capetown-clinics-bbox",
+  "version": 3,
+  "tags": {
+    "region": ["capetown"],
+    "data_source": ["bundled"],
+    "formats": ["csv_wkt", "json"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["point"],
+    "operations": ["bbox", "attribute_filter"],
+    "themes": ["amenity"],
+    "quality_issues": [],
+    "scale": "small"
+  },
+  "instruction": "I'm about to push the `capetown_clinics.csv` export through to our case-management system and I want a quick inventory check first. Can you produce a small JSON file with the total clinic count, the overall bounding box as a bbox array, and the count per subdistrict, so I can confirm every health subdistrict is represented? Please write it to `clinic_inventory.json` with keys `count`, `bbox`, and `count_per_subdistrict`.",
+  "analyst_notes": {
+    "description": "Tests basic literacy in a CSV-with-WKT geospatial export and the three-line inventory a real analyst would compute before pipeline ingest. The prompt pins the bbox to a four-number array but deliberately leaves the component order unspecified, so the agent has to know the GeoJSON convention `[xmin, ymin, xmax, ymax]` (longitude first). Other gotchas live in the small details: parsing the WKT column rather than treating it as an opaque string, counting all 80 rows including the last one, and reporting a non-uniform per-subdistrict distribution rather than assuming an equal split.",
+    "approach": [
+      "Read the CSV, parse the WKT column into longitude and latitude pairs, and confirm the row count.",
+      "Compute the overall bounding box from the parsed coordinates as four floats in GeoJSON order, longitude first.",
+      "Group by the subdistrict column and count rows per subdistrict, keeping the subdistrict names verbatim from the input.",
+      "Assemble the three deliverables into a single JSON object and write it to the requested filename."
+    ],
+    "pitfalls": [
+      "Swapping latitude and longitude in the bounding box, which is the classic flat-list failure when the agent is used to lat-first APIs and produces `[ymin, xmin, ymax, xmax]` instead.",
+      "Reprojecting the points to a metric CRS like EPSG:3857 before computing the bounding box, which lands the values in metres instead of degrees and pushes every component about a million times outside the tolerance.",
+      "Assuming the eight subdistricts split evenly at ten clinics each (80 / 8), which hits the total and the key set but misses six of the eight per-subdistrict values.",
+      "Counting the CSV header row as a record and reporting 81, or silently dropping rows whose WKT has unusual whitespace so the count and the per-subdistrict sum disagree.",
+      "Writing the inventory as CSV or as a different JSON shape without the `count`, `bbox`, and `count_per_subdistrict` keys, which fails the format gate outright."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "capetown_clinics",
+      "url": "tasks/dd-l1-capetown-clinics-bbox/inputs/capetown_clinics.csv",
+      "format": "csv"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "clinic_inventory.json",
+      "format": "json",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point"
+    }
+  ],
+  "deadline_seconds": 600
+}

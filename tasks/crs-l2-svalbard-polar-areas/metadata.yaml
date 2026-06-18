@@ -1,0 +1,88 @@
+task_id: crs-l2-svalbard-polar-areas
+category: crs_reprojection
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: 0.01
+  jaccard_min: 0.95
+  geom_eps_m: null
+  rationale: |
+    The CRS-reprojection heuristic in AUTHOR_CONTEXT.md > Tolerance philosophy
+    calls for principled, projection-derived bounds rather than the L2 5%
+    heuristic defaults. EPSG:4326 -> any of the seven accepted polar CRSes in
+    pyproj/PROJ is fully deterministic, and shapely polygon area on a small
+    bundled input agrees to ppm between any two well-behaved implementations.
+    We therefore tighten area, bbox and total-area tolerances to 1% (relative),
+    and require top-N name-set Jaccard >= 0.95 (a single mis-ranked entry costs
+    at most one pair, so the floor still permits a 19/20 overlap). Count
+    tolerance stays at the 5% L2 default at the gate so a 19- or 21-row
+    submission still reaches the subchecks.
+
+    Gate 1 accepts a declared `crs_epsg` from
+    {3413, 3573, 3574, 3575, 3576, 3995, 6931} — the set of WGS-84-datum
+    North-Pole-origin projected CRSes (five Lambert Azimuthal Equal-Area
+    variants plus the two commonly-picked Polar Stereographic variants).
+    Per-glacier reference areas and bboxes are recomputed from the source
+    `inputs/svalbard_glaciers_wgs84.gpkg` at grading time by reprojecting
+    into the submission's declared CRS, so the spatial subchecks are
+    apples-to-apples within the agent's chosen frame. The
+    `equal_area_crs_used` subcheck rewards the LAEA family because the
+    instruction asks for "true geographic area" and LAEA is exact equal-area
+    at every latitude, whereas the Polar Stereographic variants are conformal
+    with ~0.5-1% area distortion at Svalbard latitudes (still inside the 1%
+    area tolerance per glacier, so they pass the area subchecks while losing
+    `equal_area_crs_used`).
+broken_solutions:
+  wrong_format:
+    description: GeoJSON written under the .csv name; not parseable as CSV.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  no_reprojection:
+    description: |
+      Skips the CRS step. Honestly declares crs_epsg=4326, areas in degrees^2,
+      bboxes in WGS84 lon/lat. Under the post-soft-gate policy (commit
+      05aabd6), Gate 1 no longer hard-rejects 4326 because pyproj resolves
+      it. The submission still fails both CRS subchecks (`equal_area_crs_used`
+      and `crs_in_meaningful_set`), the area subchecks (`per_glacier_area_matches`,
+      `total_top20_area_within_1_percent`), and `top20_name_set_matches`
+      because the ranking by degree^2 area differs from the metric ranking.
+      Under the 3x data-content weighting (commit 05b389b) the three failed
+      weight-3 subchecks cost 9 of 17 points plus the two CRS points:
+      net 6/17 = 0.353.
+    expected_score_range: [0.3, 0.45]
+    measured_score: 0.353
+  conformal_pick:
+    description: |
+      Picks EPSG:3995 (Arctic Polar Stereographic) -- accepted at Gate 1
+      because it is a North-Pole-origin projected CRS, but conformal rather
+      than equal-area. Per-glacier and total areas are correct in the 3995
+      frame, bboxes match the source reprojected to 3995, and every other
+      subcheck passes. Only `equal_area_crs_used` (weight 1) fails.
+      -> 16/17 = 0.941 under the 3x data-content weighting (commit 05b389b).
+    expected_score_range: [0.85, 0.95]
+    measured_score: 0.941
+  offset_topN:
+    description: |
+      20 rows in an accepted equal-area CRS with correct per-row area /
+      bbox values, but ranks 6-25 instead of 1-20 -- drops the actual top 5
+      and adds ranks 21-25. Fails `top20_name_set_matches` (Jaccard 0.60)
+      and `total_top20_area_within_1_percent` (sum drops ~87% because the
+      missing five are the biggest); both are weight-3 subchecks under the
+      3x data-content weighting (commit 05b389b). -> 11/17 = 0.647.
+    expected_score_range: [0.6, 0.85]
+    measured_score: 0.647
+notes:
+  - Bundled input is 169 named glacier polygons sliced from Overture release
+    2026-04-15.0, theme=base / type=land, subtype=glacier, names.primary IS
+    NOT NULL.
+  - The reference output uses EPSG:3575 (WGS 84 / North Pole LAEA
+    Europe) -- equal-area, central meridian 10°E aligns with Svalbard's
+    longitude band. The four other LAEA variants (3573 Canada, 3574 Atlantic,
+    3576 Russia, 6931 NSIDC EASE-Grid 2.0 North) all give bit-identical
+    areas and are graded equivalently; the central-meridian choice only
+    rotates bbox values. EPSG:3995 and EPSG:3413 (Polar Stereographic
+    variants) are accepted but earn 8/9 not 9/9 because they are
+    conformal rather than equal-area.

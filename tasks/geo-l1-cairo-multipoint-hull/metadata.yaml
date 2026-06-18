@@ -1,0 +1,83 @@
+task_id: geo-l1-cairo-multipoint-hull
+category: geometric_ops
+difficulty: L1
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.95
+  geom_eps_m: null
+  iou_min: 0.95
+  rationale: |
+    Geometric-operation task on a hand-crafted, fully deterministic
+    bundled GeoJSON of 20 stations. The convex hull of a fixed set of
+    points is itself deterministic, so the agent's hull must match the
+    reference hull within numerical noise — IoU ≥ 0.95 is tight enough
+    to flag bbox-instead-of-hull (typical bbox/hull IoU ≈ 0.7) and any
+    wrong-CRS misadventure, while still admitting tiny serialisation
+    drift on hull vertex coordinates.
+
+    Row count uses the standard ±5 % even though 20/20 should match
+    exactly — admits an agent that legitimately drops a station whose
+    MultiPoint has < 3 points (none in the bundled file, so this is a
+    safety margin only).
+
+    English-name set Jaccard ≥ 0.95 admits one stray station rename;
+    per-name Arabic-name match is exact (≥ 99 %) — the persona's
+    bilingual report explicitly requires both names, so the grader is
+    strict on the Arabic side rather than tolerant.
+
+    Hull-contains-input check uses a 1e-7° buffer — well below
+    serialisation drift but tight enough that a wrong-station mix-up
+    (e.g. agent paired Hadayek's hull with Helmeyet's MultiPoint)
+    fails.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent wrote the output as a CSV with a WKT column instead of
+      GeoJSON. Gate 1 rejects (GeoPandas cannot read it as GeoJSON,
+      and even if it could the geometry column would be missing).
+      Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  bbox_instead_of_hull:
+    description: |
+      Agent returned the axis-aligned bounding box of each MultiPoint
+      instead of the convex hull. Schema, CRS, attribute values are
+      all correct; only `hull_iou_against_reference` fails (bbox area
+      exceeds hull area by ~30 % on 4–5-point sets). Under the
+      per-task severity weights, this is the central hull-construction
+      failure, so `hull_iou_against_reference` carries the highest
+      weight (5 of a 23-point denominator): weighted 18/23 = 0.783.
+    expected_score_range: [0.72, 0.84]
+    measured_score: 0.783
+  empty_arabic:
+    description: |
+      Agent produced the right hulls and English names but blanked
+      the Arabic name column (a typical encoding-roundtrip casualty).
+      Two subchecks fail: `station_name_ar_populated` (weight 1) and
+      `arabic_names_match` (weight 3). The hull geometry is perfect,
+      so this scores ABOVE the bbox failure: weighted 19/23 = 0.826.
+      Bilingual-name preservation is a persona business constraint but
+      not the central hull skill, hence it costs less than a wrong
+      hull. (HR-001 retired: range re-authored to ratify the
+      per-task severity weighting.)
+    expected_score_range: [0.76, 0.88]
+    measured_score: 0.826
+notes:
+  - |
+    Bundled input is hand-crafted by `data/_prepare_input.py` because
+    neither Overture nor OSM exposes a clean per-station MultiPoint of
+    entrances: Overture has no `subway_entrance` analogue, and OSM's
+    `railway=subway_entrance` nodes are inconsistently linked to their
+    parent station (sometimes via a `station=*` tag, sometimes via a
+    `public_transport=stop_area` relation, often not at all). The
+    persona's "station inventory" is a curated internal dataset, not a
+    raw OSM dump — hand-crafting matches that fiction.
+  - |
+    Twenty real Cairo Metro stations along Lines 1 and 2 with their
+    bilingual names. Each station's 3–5 entrance points are placed
+    deterministically (seeded `random.uniform`) within ±100 m of the
+    station's published WGS84 centre. 78 entrance points total.

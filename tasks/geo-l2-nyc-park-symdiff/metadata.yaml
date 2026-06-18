@@ -1,0 +1,99 @@
+task_id: geo-l2-nyc-park-symdiff
+category: geometric_ops
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.10
+  area_pct: 0.05
+  jaccard_min: 0.9
+  geom_eps_m: null
+  rationale: |
+    Geometric-ops chain on a deterministic, bundled NYC parks GPKG
+    (1380 official polygons, 1372 OSM polygons, both in EPSG:6539)
+    with mutations that produce 46 reference disagreement clusters.
+    The agent must symmetric-difference the two layers, cluster the
+    result into connected components, classify each cluster's
+    `source` (parks_official | parks_osm | both), collect into one
+    MultiPolygon per cluster, and emit a point-on-surface label
+    anchor.
+
+    Cluster identification is buffer-merge-sensitive (a 1 m buffer
+    bridges sub-metre topology gaps along shifted-park half-moon
+    boundaries), so the count tolerance is loosened to ±10 % from
+    the ±5 % default — a few-cluster split is reasonable. The
+    unioned-IoU threshold is loosened to 0.85 for the same reason.
+    The total-area tolerance stays at ±5 % because area is measured
+    on the *unclustered* symdiff geometry — independent of cluster
+    choice — and catches unit errors / missing-side errors cleanly.
+    Per-source count tolerance is ±20 % (3 distinct labels, small
+    integer counts; 20 % absorbs single-cluster reclassification).
+    Gate 2 row tolerance is ±50 % so a "no-collect, exploded" agent
+    or a "dropped one side" agent still grades against subchecks
+    rather than collapsing to 0 — but the cluster-count subcheck
+    catches both at the subcheck level.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent wrote the anchors file as GeoParquet under the GeoJSON
+      output name. Gate 1 GeoJSON-FeatureCollection sniff rejects.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  partial:
+    description: |
+      Agent emitted only the OSM-only and shifted-pair clusters and
+      skipped the 20 official-only clusters (≈ 43 % drop). The hard
+      format gate passes; the four overlay subchecks
+      `count_within_tolerance` (w=3), `source_label_distribution`
+      (w=3; per-source count delta exceeds 20 % for `parks_official`),
+      `total_area_within_tolerance` (w=4), and `unioned_geometry_iou`
+      (w=4) all fail - every check that detects the central
+      symmetric-difference skill. Multipoly (w=1), anchors-inside
+      (w=2), anchor-count (w=1), and the two CRS subchecks (w=1 each)
+      pass. Weighted 6 / 20 = 0.30 - the lowest non-gate band, as a
+      fundamentally-wrong overlay should score.
+    expected_score_range: [0.25, 0.40]
+    measured_score: 0.3
+  centroids:
+    description: |
+      Agent used `geometry.centroid` instead of
+      `representative_point()` for the label anchors. Centroids of
+      concave or multi-part disagreement clusters often fall
+      outside the geometry — only 31 of 46 anchors land inside the
+      unioned disagreement geometry (67 %). Only the secondary
+      label-anchor subcheck `anchors_inside_disagreements` (w=2)
+      fails; the entire symdiff overlay is correct, so everything
+      else passes (including the two CRS subchecks). Weighted
+      18 / 20 = 0.90 - a perfect overlay with only the label-anchor
+      sub-skill missed scores near the top, just below the
+      structural CRS+multipoly double-slip cases.
+    expected_score_range: [0.85, 0.95]
+    measured_score: 0.9
+notes:
+  - |
+    Bundled inputs are sliced from Overture's `base.land_use`
+    collection (release 2026-04-15.0, subtype = 'park') over a
+    central NYC bbox (-74.05° to -73.85° E, 40.65° to 40.85° N),
+    reprojected at authoring time to EPSG:6539. The two layers in
+    the GPKG (`parks_official` and `parks_osm`) are constructed
+    deterministically: `parks_official` is the full Overture set;
+    `parks_osm` drops 20 polygons, shifts 15 by ~30 m, and adds
+    12 hand-crafted small rectangles in non-park locations (the
+    candidate grid is filtered against `parks_official.union_all()`
+    so no synthetic extra overlaps a real park).
+  - |
+    The reference solution runs `unary_union` per layer, takes
+    `A.difference(B)` and `B.difference(A)`, unions the two, then
+    buffer-merges by ±1 m to bridge sub-metre topology gaps along
+    the shifted-park half-moon boundaries before extracting
+    connected components. Each cluster is classified by which
+    side(s) contributed parts via `representative_point().within`
+    against the per-side difference geometries. Clusters are
+    sorted by (minx, miny) of bounds for deterministic
+    `cluster_id` assignment.
+  - |
+    Inventory change proposal: the inventory row lists the Overture
+    theme as `base.infrastructure`, but parks are not infrastructure
+    in Overture's schema — they live in `base.land_use` with
+    `subtype='park'`. The closer match is used and recorded here.

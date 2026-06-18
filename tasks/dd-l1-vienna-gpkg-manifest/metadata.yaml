@@ -1,0 +1,93 @@
+task_id: dd-l1-vienna-gpkg-manifest
+category: data_discovery
+difficulty: L1
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: null
+  area_pct: null
+  jaccard_min: null
+  geom_eps_m: null
+  bbox_eps_m: 1.0
+  rationale: |
+    The bundled GPKG is a deterministic Overture slice committed once
+    at authoring time, so every metadata field admits exactly one
+    correct answer. Tolerances therefore deviate from the L1 ±5 %
+    count default:
+
+    * `feature_count` is graded with strict equality. There is no
+      upstream drift, no projection step, and no filter for an agent
+      to reasonably perturb — any answer other than the GPKG's
+      pyogrio-reported count is wrong by definition.
+    * `crs` and `geometry_type` are graded as case-insensitive string
+      equality. The GPKG declares both fields explicitly; the test is
+      whether the agent reads them rather than computes them.
+    * `bbox` is graded componentwise with a 1 m tolerance. The
+      reference rounds bboxes to two decimals (1 cm); the 1 m window
+      absorbs any pyogrio / fiona float drift across reads while
+      catching all the realistic failures (degree-vs-metre slip:
+      ~ 6×10⁵ off; per-layer bbox over the *whole* file's union:
+      ~ 10³ m off; bbox in EPSG:4326 in any form: outside the metre
+      range entirely).
+    * The set-membership of layer names is its own subcheck so an
+      agent that finds *no* layers (e.g. listed only the first one)
+      is distinguishable from one that finds the wrong layers.
+
+    Jaccard / IoU heuristics do not apply: the task is metadata
+    introspection, not feature comparison.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent flattened the manifest into a CSV instead of a JSON list.
+      Gate 1 fails because the body is not a JSON list. Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  partial_layers:
+    description: |
+      Agent only enumerated the three primary layers named in the
+      inventory row (districts, parks, schools) and skipped the four
+      auxiliary ones. `layers_complete` (weight 4) fails plus the four
+      absent layers' 16 subchecks fail; the three covered layers' 12
+      subchecks pass. Under the 2026-06-14 severity-weighting
+      (`layers_complete` weight 4, all four per-layer metadata fields
+      weight 1; total weight 4 + 7×4 = 32) that is 12 / 32 = 0.375.
+    expected_score_range: [0.35, 0.50]
+    measured_score: 0.375
+  wrong_crs_bbox:
+    description: |
+      Agent silently reprojected every layer to EPSG:4326 before
+      introspecting it: declared `crs = "EPSG:4326"` and reported the
+      bbox in degrees rather than the GPKG's native EPSG:31287 metres.
+      Layer set, geometry types, and feature counts are still correct.
+      Failures: every layer's `crs_correct` and `bbox_correct`
+      (weight 1 each): 7×1 + 7×1 = 14 of total weight 32. Passes:
+      layers_complete (4) + 7 geom_type (7) + 7 count (7)
+      = 18 / 32 = 0.5625.
+    expected_score_range: [0.45, 0.60]
+    measured_score: 0.5625
+notes:
+  - |
+    Bundled input is sliced from Overture release 2026-04-15.0 over an
+    inner-Vienna bbox (16.345, 48.190, 16.380, 48.220), reprojected to
+    EPSG:31287 (MGI / Austria Lambert) per the inventory row, and
+    written as a multi-layer GPKG with seven layers:
+    districts (22 Polygon), parks (119 MultiPolygon), waterbodies
+    (33 Polygon), schools (40 Point), cafes (392 Point), supermarkets
+    (87 Point), cycleway_segments (271 LineString). The mix matches
+    the inventory's "Polygon, Point" geometry-type spec while adding
+    a LineString layer to give the manifest task realistic variety;
+    the seven-layer total matches the persona's story of needing to
+    decide which layers feed the briefing and which are stale.
+  - |
+    The inventory row names "districts, parks, schools" as the primary
+    layer trio. Those three are present, plus four auxiliary layers
+    (waterbodies, cafes, supermarkets, cycleway_segments) which the
+    persona suspects are stale. The grader doesn't distinguish primary
+    from auxiliary — every layer gets the same four subchecks.
+  - |
+    Reference output is alphabetically sorted by layer_name so the
+    JSON is deterministic across runs. The grader indexes by
+    `layer_name` and is order-insensitive — an agent that emits the
+    layers in GPKG insertion order is graded identically to one that
+    sorts them.

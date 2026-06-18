@@ -1,0 +1,19 @@
+{
+  "layers": [
+    {
+      "name": "parcels",
+      "pmtiles": "parcels.pmtiles",
+      "source_layer": "parcels",
+      "geometry_type": "Polygon",
+      "style": {
+        "fill-color": "#1a4480",
+        "fill-opacity": 0.45,
+        "fill-outline-color": "#1a4480"
+      },
+      "tooltip": [
+        "parcel_id"
+      ]
+    }
+  ],
+  "error": null
+}

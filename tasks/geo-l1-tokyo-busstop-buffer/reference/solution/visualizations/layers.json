@@ -1,0 +1,20 @@
+{
+  "layers": [
+    {
+      "name": "catchments",
+      "pmtiles": "catchments.pmtiles",
+      "source_layer": "catchments",
+      "geometry_type": "Polygon",
+      "style": {
+        "fill-color": "#1a4480",
+        "fill-opacity": 0.45,
+        "fill-outline-color": "#1a4480"
+      },
+      "tooltip": [
+        "stop_id",
+        "name"
+      ]
+    }
+  ],
+  "error": null
+}

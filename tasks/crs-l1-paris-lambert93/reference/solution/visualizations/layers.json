@@ -1,0 +1,17 @@
+{
+  "layers": [
+    {
+      "name": "buildings",
+      "pmtiles": "buildings.pmtiles",
+      "source_layer": "buildings",
+      "geometry_type": "Polygon",
+      "style": {
+        "fill-color": "#1a4480",
+        "fill-opacity": 0.45,
+        "fill-outline-color": "#1a4480"
+      },
+      "tooltip": []
+    }
+  ],
+  "error": null
+}

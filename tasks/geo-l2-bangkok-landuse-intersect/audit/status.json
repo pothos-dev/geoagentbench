@@ -1,0 +1,30 @@
+{
+  "task_id": "geo-l2-bangkok-landuse-intersect",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "calibrated",
+  "unilateral_edits": [
+    "grade.py",
+    "metadata.yaml",
+    "README.md",
+    "audit/AUTHORING_HISTORY.md"
+  ],
+  "grader_score_after_edits": 1.0,
+  "grader_score_note": "Seventh pass (2026-06-14): severity-calibrated the subcheck weights, replacing the blunt c749e57b weight=3.0-on-all-data-content with weights reasoned from the central skill (intersection/overlay in a projected CRS). unioned_geometry_iou 3->4 and total_area_within_tolerance 3->4 (central geometric-correctness + km2/m2 unit gotcha); count_within_tolerance stays 3 (strong proxy); class_set_jaccard 3->1 (attribute-preservation/structural, never discriminates the central skill, passes for both non-format brokens); all_multipolygon + both CRS subchecks stay 1. Total weight unchanged at 15. Reference self-grades 1.0 (15/15). Broken ordering now monotone and steeper: wrong_format 0.0 < not_intersected 0.133 (was 0.267, fails the whole central geometric group) < area_in_km2 0.600 (was 0.667, geometry correct, only unit+CRS wrong) < 1.0. Prior current/supporting runs re-graded: run-20260607-112430Z 1.0, run-20260608-074701Z 0.867, run-20260609-084636Z 0.867, run-20260606-1733Z 0.867 -- all unchanged (reweighting only bites when a geometric subcheck fails; these only miss the cosmetic CRS pair). Refreshed metadata.yaml broken scores/ranges + weight prose and README broken-score fractions. Grading-only; no version bump (stays 4).",
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-001",
+      "category": "inventory-mismatch",
+      "severity": "low",
+      "summary": "benchmark/authoring/inventory.md row for this task still records CRS out = EPSG:32647 (table row and output-artifact line) while task.json, the reference output, the grader, and the README all say EPSG:4326. Update inventory CRS-out to EPSG:4326. Outside the task directory; carried unresolved since the third pass."
+    },
+    {
+      "id": "HR-002",
+      "category": "design-rationale",
+      "severity": "low",
+      "summary": "Repo-wide grader commits 363aed21 (gate-2 removal) and c749e57b (3x data-content subcheck weighting) changed scoring semantics for this task (and all 36 graders) without bumping task.json version, so the eval UI's version-based de-emphasis will not flag pre-weighting runs as outdated even though their scores are not comparable (e.g. run-20260606-1733Z recorded 0.714 for an output that scores 0.867 today). Decide whether shared-grader-semantics commits should bump every affected task's version; a per-task evaluator should not retro-bump one task out of 36."
+    }
+  ],
+  "blocker": null
+}

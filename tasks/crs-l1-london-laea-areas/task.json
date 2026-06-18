@@ -1,0 +1,47 @@
+{
+  "task_id": "crs-l1-london-laea-areas",
+  "version": 5,
+  "tags": {
+    "region": ["london"],
+    "data_source": ["bundled"],
+    "formats": ["geojson", "csv"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["multipolygon"],
+    "operations": ["area_calculation"],
+    "themes": ["divisions.division", "boundary_administrative"],
+    "quality_issues": [],
+    "scale": "small"
+  },
+  "instruction": "I need to create a land-area comparison for the Horizon report. Can you get me the area in km² for every administrative unit in `london_admin.geojson` (both the borough-level `county` features and the surrounding `locality` features)? Please write the result to `borough_areas.csv`, with one row per feature containing its id, name, and area_km2. Use the `id` field to identify each feature.",
+  "analyst_notes": {
+    "description": "Tests whether the agent recognizes that computing area on WGS84 (degree) geometries is meaningless, and reprojects to an equal-area CRS before measuring. The prompt deliberately omits any CRS hint, so the agent has to spot the problem from the input metadata.",
+    "approach": [
+      "Read `london_admin.geojson` and inspect its CRS metadata.",
+      "Recognize the geometries are in WGS84, so area measured directly would come out in degrees² and be meaningless.",
+      "Pick an equal-area projection appropriate for Europe. LAEA Europe (EPSG:3035) is the canonical choice.",
+      "Reproject the polygons and compute their area in square metres.",
+      "Convert to square kilometres and write a CSV with columns id, name, area_km2."
+    ],
+    "pitfalls": [
+      "Calling `.area` directly on WGS84 geometries gives a result in degrees², not metres².",
+      "Picking a single-zone projection (like a UTM zone) for a region that spans several zones throws the totals off.",
+      "Forgetting the m² → km² conversion leaves the numbers off by a factor of a million.",
+      "Filtering to just the 33 borough-level `county` features and dropping the `locality` rows cuts the output to 33 of 232 rows, which a real run did before the prompt spelled out both subtypes.",
+      "Dropping or renaming the id and name columns breaks the join back to the original admin units."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "london_admin",
+      "url": "tasks/crs-l1-london-laea-areas/inputs/london_admin.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "borough_areas.csv",
+      "format": "csv"
+    }
+  ],
+  "deadline_seconds": 600
+}

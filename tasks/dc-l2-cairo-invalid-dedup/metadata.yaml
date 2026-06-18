@@ -1,0 +1,137 @@
+task_id: dc-l2-cairo-invalid-dedup
+category: data_cleaning
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.95
+  geom_eps_m: null
+  area_recompute_rel_tol: 1.0e-3
+  rationale: |
+    Bundled-data cleaning task on a fully synthetic fixture; no upstream
+    drift, no projection step, no random sampling. Count tolerance is
+    the L2 default ±5 % — the only legitimate count perturbation is a
+    one- or two-row miss in the dedup or sliver step, well inside 5 %
+    on 210 features. Feature-id Jaccard is tightened from the heuristic
+    0.9 to 0.95: every parcel has a unique integer primary key and a
+    correct dedup keeps every original parcel_id, dropping only
+    duplicate parcel_ids in the 900_000+ range. Geometric IoU on the
+    union is set to 0.99 — make_valid + sliver drop is a small,
+    bounded perturbation against the reference union, well inside the
+    1 % slack the heuristic 5 % allows but tightened so a stray
+    `simplify` or `buffer` is caught. The area_m2 column is checked
+    against the submission's *own* `geometry.area` (relative tolerance
+    1e-3) rather than against the reference's area, because a correct
+    pipeline always recomputes area from the surviving geometry; the
+    check fails iff the submission carried over the legacy stale value.
+    All-valid, all-MultiPolygon, no-slivers, no-duplicate-WKB are
+    binary subchecks at 100 %: each is the central skill of the task
+    and admits no per-feature tolerance — RFC simple-feature validity,
+    schema-consistent geometry type, the persona's explicit 1 m²
+    threshold, and exact duplicate equality respectively.
+broken_solutions:
+  wrong_format:
+    description: |
+      Output is GeoParquet with all schema fields present and the
+      pipeline run end-to-end, but the agent reprojected the result
+      to EPSG:4326 (mistaking RFC 7946's WGS84 default for a
+      GeoParquet requirement). Under the soft-CRS policy
+      (commit 05aabd6, 2026-05-28) Gate 1 still parses the file and
+      the grader reprojects the submission back to EPSG:22992 for the
+      geometric subchecks, all of which pass. The two CRS subchecks
+      (`crs_is_canonical`, `crs_in_meaningful_set`, weight 1 each)
+      fail — EPSG:4326 is outside the meaningful set {22992}. Under
+      the per-task reasoned weighting (2026-06-14, replacing the
+      blunt 3x data-content policy of c749e57) the two CRS subchecks
+      are the lowest-weight cosmetic checks (weight 1 each), so this
+      is 33/35 weight points ≈ 0.94. This is correctly the *highest*
+      broken score: the geometric cleaning work is fully correct and
+      only the output projection is wrong.
+    expected_score_range: [0.92, 0.96]
+    measured_score: 0.943
+  no_make_valid:
+    description: |
+      Agent ran sliver removal (using `geometry.envelope.area` so the
+      bowtie polygons survived), dedup, MultiPolygon coercion, and
+      area recompute, but skipped `shapely.make_valid`. The 20 bowtie
+      polygons remain self-intersecting; shapely reports their `.area`
+      as 0, which makes the area-recompute self-consistency check
+      pass but breaks `all_geometries_valid` and `no_slivers`. Under
+      the per-task reasoned weighting (2026-06-14) both of those are
+      central-skill subchecks at the highest weight (4 each), so
+      skipping make-valid now costs 8/35 weight points: 27/35 ≈ 0.77.
+      Under GEOS ≥ 3.13 `unary_union` no longer raises on the invalid
+      bowties — it resolves the self-intersections during the union,
+      so `geometric_extent_preserved` now passes (IoU 1.0; on older
+      GEOS the union raised TopologyException and the grader counted
+      the subcheck failed, which is why this broken historically
+      measured 0.7). Everything else passes, including both CRS
+      subchecks (EPSG:22992 throughout). This is correctly the
+      *lowest* broken score: skipping a central cleaning operation is
+      the most severe failure.
+    expected_score_range: [0.74, 0.82]
+    measured_score: 0.771
+  no_coerce:
+    description: |
+      Agent ran make_valid, sliver removal, dedup, area recompute, but
+      skipped the Polygon → MultiPolygon coercion. 50 parcels are
+      already MultiPolygon (the multipart fixture rows + bowties
+      repaired into 2-triangle Multis); 160 single-part repaired
+      parcels remain plain Polygon. Only `all_multipolygon` fails;
+      every other subcheck passes including both CRS subchecks. Under
+      the per-task reasoned weighting (2026-06-14) `all_multipolygon`
+      is a central-skill subcheck at the highest weight (4), so
+      skipping the coercion costs 4/35 weight points: 31/35 ≈ 0.89.
+      (Under the old 3x-content policy this subcheck sat at weight 1
+      and skipping coercion cost almost nothing — 0.97 — which was the
+      core HR-004 miscalibration: a central output operation must
+      cost a meaningful drop.)
+    expected_score_range: [0.86, 0.92]
+    measured_score: 0.886
+notes:
+  - |
+    Bundled input is hand-crafted (not Overture-derived) because the
+    task is intrinsically about a deliberately corrupted parcel
+    snapshot — bowtie self-intersections, exact duplicate geometries
+    with conflicting attributes, sliver scraps below 1 m², and a
+    Polygon/MultiPolygon mix. No real Overture / OSM source ships
+    this kind of corruption. The synthesis is fully deterministic:
+    closed-form rectangle coordinates on a 14×15 grid in EPSG:22992
+    metres anchored at (640000, 815000), fixed corruption-id sets,
+    and JSON output written byte-stably via `json.dump`. Same
+    hand-crafted policy as `crs-l2-fiji-antimeridian` and
+    `fio-l2-cairo-mixedgeom-split`.
+  - |
+    Fixture composition: 210 base parcels (160 clean rectangles, 30
+    multipart parcels with detached annexes, 20 bowtie self-
+    intersections), 50 exact-geometry duplicates with synthetic
+    parcel_ids in the 900_000+ range and conflicting `parcel_class`,
+    30 sliver squares (~0.49 m²) with synthetic parcel_ids in the
+    800_000+ range. Total 290 features in the input, 210 in the
+    canonical reference output (50 duplicates collapsed onto their
+    earliest-record-seq originals; 30 slivers dropped; 20 bowties
+    repaired into 2-triangle MultiPolygons by shapely.make_valid).
+  - |
+    Output is GeoParquet in EPSG:22992. `gpd.read_parquet` round-trips
+    the CRS via the GeoParquet schema metadata. Since commit 05aabd6
+    (2026-05-28) the grader uses the soft-CRS policy: Gate 1 only
+    fails when no CRS can be parsed, and a wrong-but-parseable CRS is
+    docked via the `crs_is_canonical` and `crs_in_meaningful_set`
+    subchecks (2 points off when the EPSG is outside {22992}). The
+    grader has a `read_parquet → read_file` fallback so a submission
+    that wrote a non-Parquet file with the right name is reported as
+    "could not read GeoParquet" rather than crashing.
+  - |
+    The grader wraps `iou_with_tolerance(sub, ref)` in a try/except —
+    on older GEOS a submission that skipped `make_valid` carried
+    invalid bowtie geometries whose `unary_union` raised
+    `GEOSException`, and treating the crash as a failed subcheck kept
+    the broken score deterministic. Under GEOS ≥ 3.13 (current
+    environment) the union resolves the bowtie self-intersections
+    instead of raising, so `geometric_extent_preserved` passes for
+    that submission and `all_geometries_valid` + `no_slivers` are the
+    detectors for a skipped make_valid. The try/except stays as a
+    safety net for other invalid-geometry shapes.

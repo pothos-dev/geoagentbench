@@ -1,0 +1,19 @@
+{
+  "task_id": "geo-l1-tokyo-busstop-buffer",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "calibrated",
+  "unilateral_edits": [
+    "grade.py",
+    "metadata.yaml",
+    "README.md",
+    "audit/AUTHORING_HISTORY.md"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {"id": "HR-001", "category": "reference-or-data-edit-needed", "severity": "low", "summary": "inputs/_prepare.py still calls .to_crs('EPSG:6677') and its docstring describes shipping the input projected, contradicting the 2026-05-17 WGS84 redesign (the committed tokyo_connectors.geojson is correctly EPSG:4326). Authoring-time only, does not affect grading. A human should fix the helper (and bump task.json.version if the bundled input is regenerated). Carried over from prior passes."},
+    {"id": "HR-003", "category": "reference-or-data-edit-needed", "severity": "low", "summary": "Tracked scratch files solve.py (a worked solution) and tokyo_stop_catchments.geoparquet (a stale pre-redesign output) sit at the task top level outside reference/. Never served to agents and not used by the grader, but they are clutter; a human should git rm both. File deletion is outside the evaluator's write authority."}
+  ],
+  "blocker": null
+}

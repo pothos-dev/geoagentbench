@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}runs · eval{% endblock %}
+{% block nav_runs %}active{% endblock %}
+{% block breadcrumbs %}
+<nav class="breadcrumbs">
+  <a href="/runs">Runs</a>
+</nav>
+{% endblock %}
+{% block body %}
+<h1>Runs</h1>
+
+<div class="page-actions">
+  <a href="/runs/new" class="btn btn-primary">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    New run
+  </a>
+  <div class="view-toggle">
+    <button type="button" class="tab-btn active" id="view-list-btn" onclick="setRunsView('list')">List</button>
+    <button type="button" class="tab-btn" id="view-matrix-btn" onclick="setRunsView('matrix')">Matrix</button>
+  </div>
+</div>
+
+<div id="view-list">
+<table class="data">
+  <thead><tr>
+    <th>run_id</th><th>status</th><th>adapter</th><th>started</th><th>finished</th><th>tasks</th><th class="r">cost</th><th>label</th>
+  </tr></thead>
+  <tbody>
+  {% for r in runs %}
+    <tr>
+      <td><a href="/runs/{{ r.run_id }}">{{ r.run_id }}</a></td>
+      <td><span class="status-pill status-{{ r.status }}">{{ r.status }}</span></td>
+      <td>{{ (r.adapter or {}).label or (r.adapter or {}).name or (r.adapter or {}).url }}</td>
+      <td>{{ r.started_at }}</td>
+      <td>{{ r.finished_at or '' }}</td>
+      <td>{{ (r.tasks or {}) | length }}</td>
+      <td class="r">{% if r.total_cost_usd is not none %}${{ '%.2f' % r.total_cost_usd }}{% else %}—{% endif %}</td>
+      <td>{{ r.label or '' }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="8"><em>no runs yet</em></td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<div id="view-matrix" style="display:none">
+  <div class="scroll-x">
+  <table class="data matrix">
+    <thead>
+      <tr>
+        <th>task</th>
+        {% for r in matrix_runs %}
+          <th class="col-run">
+            <div class="vlabel">
+              <a href="/runs/{{ r.run_id }}">{{ (r.adapter or {}).name or (r.adapter or {}).label or (r.adapter or {}).url or '?' }}</a>
+              <br><small>{{ r.started_at }}</small>
+            </div>
+          </th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+    {% for tid in matrix_task_ids %}
+      {% set current_v = current_versions.get(tid, 1) %}
+      <tr>
+        <td><a href="/tasks/{{ tid }}">{{ tid }}</a></td>
+        {% for r in matrix_runs %}
+          {% set ts = (r.tasks or {}).get(tid) %}
+          {% if ts is none %}
+            <td class="cell-skip"></td>
+          {% else %}
+            {% set recorded_v = ts.get('task_version', 0) %}
+            {% set outdated = recorded_v < current_v %}
+            {% if ts.error %}
+              <td class="cell-err{% if outdated %} cell-outdated{% endif %}" title="{% if outdated %}Scored against v{{ recorded_v }}; current is v{{ current_v }} · {% endif %}{{ ts.error }}"><a href="/runs/{{ r.run_id }}/{{ tid }}">ERR</a></td>
+            {% elif ts.score is not none %}
+              <td class="cell-score{% if outdated %} cell-outdated{% endif %}" style="background:hsl({{ (ts.score * 120)|round|int }},62%,72%)"{% if outdated %} title="Scored against v{{ recorded_v }}; current is v{{ current_v }}"{% endif %}><a href="/runs/{{ r.run_id }}/{{ tid }}">{{ '%.2f' % ts.score }}</a></td>
+            {% else %}
+              <td class="cell-skip status-{{ ts.status }}{% if outdated %} cell-outdated{% endif %}">{{ ts.status or '' }}</td>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </tr>
+    {% else %}
+      <tr><td colspan="{{ matrix_runs|length + 1 }}"><em>no runs yet</em></td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<script>
+function setRunsView(view) {
+  const list = document.getElementById('view-list');
+  const matrix = document.getElementById('view-matrix');
+  const lb = document.getElementById('view-list-btn');
+  const mb = document.getElementById('view-matrix-btn');
+  if (view === 'matrix') {
+    list.style.display = 'none';
+    matrix.style.display = '';
+    mb.classList.add('active'); lb.classList.remove('active');
+  } else {
+    list.style.display = '';
+    matrix.style.display = 'none';
+    lb.classList.add('active'); mb.classList.remove('active');
+  }
+  try { localStorage.setItem('runs.view', view); } catch (e) {}
+}
+(function () {
+  let v = 'list';
+  try { v = localStorage.getItem('runs.view') || 'list'; } catch (e) {}
+  setRunsView(v);
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,49 @@
+{
+  "task_id": "dd-l1-vienna-gpkg-manifest",
+  "tags": {
+    "region": ["vienna"],
+    "data_source": ["bundled"],
+    "formats": ["gpkg", "json"],
+    "crs": ["EPSG:31287"],
+    "geometry_type": ["polygon", "point"],
+    "operations": ["schema_introspection", "bbox"],
+    "themes": ["divisions.division_area", "boundary_administrative"],
+    "quality_issues": [],
+    "scale": "small"
+  },
+  "instruction": "Inherited a GPKG (vienna_planning) from a colleague who retired last week. Before I commit to scripting against it I need a one-page manifest so I can see what's in there and decide which layers actually feed next month's councillor briefing. Catalog the contents and give me one record per layer. Output manifest.json — a JSON list of these records.\n\nEach record in the list must be a JSON object with exactly five keys: `layer_name` as a string, `crs` as a string in `EPSG:NNNN` form, `geometry_type` as a string matching the layer's native type (e.g. `Point`, `LineString`, `Polygon`, `MultiPolygon`), `feature_count` as an integer, and `bbox` as a list of four numbers `[xmin, ymin, xmax, ymax]` in the layer's native CRS.",
+  "analyst_notes": {
+    "description": "Tests whether the agent treats a GeoPackage as a multi-layer container rather than a single-layer file. The prompt deliberately does not say how many layers are in there, so an agent that opens the default first layer (or hand-rolls a manifest from the persona's hints) produces a partial answer. The other hidden gotcha is the bbox: it must be reported in each layer's own CRS, not reprojected to WGS84 for friendliness.",
+    "approach": [
+      "Open the GPKG with a tool that exposes its schema (pyogrio, fiona, ogrinfo, or DuckDB-spatial) and list every layer it declares.",
+      "For each layer, read the declared CRS as an EPSG string, the declared geometry type, the feature count, and the native bounding box. Do not reproject.",
+      "Assemble one JSON object per layer with the five required keys in the exact names and types the prompt asks for.",
+      "Write the result as a top-level JSON list to manifest.json."
+    ],
+    "pitfalls": [
+      "Treating the GPKG as single-layer and only reading the first or default layer, so the manifest is missing six of the seven entries.",
+      "Pattern-matching the persona's mention of districts, parks, and schools and hand-writing a three-record manifest without opening the file, which silently drops the four auxiliary layers.",
+      "Reprojecting every layer to EPSG:4326 before reading metadata, so the CRS string and the bbox numbers both come out in degrees instead of the GPKG's native metres.",
+      "Computing each layer's bbox over the union of all layers instead of just that layer's features, so every record reports the same extent.",
+      "Reading geometry type from the first feature rather than the layer schema, which mislabels MultiPolygon parks as Polygon when the first feature happens to have a single ring.",
+      "Writing a non-canonical CRS string like 31287 or 'MGI / Austria Lambert' instead of EPSG:31287, which fails the case-insensitive EPSG-code match.",
+      "Emitting the manifest as a JSON object keyed by layer name, or as CSV, instead of the top-level JSON list the prompt asks for."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "vienna_planning",
+      "url": "tasks/dd-l1-vienna-gpkg-manifest/inputs/vienna_planning.gpkg",
+      "format": "gpkg"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "manifest.json",
+      "format": "json",
+      "crs": "EPSG:31287",
+      "geometry_type": "mixed"
+    }
+  ],
+  "deadline_seconds": 600
+}

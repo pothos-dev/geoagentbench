@@ -1,0 +1,18 @@
+{
+  "layers": [
+    {
+      "name": "centroids",
+      "pmtiles": "centroids.pmtiles",
+      "source_layer": "centroids",
+      "geometry_type": "Point",
+      "style": {
+        "circle-color": "#1a4480",
+        "circle-radius": 4,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-width": 1
+      },
+      "tooltip": []
+    }
+  ],
+  "error": null
+}

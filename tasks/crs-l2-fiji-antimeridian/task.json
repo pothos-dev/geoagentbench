@@ -1,0 +1,50 @@
+{
+  "task_id": "crs-l2-fiji-antimeridian",
+  "version": 4,
+  "tags": {
+    "region": ["fiji"],
+    "data_source": ["bundled"],
+    "formats": ["geojson"],
+    "crs": ["EPSG:4326", "EPSG:3460"],
+    "geometry_type": ["linestring", "multilinestring"],
+    "operations": ["reprojection", "length_calculation"],
+    "themes": [],
+    "quality_issues": ["antimeridian"],
+    "scale": "small"
+  },
+  "instruction": "I'm pulling together per-transect coverage figures for our survey report, but some of the lines in fiji_transects_wgs84.geojson render as arcs spanning the entire globe instead of short local segments. Can you fix the geometries so they render correctly, convert them to Fiji's national metric grid, and give me each transect as one MultiLineString feature with a length_m attribute in metres?\n\nEvery feature must come out as a MultiLineString, so do not leave any transects as plain LineString, and the problematic ones must end up as multi-part geometries that faithfully represent the actual survey path. Carry the survey attributes (vessel and survey_date) through unchanged, use transect_id as the key field, and write the result as GeoJSON named fiji_transects_fmg.geojson.",
+  "analyst_notes": {
+    "description": "Tests whether the agent recognises that the giant arcs are antimeridian-crossing LineStrings encoded in violation of RFC 7946 §3.1.9 (consecutive vertices jumping +179° to -179° without splitting at ±180°), and whether it knows Fiji's national grid is Fiji 1986 / Fiji Map Grid (EPSG:3460). The prompt deliberately names neither the bug (antimeridian) nor the target CRS by code; the agent has to read the symptom and infer the regional canonical.",
+    "approach": [
+      "Read the input and notice that some LineStrings have consecutive vertices jumping from one side of the antimeridian to the other, which is what makes them render as ~359° arcs.",
+      "Split each crossing line at ±180° while still in WGS84, interpolating the latitude at the boundary and writing two parts.",
+      "Reproject all parts to Fiji Map Grid (EPSG:3460), the national metric grid for Fiji.",
+      "Group parts back together by transect_id and assemble one MultiLineString feature per transect, including the non-crossing ones as single-part multis.",
+      "Compute length_m in the projected CRS and carry the original attributes (transect_id, vessel, survey_date) through unchanged."
+    ],
+    "pitfalls": [
+      "Calling to_crs(3460) on the raw input without splitting first does not blow up the length numbers because PROJ wraps longitudes internally, so the per-transect lengths look right and only the topology subcheck catches the missing split.",
+      "Stamping the CRS as 3460 with set_crs instead of actually reprojecting leaves coordinates in degrees, so length_m comes out around a millionth of the correct value.",
+      "Picking UTM 60S (EPSG:32760) is defensible for the bundled archipelago west of the antimeridian and is accepted, but it costs the crs_is_canonical subcheck because the regional canonical is EPSG:3460.",
+      "Recalling the wrong EPSG for Fiji (e.g. 2978 California, 2977 Pacific zones) tanks both CRS subchecks because the pick is outside the meaningful set.",
+      "Writing one feature per part with a duplicated transect_id fails the heavily weighted feature-count subcheck as well as the geometry_type_is_multilinestring subcheck.",
+      "Dropping the vessel or survey_date columns when assembling the output loses the identifying-attributes subcheck."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "fiji_transects",
+      "url": "tasks/crs-l2-fiji-antimeridian/inputs/fiji_transects_wgs84.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "fiji_transects_fmg.geojson",
+      "format": "geojson",
+      "crs": "EPSG:3460",
+      "geometry_type": "MultiLineString"
+    }
+  ],
+  "deadline_seconds": 600
+}

@@ -1,0 +1,104 @@
+task_id: dc-l1-tokyo-ring-orientation
+category: data_cleaning
+difficulty: L1
+author: task-design-agent
+date: 2026-05-07
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.95
+  geom_eps_m: null
+  rationale: |
+    The task is a pure ring-orientation repair on a fully bundled
+    fixture; there is no upstream drift, no projection step, and no
+    geometric transformation. The two orientation subchecks
+    (exterior_rings_ccw, interior_rings_cw) are graded strictly at
+    100 % — RFC 7946 §3.1.6 admits no per-feature tolerance, and signed
+    area is well-defined for every non-degenerate polygon in the bundled
+    fixture. Count tolerance is the L1 default (±5 %); the structural
+    gate only catches gross row drops or duplications. Feature-id
+    Jaccard is tightened from the heuristic 0.9 to 0.95 because every
+    building has a unique integer primary key and a correct solution
+    preserves the set exactly. Geometric IoU is set to 0.99 (much
+    tighter than the 5 % heuristic) because reversing a ring's vertex
+    order is a no-op on shapely's polygon-area computation, so any
+    deviation from 0.99 indicates an unintended geometric edit
+    (simplification, buffer, vertex deletion). Per-id IoU pass-rate
+    floor is 0.95: out of 100 polygons, the grader accepts up to 5
+    micro-failures from float round-trip rather than discarding the
+    result for one stray vertex.
+broken_solutions:
+  wrong_format:
+    description: |
+      Output is GeoJSON in EPSG:4326 with corrected rings, but the
+      `overture_id` column was dropped on the way out. The
+      `format_schema_valid` gate's required-column check fails.
+      Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  wrong_orientation:
+    description: |
+      Agent passed the legacy input through unchanged: exteriors are
+      still CW, interiors still CCW - the bug the persona asked to
+      fix is still present. The gate passes. Both orientation
+      subchecks (the central skill, weight 5 each) fail; the other
+      nine (geom-type, count, id-set, extent IoU, holes-preserved,
+      attributes, per-id IoU, crs_is_canonical, crs_in_meaningful_set)
+      all pass because orientation is a no-op on geometry, attributes,
+      and CRS. → 18/28 ≈ 0.643. This is the central-skill failure: the
+      core operation was not performed, so the severity-tiered weights
+      drop it well into failing territory.
+    expected_score_range: [0.6, 0.66]
+    measured_score: 0.6428571428571429
+  partial_orientation:
+    description: |
+      Agent fixed exterior rings (CCW) but did not touch interior
+      rings (still CCW from the legacy input). Only the
+      `interior_rings_cw` subcheck (weight 5) fails; everything else
+      passes. → 23/28 ≈ 0.821. Half of the central skill was done, so
+      it scores above the do-nothing failure but clearly below a
+      correct solution.
+    expected_score_range: [0.8, 0.83]
+    measured_score: 0.8214285714285714
+notes:
+  - |
+    Bundled input is sliced from Overture release 2026-04-15.0,
+    `theme=buildings/type=building`, in a Shibuya/Yoyogi bbox
+    (139.700–139.704 lon, 35.658–35.662 lat). The first 100
+    Polygon-only buildings (sorted by Overture id) are kept. Five fixed
+    feature_ids (6, 18, 32, 50, 74) get a synthetic interior ring
+    ("courtyard hole") injected by the authoring helper so the grader
+    can score the `interior_rings_cw` subcheck on a non-trivial sample
+    — Overture buildings rarely have natural holes, but a meaningful
+    test of RFC 7946 §3.1.6 must exercise both orientation rules.
+  - |
+    The bundled file was then re-serialised with every ring reversed
+    (exterior CW, interior CCW), which is the OGC orientation the
+    persona's legacy in-house tool produced. This is the malformed
+    state the agent is asked to clean up.
+  - |
+    The grader is strict on orientation (100 % of rings must comply)
+    and tight on geometry (IoU ≥ 0.99) but generous on count
+    tolerance (±5 %). This split means an agent that shifts a vertex
+    is caught by `per_feature_geometry_preserved`, an agent that
+    reverses only exteriors is caught by `interior_rings_cw`, and an
+    agent that does nothing is caught by both orientation subchecks.
+  - |
+    Output GeoJSON is in EPSG:4326 (the RFC 7946 default). The
+    reference writes via `json.dump` with stable formatting (rather
+    than pyogrio's GeoJSON driver) so the file is bit-identical
+    across reruns. Submissions are read back via `gpd.read_file` and
+    checked with `gdf.crs.to_epsg() == 4326`, matching the gate
+    pattern of peer tasks.
+design_note: |
+  HR-001 (prompt-vs-grader-judgment, 2026-05-28) resolved by renaming
+  the output from "tokyo_buildings_rfc7946.geojson" to
+  "tokyo_buildings_fixed.geojson". The previous filename was the last
+  reachable RFC 7946 reference after the 64740d0 (2026-05-17) prompt
+  strip removed every mention of the standard and ring orientation
+  from the instruction body; the filename still gave the standard
+  away to any agent that read it before inspecting the data. Rename
+  touched task.json, grade.py, reference/solution/generate.py,
+  reference/failures/_make_brokens.py, visualize.py, README.md, and
+  4 fixture .geojson files (1 reference + 3 broken sets).

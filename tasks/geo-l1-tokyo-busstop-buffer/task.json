@@ -1,0 +1,48 @@
+{
+  "task_id": "geo-l1-tokyo-busstop-buffer",
+  "version": 2,
+  "tags": {
+    "region": ["tokyo"],
+    "data_source": ["bundled"],
+    "formats": ["geojson", "geoparquet"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["point", "polygon"],
+    "operations": ["buffer_planar"],
+    "themes": ["transportation.connector", "railway"],
+    "quality_issues": [],
+    "scale": "small"
+  },
+  "instruction": "I'm refreshing the 400 m walkable-catchment layer for `tokyo_connectors.geojson` so I can join the result to our ridership table. Can you draw a 400 m buffer around every connector and save the result as `tokyo_stop_catchments.geoparquet` in GeoParquet, with one Polygon or MultiPolygon row per input connector? Please keep `connector_id` on every row with the original value preserved, since that's the join key.",
+  "analyst_notes": {
+    "description": "Tests unprompted CRS reasoning for metric buffering. The input is WGS84 Tokyo connector points and the prompt deliberately says nothing about coordinate systems, so the agent has to recognise that calling buffer(400) on lat/lon coordinates would produce 400-degree polygons and pick an appropriate projected CRS for Tokyo (such as JGD2011 Plane IX or UTM zone 54N) before buffering.",
+    "approach": [
+      "Read `tokyo_connectors.geojson` and inspect its CRS metadata to confirm it is WGS84.",
+      "Pick a projected CRS that gives honest metres around Tokyo, such as JGD2011 Plane IX or UTM 54N.",
+      "Reproject the points into that CRS and buffer each one by 400 metres.",
+      "Keep `connector_id` on every row with the original value, and make sure each feature is a Polygon or MultiPolygon.",
+      "Write the result to `tokyo_stop_catchments.geoparquet` in GeoParquet."
+    ],
+    "pitfalls": [
+      "Buffering 400 directly on WGS84 points without reprojecting produces 400-degree polygons that cover most of the planet, since geopandas reads the radius in the CRS's own units.",
+      "Reaching for Web Mercator (EPSG:3857) because it looks metric: at Tokyo's latitude its scale factor shrinks 400 Mercator units down to about 327 ground metres, so the buffers come out too small.",
+      "Buffering with the wrong radius (200 m or 1 km) misses the 400 m walkable-catchment definition the planner is working from.",
+      "Dropping or renaming `connector_id` breaks the join to the ridership table the prompt asks for.",
+      "Writing the output in CSV, GeoJSON, or any other format instead of GeoParquet leaves the planning notebooks unable to read it."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "tokyo_connectors",
+      "url": "tasks/geo-l1-tokyo-busstop-buffer/inputs/tokyo_connectors.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "tokyo_stop_catchments.geoparquet",
+      "format": "geoparquet",
+      "geometry_type": "Polygon"
+    }
+  ],
+  "deadline_seconds": 600
+}

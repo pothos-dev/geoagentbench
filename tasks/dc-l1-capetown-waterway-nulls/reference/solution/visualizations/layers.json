@@ -1,0 +1,19 @@
+{
+  "layers": [
+    {
+      "name": "waterways",
+      "pmtiles": "waterways.pmtiles",
+      "source_layer": "waterways",
+      "geometry_type": "LineString",
+      "style": {
+        "line-color": "#1a4480",
+        "line-width": 2
+      },
+      "tooltip": [
+        "name",
+        "waterway"
+      ]
+    }
+  ],
+  "error": null
+}

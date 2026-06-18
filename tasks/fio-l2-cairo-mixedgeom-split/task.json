@@ -1,0 +1,50 @@
+{
+  "task_id": "fio-l2-cairo-mixedgeom-split",
+  "version": 3,
+  "tags": {
+    "region": ["cairo"],
+    "data_source": ["bundled"],
+    "formats": ["geojson", "gpkg"],
+    "crs": ["EPSG:4326", "EPSG:22992"],
+    "geometry_type": ["point", "linestring", "polygon", "multipolygon"],
+    "operations": ["explode", "format_conversion", "reprojection"],
+    "themes": [],
+    "quality_issues": ["mixed_geometry_types", "multi_single_coercion"],
+    "scale": "small"
+  },
+  "instruction": "Heritage analyst here. I've put together `heritage_sites.geojson` from my own field work, and every site in it is several features sharing a `site_id`. I need to load the data into our desktop tool, which only ingests typed GPKG layers, no mixed-geometry files, and every feature has to be single-part. Can you give me back `heritage.gpkg` with three layers named `points`, `lines`, and `polygons`, keeping the `site_id` on every feature so I don't lose the cross-layer link? Use Egypt's national grid.",
+  "analyst_notes": {
+    "description": "Tests whether the agent composes four format operations in the right order (stratify by geometry type, explode multi-parts, reproject, write a multi-layer GPKG) without losing the cross-layer site_id link. The prompt names neither the EPSG nor the operations, so the agent has to read 'Egypt's national grid' as Egypt Red Belt (EPSG:22992), understand that 'single-part' means explode the MultiPolygons, and pick a multi-layer GPKG over three separate files.",
+    "approach": [
+      "Read the input GeoJSON and notice it mixes Point, LineString, Polygon, and MultiPolygon features in one FeatureCollection, all sharing site_id.",
+      "Split the features by geometry type into three groups, routing each kind to its named layer.",
+      "Explode the MultiPolygons in the polygons group into singleton Polygons, keeping site_id on every part.",
+      "Reproject every layer from WGS84 to Egypt Red Belt (EPSG:22992), the Egyptian national projected grid for Cairo.",
+      "Write all three groups as named layers in a single GeoPackage file called heritage.gpkg, carrying site_id and the other attributes through on every feature."
+    ],
+    "pitfalls": [
+      "Stratifying without exploding ships MultiPolygons into the polygons layer, so the desktop tool rejects the file and both the singletons-only and the heavily weighted post-explode count subchecks fail.",
+      "Picking UTM 36N (EPSG:32636) is defensible for Cairo as a generic metric pick and is accepted by the soft-CRS format gate, but it costs the crs_is_canonical subcheck because the regional canonical is Egypt Red Belt.",
+      "Leaving the output in WGS84 (no reprojection at all) is still accepted by the format gate under the soft-CRS policy, but both CRS subchecks fail.",
+      "Reprojecting with the x/y axes swapped lands every feature several kilometres off while staying in the right coordinate-magnitude range, which slips past the format gate and then fails the three heavily weighted geometry subchecks (polygon IoU plus the per-site point and line agreement).",
+      "Writing three separate files (heritage_points.gpkg etc.) instead of one multi-layer GPKG fails the format gate on missing layer names.",
+      "Dropping the site_id column on any layer fails the format gate outright because the cross-layer link is the deliverable the persona needs."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "heritage_sites",
+      "url": "tasks/fio-l2-cairo-mixedgeom-split/inputs/heritage_sites.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "heritage.gpkg",
+      "format": "gpkg",
+      "crs": "EPSG:22992",
+      "geometry_type": "Mixed (Point/LineString/Polygon across three layers)"
+    }
+  ],
+  "deadline_seconds": 600
+}

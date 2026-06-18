@@ -1,0 +1,18 @@
+{
+  "task_id": "crs-l1-london-laea-areas",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": ["grade.py", "metadata.yaml", "audit/AUTHORING_HISTORY.md", "audit/status.json"],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-002",
+      "category": "reference-or-data-edit-needed",
+      "severity": "low",
+      "summary": "Legacy broken-solution directories reference/failures/broken_wrong_crs and broken_area_units plus stray reference/solution/outputs/boroughs_laea.geojson (and its copy in broken_wrong_format/outputs) are residue from the pre-2026-05-17 prompt version and should be deleted. Carried forward since the 2026-05-26 review."
+    }
+  ],
+  "blocker": null
+}

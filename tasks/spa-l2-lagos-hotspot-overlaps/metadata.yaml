@@ -1,0 +1,132 @@
+task_id: spa-l2-lagos-hotspot-overlaps
+category: spatial_analysis
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.85
+  geom_eps_m: null
+  rationale: |
+    Bundled inputs are fully deterministic (Overture release
+    2026-04-15.0 base.land_use slice over greater Lagos plus seeded
+    synthetic slivers + a 1 km hex grid generated in EPSG:26331).
+    The reference pipeline is bit-identical across runs. The grader
+    has one hard gate (format_schema_valid) and 9 subchecks weighted
+    by error severity (total weight 19):
+      - Tier 1 (the persona's answer), weight 4.0: hex_id Jaccard
+        (which cells are the hotspots) and density values (the ranked
+        metric).
+      - Tier 2 (supporting analytical correctness), weight 2.0:
+        cross-file set match, overlap counts, sliver counts,
+        geometry IoU.
+      - Tier 3 (structural / cosmetic), weight 1.0: rank consistency
+        and the two CRS subchecks.
+    A wrong-answer failure (Tier 1) costs 4/19 ≈ 0.21; a cosmetic
+    CRS-label slip (a valid but non-canonical UTM pick) costs only
+    1/19 ≈ 0.05, so the score gradient tracks severity. The reference
+    scores 19/19 = 1.000 on its own outputs. The gate only hard-fails on a
+    missing file, unreadable file, missing columns, or an
+    unparseable CRS; any other parseable CRS is accepted and the
+    submission is reprojected into EPSG:26331 (the reference's CRS,
+    min of the canonical set) before the geometric subchecks run.
+    The agent's original CRS pick is graded by two soft subchecks:
+    `crs_is_canonical` (passes for the canonical set {EPSG:26331,
+    EPSG:26391} — both Minna-datum readings of "Nigeria's national
+    grid"; 26391 is the literal "Minna / Nigeria West Belt" registry
+    match, 26331 is "Minna / UTM zone 31N", the practical
+    convention) and `crs_in_meaningful_set` (additionally passes for
+    EPSG:32631, WGS84 / UTM zone 31N — a generic but defensible
+    pick). All other subchecks are CRS-invariant after the
+    reprojection.
+
+    Top-N hex_id Jaccard ≥ 0.85: the persona's actual answer is
+    "which cells are the hotspots?". The 0.85 floor leaves room for
+    a couple of borderline-density cells to flip on a different
+    floating-point path, but rejects an agent who skipped the
+    sliver-filter (that drifts Jaccard to ~0.32 — the
+    no_sliver_filter broken).
+
+    Density values within ±5% (≥ 90% of shared cells): catches an
+    agent who used the wrong reduction (sum, max, unweighted mean)
+    or dropped the area weighting. Tight enough to reject the
+    1.5× scaling of broken_wrong_density_values.
+
+    n_overlap_polygons / n_slivers_filtered exact matches required
+    on ≥ 90% of shared cells: counts are integers, no
+    floating-point ambiguity. Lower than 100% only to absorb the
+    handful of cells where the agent's overlay tolerance might
+    leave a marginal polygon on the wrong side of the cut. The
+    no_sliver_filter broken matches only 7/51 of these because it
+    counts slivers as real polygons.
+
+    Hex polygon IoU ≥ 0.95 (≥ 90% of shared cells): the agent's
+    geometries should match the reference's after both are in
+    EPSG:26331. Catches CRS bugs (degree-coordinate polygons)
+    without rejecting normal floating-point reprojection drift.
+
+    There is no hard row-count gate any more (the former Gate-2
+    ±5% check was removed in the benchmark-wide gate-2 drop). A
+    wrong top-N base — e.g. top 10% of all 1 782 grid cells instead
+    of the ~1 030 eligible cells, giving 178-179 rows — is now
+    caught by the Tier-1 (weight-4) hex_id Jaccard subcheck
+    (104/179 ≈ 0.58 < 0.85), and a GeoParquet/Parquet disagreement by
+    the Tier-2 (weight-2) cross_file_hex_id_set_matches subcheck.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent emitted `hotspots.csv` instead of GeoParquet. Gate 1
+      rejects on the missing `hotspots.geoparquet` → score 0.0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  no_sliver_filter:
+    description: |
+      Agent skipped the sliver filter and treated <100 m²
+      overlay-artefact polygons as real land-use polygons. The
+      ranking selects different cells (those dominated by a single
+      high-density sliver) and the per-cell counts diverge.
+      hex_id_set Jaccard, n_overlap_polygons, and
+      n_slivers_filtered subchecks fail (Tier-1 weight 4.0 + two
+      Tier-2 weight 2.0); density on shared cells still matches
+      because slivers contribute negligible area. `crs_is_canonical`
+      and `crs_in_meaningful_set` both pass (broken inherits the
+      reference's canonical EPSG:26331). 11/19 ≈ 0.579 — skipping the
+      named central sliver-filter step lands it below 0.60.
+    expected_score_range: [0.52, 0.65]
+    measured_score: 0.5789
+  wrong_density_values:
+    description: |
+      Schema-valid output with the right hex_ids, ranks, overlap
+      counts, sliver counts, and geometries — but every
+      area_weighted_density is multiplied by 1.5 (a stand-in for
+      the wrong reduction or wrong unit). Only
+      density_values_match_reference (Tier-1 weight 4.0) fails;
+      `crs_is_canonical` and `crs_in_meaningful_set` both pass
+      (broken inherits the reference's canonical EPSG:26331).
+      15/19 ≈ 0.789 — one half of the persona's answer (the ranked
+      metric value) is wrong.
+    expected_score_range: [0.74, 0.84]
+    measured_score: 0.7895
+notes:
+  - |
+    Bundled `lagos_landuse.geojson` slices Overture release
+    2026-04-15.0 `theme=base/type=land_use` over a Lagos bbox
+    (3.25–3.65 E, 6.40–6.65 N). 2 542 real Overture polygons + 3 000
+    seeded synthetic slivers (equilateral triangles, area
+    1.0–99.0 m² in EPSG:26331). Synthetic `pop_density` per polygon
+    is a deterministic hash of the polygon id (range
+    500–50 000 ppl/km²) so the answer is independent of external
+    census data — the task probes the geometric pipeline.
+  - |
+    Bundled `lagos_hex_grid.geojson` is a flat-topped hex grid built
+    in EPSG:26331 (flat-to-flat distance = 1 000 m, side length
+    1000/√3 ≈ 577 m). 1 782 cells over the metric bbox; ~1 030
+    cells overlap at least one kept (non-sliver) polygon, so the
+    top 10% is 104 cells.
+  - |
+    Per inventory the OSM tag axis is N/A and Overture covers the
+    use case directly. EPSG:26331 (Minna / UTM zone 31N — formerly
+    "Minna / Nigeria West Belt" in the EPSG registry) is the
+    canonical projected metric CRS for southwestern Nigeria.

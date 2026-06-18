@@ -1,0 +1,53 @@
+{
+  "task_id": "spa-l1-capetown-hospital-nn",
+  "version": 2,
+  "tags": {
+    "region": ["capetown"],
+    "data_source": ["bundled"],
+    "formats": ["geoparquet", "gpkg"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["point"],
+    "operations": ["nearest_neighbour"],
+    "themes": ["amenity"],
+    "quality_issues": [],
+    "scale": "small"
+  },
+  "instruction": "I am putting together EMS coverage planning for the Western Cape and need each residential pickup address tagged with its nearest hospital so the ops-research team can join the result against shift schedules. For every address in `addresses.parquet`, find the nearest hospital from `hospitals.parquet` by straight-line distance and record that hospital's name plus the distance in metres. Keep the original `address_id` from the input so we can join back to the address master, and make sure `nearest_hospital_name` comes through as a non-empty string and `distance_m` as a numeric, finite, non-negative value in metres.\n\nPlease write the result to `nearest_hospital.gpkg` in GeoPackage format with one feature per input address, keeping the original address geometry and the columns `address_id`, `nearest_hospital_name`, and `distance_m`.",
+  "analyst_notes": {
+    "description": "Tests whether the agent independently recognises that nearest-neighbour distance on WGS84 inputs has to be computed in a projected CRS to come out in metres. The prompt deliberately omits any mention of CRS, projection, or units beyond asking for metres, so the agent has to notice on its own that the two GeoParquet files are lat/lon and that sjoin-nearest on them returns degrees.",
+    "approach": [
+      "Read both GeoParquet files and confirm their geometries and CRS so it is clear that the inputs sit in WGS84 lat/lon.",
+      "Reproject both layers to a metric CRS that is appropriate for Cape Town, such as the local UTM zone, before measuring any distances.",
+      "Run a nearest-neighbour join from each address to the hospitals layer and pull across the hospital name and the straight-line distance in metres.",
+      "Keep one row per input address with the original address geometry and the columns `address_id`, `nearest_hospital_name`, and `distance_m`.",
+      "Write the result to `nearest_hospital.gpkg` as a GeoPackage."
+    ],
+    "pitfalls": [
+      "Running the nearest-neighbour join directly on the WGS84 inputs produces a `distance_m` column whose values are in degrees and are off by roughly five orders of magnitude, which the grader's distance subcheck catches cleanly.",
+      "Reprojecting to Web Mercator (EPSG:3857) to get metres looks plausible but inflates distances by about 1/cos(34 S) at Cape Town's latitude, so distances drift past the 50 m tolerance even though the nearest hospital is usually still correct.",
+      "Dropping `address_id` or renaming it in the output breaks the join back to the address master and tanks the address-set subcheck.",
+      "Writing GeoJSON or Parquet instead of GeoPackage fails Gate 1 outright.",
+      "Reporting `distance_m` in kilometres, feet, or as a stringified number fails the distance subchecks even when the hospital assignment is right."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "addresses",
+      "url": "tasks/spa-l1-capetown-hospital-nn/inputs/addresses.parquet",
+      "format": "geoparquet"
+    },
+    {
+      "name": "hospitals",
+      "url": "tasks/spa-l1-capetown-hospital-nn/inputs/hospitals.parquet",
+      "format": "geoparquet"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "nearest_hospital.gpkg",
+      "format": "gpkg",
+      "geometry_type": "Point"
+    }
+  ],
+  "deadline_seconds": 600
+}

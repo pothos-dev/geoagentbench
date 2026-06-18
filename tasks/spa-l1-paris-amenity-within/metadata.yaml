@@ -1,0 +1,118 @@
+task_id: spa-l1-paris-amenity-within
+category: spatial_analysis
+difficulty: L1
+author: task-design-agent
+date: 2026-05-07
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.95
+  geom_eps_m: null
+  rationale: |
+    L1 single-operation task on a fully bundled two-layer GPKG (85
+    Paris amenity Points + 20 arrondissement Polygons, both in
+    EPSG:2154). The output is non-spatial CSV — no geometry tolerance
+    applies. The former Gate 2 ±5% count tolerance was retired in the
+    2026-06-06 gate-2 removal; the
+    ``exact_count_match`` subcheck demands strict count equality
+    (deterministic L1 — every correct solution emits one row per
+    amenity, exactly len(reference) rows). The osm_id-set Jaccard floor
+    is 0.95 (above the 0.9 default) because the one-amenity-to-one-row
+    contract is one-to-one — Jaccard < 0.95 signals genuinely dropped
+    or fabricated rows, not drift. Per-row attribute checks (number,
+    name, amenity_class) use a 95% match-rate floor — matches the L1
+    "almost all rows must agree" default and absorbs at most ~4
+    boundary-edge ambiguities (the bundled input is pre-clipped to the
+    union of arrondissements so every amenity has exactly one
+    containing polygon, but ``within`` vs ``intersects`` could in
+    principle disagree on a vertex-on-boundary edge case). The
+    ``arrondissement_number_is_integer_1_to_20`` subcheck is the
+    persona's gotcha encoded as a check: the column must be a plain
+    integer in 1..20, not the French ordinal string ("20e") and not
+    the full Overture name.
+broken_solutions:
+  wrong_format:
+    description: |
+      Output CSV has the correct row count, ``osm_id``,
+      ``amenity_class``, and ``arrondissement_name`` columns but the
+      ``arrondissement_number`` column is missing — agent dropped it on
+      write. Gate 1's required-column check fails. Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  kept_ordinal_suffix:
+    description: |
+      Agent did the spatial join correctly but left
+      ``arrondissement_number`` as the French ordinal string ("1er",
+      "2e", …, "20e") — exactly the gotcha the persona warned about
+      ("the deliverable must list the 20th arrondissement as ``20`` not
+      ``20e``"). Gates pass. ``exact_count_match``,
+      ``osm_id_set_jaccard``, ``arrondissement_name_per_row_match``,
+      and ``amenity_class_per_row_match`` pass. The integer-shape and
+      per-row number subchecks both fail. Under the severity weights
+      (number-per-row 3, integer-shape 1; see grade.py) the score is
+      (3+3+0+0+2+1)/13 ≈ 0.69 — the cosmetic ordinal slip lands above a
+      genuine within-join error.
+    expected_score_range: [0.55, 0.75]
+    measured_score: 0.6923076923076923
+  name_used_id:
+    description: |
+      Agent did the spatial join and the integer parse correctly but
+      pulled the arrondissement *Overture id* into
+      ``arrondissement_name`` instead of the *name* (a common confusion
+      when both the amenity layer and the arrondissement layer carry an
+      ``id`` and a ``name`` column and the agent indexed the wrong one
+      after the join). Only ``arrondissement_name_per_row_match`` fails
+      (weight 2). Under the severity weights the score is
+      (3+3+1+3+0+1)/13 ≈ 0.85 — the lightest of the partial failures, a
+      column-pick slip with the join itself fully correct.
+    expected_score_range: [0.75, 0.90]
+    measured_score: 0.8461538461538461
+notes:
+  - |
+    Bundled inputs are slices of Overture release 2026-04-15.0,
+    reprojected to EPSG:2154:
+
+      * ``amenities`` layer — 85 ``places.place`` rows where
+        ``categories.primary`` is one of ``pharmacy``, ``bakery``,
+        ``cafe``, ``library``, ``restaurant`` (five OSM-flavoured
+        amenity leaves whose Overture spelling matches the OSM
+        ``amenity=*`` value verbatim — no plural / synonym normalisation
+        for the agent). Sliced from a central-Paris bbox bracketing the
+        Périphérique, capped at 22 per category after stable id sort,
+        then spatially clipped to the union of the 20 arrondissements
+        so every point falls inside exactly one polygon. A synthetic
+        ``osm_id`` integer (starting at 9_000_000_000) is assigned by
+        row position after id-sort so the join key looks like an OSM
+        node id.
+      * ``arrondissements`` layer — 20 ``divisions.division_area`` rows
+        with ``subtype='neighborhood'``, ``country='FR'``,
+        ``region='FR-IDF'``, and ``names.primary LIKE '%Arrondissement%'``.
+        The Overture name strings are "Paris 1er Arrondissement",
+        "Paris 2e Arrondissement", …, "Paris 20e Arrondissement" —
+        French ordinal suffixes ``1er``, ``2e``, …, ``20e``. The
+        integer arrondissement number is *not* exposed as a separate
+        column; deriving it from the name is the persona's gotcha.
+  - |
+    Inventory's OSM-tag axis names ``amenity=*``; we did not fall back
+    to OSM Overpass because the Overture ``places.place`` taxonomy
+    covers the same persona-relevant amenity leaves with auditable
+    Overture provenance, in line with ``docs/AUTHOR_CONTEXT.md``'s
+    "Overture is the default authoring source" rule.
+  - |
+    The grader treats the ``arrondissement_number`` column with a
+    deliberate type-strict ``_coerce_int`` helper: plain ints, int-valued
+    floats (``20.0``), and bare-digit strings (``"20"``) are accepted;
+    French ordinal strings (``"20e"``, ``"1er"``) and any other
+    non-numeric junk are rejected. The persona's gotcha is the explicit
+    point of the task — papering over it with a regex-extract in the
+    grader would silently rescue solutions the persona's downstream
+    join would actually break.
+  - |
+    The submission's CSV is read with ``pandas.read_csv`` defaults —
+    the dtype of ``arrondissement_number`` is therefore inferred at
+    parse time. A correct solution writes plain integers and pandas
+    infers ``int64``; a "kept ordinal suffix" solution writes strings
+    and pandas infers ``object``. Both paths flow through
+    ``_coerce_int`` per row, so the grader is dtype-agnostic and only
+    cares about the per-row coercion result.

@@ -1,0 +1,43 @@
+task_id: crs-l1-london-laea-areas
+category: crs_reprojection
+difficulty: L1
+author: task-design-agent
+date: 2026-05-07
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: 0.02
+  jaccard_min: 0.95
+  rationale: |
+    The task now asks for CSV output with area in km² — no output CRS is
+    specified.  The model must independently choose a projected CRS for area
+    computation.  The 2 % area tolerance accepts any reasonable projection for
+    the London region (LAEA Europe, UTM 30N/31N, OSGB, geodesic area via
+    pyproj).  All such methods agree to well under 1 % at London latitudes;
+    the 2 % floor absorbs minor numerical drift across PROJ versions and
+    rounding in the SUT's path.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent wrote GeoJSON instead of CSV.  Gate 1 fails because the expected
+      borough_areas.csv is missing.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  degrees_area:
+    description: |
+      Agent computed .area on WGS84 geometry without reprojecting.  Values are
+      in degrees², orders of magnitude wrong.  Gates pass but area subchecks
+      fail.  Name/id subchecks pass.  This is the canonical CRS-reasoning
+      failure the task targets, so the recalibrated weights push it well below
+      a correct run: it fails the two proof-of-reprojection checks
+      (area_km2_per_feature_matches w=5.0, total_area_within_2_percent w=3.0)
+      out of a 12.5-point budget → (12.5-8)/12.5 = 0.36.
+    expected_score_range: [0.3, 0.45]
+    measured_score: 0.36  # re-measured 2026-06-14 after per-task reasoned reweighting (replacing the blunt 05b389b 3x content weighting)
+  area_m2:
+    description: |
+      Correctly reprojected but reported area in m² instead of km² (factor
+      1e6 off).  Name/id subchecks pass, area subchecks fail.  Same
+      proof-of-reprojection failure shape as degrees_area → 0.36.
+    expected_score_range: [0.3, 0.45]
+    measured_score: 0.36  # re-measured 2026-06-14 after per-task reasoned reweighting (replacing the blunt 05b389b 3x content weighting)

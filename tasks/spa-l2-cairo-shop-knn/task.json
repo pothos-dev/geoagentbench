@@ -1,0 +1,50 @@
+{
+  "task_id": "spa-l2-cairo-shop-knn",
+  "version": 2,
+  "tags": {
+    "region": ["cairo"],
+    "data_source": ["bundled"],
+    "formats": ["gpkg", "json"],
+    "crs": ["EPSG:22992"],
+    "geometry_type": ["point"],
+    "operations": ["knn", "distance_matrix", "within_distance"],
+    "themes": ["shop"],
+    "quality_issues": ["inconsistent_values", "non_latin_script"],
+    "scale": "medium"
+  },
+  "instruction": "I'm putting together a retail-density readout for a downtown Cairo brief. `cairo_retail` has two layers, `shops` and `anchors`. For each anchor I need the 5 nearest shops with distance in metres and a within-1 km flag, plus a 5x3 distance matrix from those 5 shops to the anchor's 3 closest sibling anchors. The chain names in the source data have inconsistent spellings, so the output should use consistent names: the same `shop_id` always carries the same `normalised_name`, and all shops belonging to one chain share a single canonical spelling. Tidy the anchor names too.\n\nPlease write `market_neighbourhoods.json` as a top-level JSON array with one record per anchor. Each record carries the keys `anchor_id`, `anchor_name_normalised` (non-empty string), `knn` (exactly 5 entries sorted by ascending `distance_m`), and `full_distance_matrix_m` (5 rows by 3 numeric columns; rows follow the knn order, columns correspond to the sibling anchors in distance-ascending order). Each `knn` entry has `shop_id`, `normalised_name`, `distance_m` (finite numeric, in metres), and `within_1km` (boolean, true when `distance_m` is at most 1000).",
+  "inputs": [
+    {
+      "name": "cairo_retail",
+      "url": "tasks/spa-l2-cairo-shop-knn/inputs/cairo_retail.gpkg",
+      "format": "gpkg"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "market_neighbourhoods.json",
+      "format": "json"
+    }
+  ],
+  "deadline_seconds": 600,
+  "analyst_notes": {
+    "description": "This task chains three spatial primitives (k-nearest neighbours, within-distance flagging, and a small distance matrix) on a medium-scale point layer, with an attribute-cleaning step folded on top. The hidden gotcha is that the chain names in the source are deliberately inconsistent across Arabic, Latin, and casing variants, and the prompt asks for consistency without naming the transliteration axes. The bundled GPKG is already in a metric CRS (EPSG:22992, Egypt Red Belt), so a correct solution computes distances directly without reprojection.",
+    "approach": [
+      "Open the GPKG and inspect both layers to find the CRS, the column names, and the spread of raw shop names.",
+      "For each of the 100 anchors, compute distances to all shops in the layer's metric CRS and keep the five nearest, sorted ascending.",
+      "Derive the within-1 km boolean from the metric distance rather than guessing it from another column.",
+      "For each anchor, find its three closest sibling anchors and build the 5 by 3 distance matrix from the chosen knn shops to those siblings, keeping rows aligned with the knn order.",
+      "Cluster the raw shop names into chains across the transliteration variants, pick one canonical spelling per chain, and apply the same canonical name to every shop in that chain.",
+      "Tidy the anchor names (strip whitespace and casing junk) and serialise the result as a top-level JSON array following the schema in the prompt."
+    ],
+    "pitfalls": [
+      "Computing distances in degrees instead of metres makes every distance roughly five orders of magnitude too small, so the within-1 km flag flips to true for everything and the knn distance check rejects the output.",
+      "Reporting distances in kilometres or feet instead of metres trips the same coord-derived distance check because the grader recomputes the true metric distance from the bundled coordinates.",
+      "Picking the five farthest shops or reversing the sort order looks structurally valid but fails the knn distance vector check against the reference.",
+      "Skipping the chain canonicalisation step and echoing the raw names verbatim leaves Arabic and Latin transliterations split across distinct values, which fails the chain-collapse subcheck even when the geometry is perfect.",
+      "Over-collapsing across chains (mapping every supermarket to a single generic name like \"supermarket\") satisfies the per-chain distinct count but defeats the analytical purpose; the grader does not catch this directly, so the agent has to apply common sense.",
+      "Building the distance matrix with the rows and columns transposed, or filling it with zeros because the sibling-anchor lookup was skipped, fails the matrix consistency subcheck.",
+      "Writing the result as CSV or GeoJSON instead of a top-level JSON array misses Gate 1 and scores zero regardless of the rest of the pipeline."
+    ]
+  }
+}

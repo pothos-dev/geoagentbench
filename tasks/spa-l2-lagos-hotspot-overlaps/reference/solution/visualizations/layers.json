@@ -1,0 +1,21 @@
+{
+  "layers": [
+    {
+      "name": "hotspots",
+      "pmtiles": "hotspots.pmtiles",
+      "source_layer": "hotspots",
+      "geometry_type": "Polygon",
+      "style": {
+        "fill-color": "#1a4480",
+        "fill-opacity": 0.45,
+        "fill-outline-color": "#1a4480"
+      },
+      "tooltip": [
+        "hex_id",
+        "rank",
+        "weighted_density"
+      ]
+    }
+  ],
+  "error": null
+}

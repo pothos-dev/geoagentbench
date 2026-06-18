@@ -1,0 +1,54 @@
+{
+  "task_id": "geo-l3-antarctica-stations-geodesic",
+  "version": 2,
+  "viz_globe": true,
+  "tags": {
+    "region": ["antarctica"],
+    "data_source": ["overture"],
+    "formats": ["geoparquet"],
+    "crs": ["EPSG:4326", "EPSG:3031"],
+    "geometry_type": ["point", "polygon", "multipolygon"],
+    "operations": ["buffer_geodesic", "clip", "union", "difference", "reprojection"],
+    "themes": ["places.place", "base.land", "base.water", "base.bathymetry"],
+    "quality_issues": ["polar", "geodesic"],
+    "scale": "medium"
+  },
+  "instruction": "I need to put together the cross-station logistics-overlap maps for the Antarctic Treaty consultative meeting next month. Each Antarctic research station has a notional 200 km operational radius. Please pull stations from Overture south of -60 latitude, along with the Antarctic landmass and water features.\n\nFor the first output I need the land-clipped station zones grouped into coalitions wherever they overlap. Each coalition gets an integer `coalition` id, and that column has to take more than one distinct value across the dataset. Every feature needs `station_id` and `station_name` as well. For the second output I need the over-water portion of each station's zone, attributed with the water features it intersects. Each row in that file must carry `station_id`, `station_name`, `water_id`, `water_name`, `water_subtype`, and a `water_source` column whose values are the literal Overture theme names `base.water` or `base.bathymetry`.\n\nPlease write both as GeoParquet in an appropriate projected coordinate system for Antarctica, with MultiPolygon geometry: `station_spheres.geoparquet` for the land-clipped coalition polygons, and `station_water_overlap.geoparquet` for the per-station over-water intersections with the water attribution described above.",
+  "analyst_notes": {
+    "description": "Tests whether the agent can run a multi-step polar pipeline (identify Antarctic research stations from a noisy Overture POI layer, draw a 200 km buffer, clip to land, union overlapping zones into coalitions, and separately intersect the over-water portion against water and bathymetry) while picking the right CRS for the region. The hidden gotcha is that a planar 200 km buffer at 70-80 degrees south is severely distorted, so the buffer has to be drawn geodesically (or in a polar projection that preserves area near the pole), and the output CRS has to be the polar stereographic family rather than WGS84 even though the prompt does not name it.",
+    "approach": [
+      "Fetch Overture `places.place` south of -60 latitude and work out which features are research stations, since the theme has no `research_station` category and a lot of the southern POIs are unrelated businesses that need filtering out.",
+      "Fetch `base.land`, `base.water`, and `base.bathymetry` for the same region so the buffers can be clipped to the landmass and the over-water portion attributed.",
+      "Draw a 200 km buffer around each station in a way that is honest about polar distortion, either geodesically or in a polar-stereographic projection appropriate for Antarctica.",
+      "Clip the buffers to the landmass, then union the overlapping clipped zones into coalitions and tag each feature with its `station_id`, `station_name`, and integer `coalition` id.",
+      "Compute the over-water portion of each station's buffer separately and intersect it with the water and bathymetry features, carrying through the water attributes plus a `water_source` column literally equal to `base.water` or `base.bathymetry`.",
+      "Write both results as GeoParquet with MultiPolygon geometry in the polar stereographic CRS appropriate for Antarctica."
+    ],
+    "pitfalls": [
+      "Buffering 200 km in WGS84 degrees (or in a non-polar metric CRS) gives a heavily distorted ellipse rather than a proper circle at high southern latitudes, so the sphere areas come out far too small and the `geodesic_buffer_check` and `buffer_area_reasonable` subchecks both fail.",
+      "Writing the outputs in EPSG:4326 instead of the polar stereographic CRS for Antarctica fails the CRS, coordinate-range, and area subchecks when the grader sees degree-range coordinates where it expects metres.",
+      "Skipping the station filtering and dumping all 2300+ Overture POIs south of -60 (gas stations, shops, hotels, and so on) blows up the station count, fails the name-overlap subcheck, and inflates every area subcheck.",
+      "Going the other way and filtering too aggressively, ending up with fewer than five stations, fails the minimum-count subcheck.",
+      "Assigning every station its own coalition id (no overlap detection) fails the `coalition_exists` subcheck, which is what trips the planar-buffer broken solution too because tiny buffers do not overlap.",
+      "Skipping the land clip and leaving the raw geodesic buffers in the spheres output inflates the total area well past the ±40 % tolerance, since the buffers extend far over the Southern Ocean.",
+      "Labelling the `water_source` column with anything other than the literal strings `base.water` and `base.bathymetry` (for example `water` and `bathymetry`, or the input filenames) fails the water-source attribution subcheck.",
+      "Producing the water-overlap file without actually intersecting against water or bathymetry geometries leaves either an empty file or wrong areas, so the water subchecks all fail."
+    ]
+  },
+  "inputs": [],
+  "expected_outputs": [
+    {
+      "name": "station_spheres.geoparquet",
+      "format": "geoparquet",
+      "crs": "EPSG:3031",
+      "geometry_type": "MultiPolygon"
+    },
+    {
+      "name": "station_water_overlap.geoparquet",
+      "format": "geoparquet",
+      "crs": "EPSG:3031",
+      "geometry_type": "MultiPolygon"
+    }
+  ],
+  "deadline_seconds": 900
+}

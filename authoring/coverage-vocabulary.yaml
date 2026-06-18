@@ -1,0 +1,190 @@
+# Coverage vocabulary — controlled value lists for `tasks/<slug>/coverage.yaml`.
+#
+# Derived 1:1 from the axis tables in `thesis/thesis.typ`. If the thesis tables
+# change, update this file in the same commit. The evaluator agent validates
+# every entry in a task's `coverage.yaml` against the slugs declared here.
+#
+# Slug convention: kebab-case. Exceptions:
+# - Overture theme slugs keep the `theme.type` dotted form (it is the canonical
+#   Overture identifier; substituting kebab-case would obscure provenance).
+
+operation_categories:
+  source: "Chapter 'Benchmark design' > Operation categories"
+  variants:
+    - {slug: data-discovery,    label: "Data discovery and fetching"}
+    - {slug: format-io,         label: "Format I/O and conversion"}
+    - {slug: crs-reprojection,  label: "CRS reprojection"}
+    - {slug: geometric-ops,     label: "Geometric operations"}
+    - {slug: spatial-analysis,  label: "Spatial analysis"}
+    - {slug: data-cleaning,     label: "Data cleaning"}
+
+difficulty_levels:
+  source: "Chapter 'Benchmark design' > Difficulty levels"
+  variants:
+    - {slug: l1, label: "L1 — single-op, bundled"}
+    - {slug: l2, label: "L2 — multi-op, bundled"}
+    - {slug: l3, label: "L3 — full real-world workflow"}
+
+geometric_ops:
+  source: "<geometric-ops-table>"
+  variants:
+    - {slug: buffer,                label: "Buffer"}
+    - {slug: intersection,          label: "Intersection"}
+    - {slug: union,                 label: "Union (incl. cascaded)"}
+    - {slug: difference,            label: "Difference"}
+    - {slug: symmetric-difference,  label: "Symmetric difference"}
+    - {slug: clip,                  label: "Clip"}
+    - {slug: simplify,              label: "Simplify"}
+    - {slug: dissolve,              label: "Dissolve"}
+    - {slug: convex-hull,           label: "Convex hull"}
+    - {slug: centroid,              label: "Centroid"}
+    - {slug: point-on-surface,      label: "Point-on-surface"}
+    - {slug: bounding-box,          label: "Bounding box"}
+    - {slug: explode,               label: "Explode (multi → single)"}
+    - {slug: collect,               label: "Collect (single → multi)"}
+
+spatial_analysis_ops:
+  source: "<spatial-analysis-table>"
+  variants:
+    - {slug: spatial-join-within,       label: "Spatial join — within"}
+    - {slug: spatial-join-intersects,   label: "Spatial join — intersects"}
+    - {slug: spatial-join-contains,     label: "Spatial join — contains"}
+    - {slug: spatial-join-touches,      label: "Spatial join — touches"}
+    - {slug: spatial-join-crosses,      label: "Spatial join — crosses"}
+    - {slug: spatial-join-overlaps,     label: "Spatial join — overlaps"}
+    - {slug: nearest-neighbour,         label: "Nearest neighbour"}
+    - {slug: k-nearest-neighbours,      label: "k-nearest neighbours"}
+    - {slug: distance-matrix,           label: "Distance matrix"}
+    - {slug: within-distance-filter,    label: "Within-distance filter"}
+    - {slug: point-in-polygon-count,    label: "Point-in-polygon count"}
+    - {slug: spatial-aggregation,       label: "Spatial aggregation"}
+    - {slug: hotspot-ranking,           label: "Hot-spot ranking"}
+    - {slug: shortest-path,             label: "Shortest path"}
+    - {slug: network-distance-matrix,   label: "Network distance matrix"}
+    - {slug: isochrone,                 label: "Isochrone"}
+    - {slug: closest-facility,          label: "Closest facility"}
+
+formats:
+  source: "<format-table>"
+  variants:
+    - {slug: geojson,     label: "GeoJSON"}
+    - {slug: geoparquet,  label: "GeoParquet"}
+    - {slug: shapefile,   label: "Shapefile"}
+    - {slug: gpkg,        label: "GeoPackage (GPKG)"}
+    - {slug: csv-wkt,     label: "CSV with WKT"}
+    - {slug: flatgeobuf,  label: "FlatGeobuf"}
+    - {slug: kml,         label: "KML / KMZ"}
+  # Additional pure-data output formats — only valid in `coverage.yaml > formats_out`.
+  extra_output_only:
+    - {slug: json,    label: "JSON (non-spatial)"}
+    - {slug: csv,     label: "CSV (non-spatial)"}
+    - {slug: parquet, label: "Parquet (non-spatial)"}
+
+crs_variants:
+  source: "<crs-table>"
+  variants:
+    - {slug: wgs84,                 label: "WGS84 (EPSG:4326)"}
+    - {slug: web-mercator,          label: "Web Mercator (EPSG:3857)"}
+    - {slug: conformal,             label: "Conformal projection (UTM, LCC, …)"}
+    - {slug: equal-area,            label: "Equal-area projection (LAEA, Mollweide, Albers, …)"}
+    - {slug: polar,                 label: "Polar projection (polar stereographic family)"}
+    - {slug: antimeridian-crossing, label: "Antimeridian-crossing geometries"}
+    - {slug: datum-shift,           label: "Datum shift (WGS84 ↔ ETRS89 / NAD83 / GDA2020 / …)"}
+
+data_sources:
+  source: "<data-source-table>"
+  variants:
+    - {slug: overture-current,         label: "Overture Maps current release"}
+    - {slug: osm-overpass-current,     label: "OSM via Overpass — current"}
+    - {slug: osm-overpass-historical,  label: "OSM via Overpass — historical"}
+    - {slug: geofabrik-pbf,            label: "Geofabrik PBF"}
+    - {slug: bundled-local,            label: "Bundled local file"}
+
+data_quality_issues:
+  source: "<data-quality-table>"
+  variants:
+    - {slug: invalid-geometries,            label: "Invalid geometries (self-intersections, bowties)"}
+    - {slug: wrong-ring-orientation,        label: "Wrong ring orientation (RFC 7946 violation)"}
+    - {slug: empty-or-null-geometry,        label: "Empty or null geometry"}
+    - {slug: zero-area-polygons,            label: "Zero-area polygons"}
+    - {slug: multipolygon-polygon-coercion, label: "MultiPolygon / Polygon coercion"}
+    - {slug: mixed-geometry-types,          label: "Mixed geometry types in one layer"}
+    - {slug: sliver-polygons,               label: "Sliver polygons"}
+    - {slug: duplicate-geometries,          label: "Duplicate geometries"}
+    - {slug: unsnapped-vertices,            label: "Unsnapped near-coincident vertices"}
+    - {slug: mixed-crses-in-source,         label: "Mixed CRSes in one source"}
+    - {slug: encoding-issues,               label: "Encoding issues (Latin-1 / UTF-8 mojibake)"}
+    - {slug: null-attributes,               label: "Null or missing attributes"}
+    - {slug: attribute-type-coercion,       label: "Attribute type coercion"}
+    - {slug: inconsistent-attribute-values, label: "Inconsistent attribute values (spelling/casing)"}
+    - {slug: shapefile-column-truncation,   label: "Shapefile column truncation (dBase 10-char limit)"}
+
+geometry_types:
+  source: "<geometry-type-table>"
+  variants:
+    - {slug: point,              label: "Point"}
+    - {slug: linestring,         label: "LineString"}
+    - {slug: polygon,            label: "Polygon"}
+    - {slug: multipoint,         label: "MultiPoint"}
+    - {slug: multilinestring,    label: "MultiLineString"}
+    - {slug: multipolygon,       label: "MultiPolygon"}
+    - {slug: geometrycollection, label: "GeometryCollection"}
+
+overture_themes:
+  source: "<overture-theme-table>"
+  # Overture slugs keep the canonical `theme.type` dotted form.
+  variants:
+    - {slug: "places.place",                label: "places.place"}
+    - {slug: "buildings.building",          label: "buildings.building"}
+    - {slug: "buildings.building_part",     label: "buildings.building_part"}
+    - {slug: "transportation.segment",      label: "transportation.segment"}
+    - {slug: "transportation.connector",    label: "transportation.connector"}
+    - {slug: "base.water",                  label: "base.water"}
+    - {slug: "base.land",                   label: "base.land"}
+    - {slug: "base.land_cover",             label: "base.land_cover"}
+    - {slug: "base.land_use",               label: "base.land_use"}
+    - {slug: "base.infrastructure",         label: "base.infrastructure"}
+    - {slug: "base.bathymetry",             label: "base.bathymetry"}
+    - {slug: "addresses.address",           label: "addresses.address"}
+    - {slug: "divisions.division",          label: "divisions.division"}
+    - {slug: "divisions.division_area",     label: "divisions.division_area"}
+    - {slug: "divisions.division_boundary", label: "divisions.division_boundary"}
+
+osm_tag_families:
+  source: "<osm-tag-table>"
+  variants:
+    - {slug: highway,                 label: "highway=*"}
+    - {slug: building,                label: "building=*"}
+    - {slug: amenity,                 label: "amenity=*"}
+    - {slug: shop,                    label: "shop=*"}
+    - {slug: landuse,                 label: "landuse=*"}
+    - {slug: natural,                 label: "natural=*"}
+    - {slug: waterway,                label: "waterway=*"}
+    - {slug: railway,                 label: "railway=*"}
+    - {slug: boundary-administrative, label: "boundary=administrative"}
+    - {slug: place,                   label: "place=*"}
+    - {slug: leisure,                 label: "leisure=*"}
+    - {slug: public-transport-routes, label: "Public-transport route relations"}
+
+regions:
+  source: "<region-table>"
+  variants:
+    - {slug: vienna,     label: "Vienna, Austria"}
+    - {slug: london,     label: "London, United Kingdom"}
+    - {slug: paris,      label: "Paris, France"}
+    - {slug: tokyo,      label: "Tokyo, Japan"}
+    - {slug: bangkok,    label: "Bangkok, Thailand"}
+    - {slug: cairo,      label: "Cairo, Egypt"}
+    - {slug: new-york,   label: "New York, United States"}
+    - {slug: cape-town,  label: "Cape Town, South Africa"}
+    - {slug: lagos,      label: "Lagos, Nigeria"}
+    - {slug: svalbard,   label: "Svalbard, Norway"}
+    - {slug: fiji,       label: "Fiji"}
+    - {slug: antarctica, label: "Antarctica"}
+
+data_scale:
+  source: "<data-scale-table>"
+  variants:
+    - {slug: small,  label: "Small (~10² features)"}
+    - {slug: medium, label: "Medium (~10⁴–10⁵ features)"}
+    - {slug: large,  label: "Large (10⁶+ features)"}

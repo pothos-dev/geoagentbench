@@ -1,0 +1,9 @@
+incident_id,latitude,longitude,label
+INC_001,48.8566,2.3522,near Notre-Dame
+INC_002,48.8620,2.3360,near Louvre
+INC_003,48.8462,2.3464,Quartier Latin
+INC_004,48.8700,2.3431,near Gare du Nord area
+INC_005,48.8530,2.3325,Luxembourg Garden area
+INC_006,48.8600,2.3700,Bastille area
+INC_007,48.8450,2.3100,near Montparnasse
+INC_008,48.8750,2.3600,near Republique

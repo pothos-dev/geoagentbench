@@ -1,0 +1,56 @@
+{
+  "task_id": "geo-l2-nyc-park-symdiff",
+  "version": 3,
+  "tags": {
+    "region": ["nyc"],
+    "data_source": ["bundled"],
+    "formats": ["gpkg", "geojson"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["polygon", "multipolygon", "point"],
+    "operations": ["symmetric_difference", "collect", "point_on_surface"],
+    "themes": ["base.infrastructure"],
+    "quality_issues": [],
+    "scale": "medium"
+  },
+  "instruction": "We're reconciling our official Parks polygons against an OSM-derived parks export. Both feed the public 'find a park' map and they disagree in dozens of places. `nyc_parks.gpkg` is a GeoPackage with official and OSM-derived park layers. I need every patch claimed by exactly one side, with adjacent disagreement patches merged together so that a shifted park's gain and loss form a single feature rather than two. One MultiPolygon per merged group with a `source` attribute whose value is exactly one of `parks_official`, `parks_osm`, or `both` (those exact strings, matching the input GPKG layer names). For each group I also need a label-anchor point that falls strictly inside the group's geometry.\n\nPlease write two GeoJSON FeatureCollections. First, `parks_disagreement.geojson` with the `source` column. Second, `park_label_anchors.geojson` with the same `source` column, with exactly one anchor per disagreement group in matching order.",
+  "analyst_notes": {
+    "description": "This task tests a multi-step geometric-ops chain on two polygon layers stored in a single GeoPackage. The agent has to compute a symmetric difference, cluster the resulting patches into connected components so that adjacent gain/loss pairs from a single shifted park merge into one group, classify each group by which side(s) contributed, and emit a label anchor that is guaranteed to fall inside the group's geometry. The hidden gotcha is that the input GeoPackage is in a projected metric CRS (NY State Plane) while GeoJSON output must be WGS84 by RFC 7946, so the agent has to do area math in the projected CRS but reproject before writing.",
+    "approach": [
+      "Open the GeoPackage and read both park layers, noting that they share a projected metric CRS.",
+      "Compute the symmetric difference between the two layers and break it into connected components, with a small buffer-merge if needed to bridge sub-metre topology gaps along shifted-park boundaries.",
+      "Classify each component by which side contributed to it (`parks_official`, `parks_osm`, or `both`) and collect each component into a single MultiPolygon.",
+      "Compute a label-anchor point per group using a representative-point method that is guaranteed to lie inside the geometry, not a plain centroid.",
+      "Reproject both feature collections to WGS84 and write them as GeoJSON with the `source` column and matching row order across the two files."
+    ],
+    "pitfalls": [
+      "Reaching for `geometry.centroid` instead of a representative-point method, so anchors of concave or multi-part clusters land outside their parent geometry and the anchors-inside check fails.",
+      "Skipping the cluster-collect step and emitting one row per individual symdiff polygon, which roughly triples the row count and fails the heavily weighted cluster-count subcheck.",
+      "Computing only `A.difference(B)` (or only `B.difference(A)`) and missing one side of the symdiff, which collapses count, area, and IoU subchecks together.",
+      "Mislabelling the `source` attribute, for example tagging every cluster as `both`, which fails the source-distribution subcheck.",
+      "Writing GeoJSON in the projected CRS (EPSG:6539) instead of WGS84, which docks the CRS subchecks when the CRS is declared, and fails the area and IoU subchecks outright when the projected coordinates are written with no CRS member at all.",
+      "Forgetting to coerce single Polygon clusters to MultiPolygon, which fails the geometry-type subcheck."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "nyc_parks",
+      "url": "tasks/geo-l2-nyc-park-symdiff/inputs/nyc_parks.gpkg",
+      "format": "gpkg"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "parks_disagreement.geojson",
+      "format": "geojson",
+      "crs": "EPSG:4326",
+      "geometry_type": "MultiPolygon"
+    },
+    {
+      "name": "park_label_anchors.geojson",
+      "format": "geojson",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point"
+    }
+  ],
+  "deadline_seconds": 600
+}

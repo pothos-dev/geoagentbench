@@ -1,0 +1,138 @@
+task_id: crs-l2-fiji-antimeridian
+category: crs_reprojection
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.95
+  geom_eps_m: null
+  length_pct: 0.01
+  rationale: |
+    Bundled-data CRS-reprojection task. PROJ is deterministic for
+    EPSG:4326 → EPSG:3460 so a correct solution must agree with the
+    reference to ppm on per-transect length and total length. The
+    heuristic L2 defaults (count ±5%, jaccard ≥0.9) are kept on count
+    and tightened on jaccard to ≥0.95 because no transect is dropped
+    or added by a correct pipeline. Length tolerance is 1% rather than
+    5% because the projection is deterministic — the only legitimate
+    source of drift is sub-metre numerical noise from the
+    split/reproject/assemble round-trip, which is well under 1% on
+    50–500 km transect lengths. The Fiji-area FMG envelope is a
+    principled bbox covering the synthesis region with a generous
+    margin so a correct reprojection always lands inside; degree-
+    valued or wrap-misprojected outputs land orders of magnitude
+    outside.
+
+    Gate 1 is soft (commit 05aabd64): any parseable CRS is accepted
+    and the submission is reprojected into Fiji Map Grid (EPSG:3460)
+    before any spatial subcheck runs. Two CRS subchecks dock points
+    on the agent's pick — `crs_is_canonical` rewards EPSG:3460 (Fiji
+    1986 / Fiji Map Grid, the regional canonical) and
+    `crs_in_meaningful_set` rewards membership in {EPSG:3460,
+    EPSG:32760}. UTM 60S is the defensible generic pick (its band
+    174°E–180°E covers most of the bundled archipelago west of the
+    antimeridian).
+
+    Subcheck weights are reasoned from what the task actually tests
+    (recalibrated 2026-06-14, replacing the blunt 05b389b 3x-content
+    scheme; total weight 17). The antimeridian topology is the
+    central, task-defining skill, so
+    `antimeridian_crossings_split_into_multi_parts` carries the top
+    weight 4.0. The three checks that prove the reprojection ACTUALLY
+    HAPPENED (coordinates were transformed into FMG metres, not merely
+    relabelled) are weighted next:
+    `per_transect_length_matches` 3.0, `coordinates_within_fmg_fiji_envelope`
+    2.0 (raised from 1.0 — it is the direct "did you transform the
+    coordinates" detector and was under-weighted), and
+    `total_length_within_1_percent` 2.0 (aggregate, partly redundant
+    with per-transect). Identity/structural bookkeeping is low:
+    `transect_id_set_preserved` 1.5, `feature_count_within_5_percent`
+    1.0, `geometry_type_is_multilinestring` 1.0,
+    `identifying_attributes_preserved` 1.0 (cosmetic string
+    carry-through). CRS-pick checks are soft and cosmetic relative to
+    whether the reprojection happened: `crs_in_meaningful_set` 1.0,
+    `crs_is_canonical` 0.5.
+
+    A clean UTM 60S submission scores 16.5/17 ≈ 0.971 because only the
+    weight-0.5 `crs_is_canonical` subcheck fails — same accept-list
+    shape as spa-l3-paris (377a593) and spa-l2-lagos (0888e6f). A
+    file that declares EPSG:3460 but never transforms its coordinates
+    (the metadata-only fraud) loses every reprojection-proof channel
+    and scores 0.294, far below an honest correct pipeline.
+    The soft-CRS policy does NOT relax the antimeridian topology
+    test: an agent that picks UTM 60S still has to deal with the
+    +180° wrap (UTM zones do not span the antimeridian), so the
+    split-into-Multi subcheck still bites whether the agent picks
+    3460 or 32760.
+broken_solutions:
+  wrong_format:
+    description: |
+      Output is the WGS84 input file, untouched — no reprojection,
+      no length_m column, no MultiLineString assembly. Gate 1 fails
+      on missing length_m (and missing transect_id is also recorded
+      under the new soft-CRS policy, though it is present in the
+      input). Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  wrong_crs_metadata_only:
+    description: |
+      The SUT stamps the CRS as EPSG:3460 (via `set_crs` instead of
+      `to_crs`) and adds a `length_m` column populated with
+      `geom.length` while still in WGS84 degrees. Geometry stays as
+      plain LineString — the antimeridian split / Multi assembly is
+      skipped entirely. Gate 1 passes (3460 is parseable; length_m
+      and transect_id present). Subchecks failing:
+      geometry_type_is_multilinestring (1.0), FMG envelope (2.0),
+      per-transect length match (3.0), total length (2.0),
+      antimeridian split count (4.0). Subchecks passing: feature
+      count (1.0), transect_id set (1.5), identifying attributes
+      (1.0), crs_is_canonical (0.5, stamped 3460),
+      crs_in_meaningful_set (1.0). 5/17 ≈ 0.294 under the reasoned
+      weights — the declare-but-never-transform fraud loses every
+      reprojection-proof channel and the central antimeridian skill,
+      so it lands far below a correct pipeline.
+    expected_score_range: [0.25, 0.35]
+    measured_score: 0.294
+  wrong_attributes:
+    description: |
+      The SUT executes the pipeline correctly but drops the `vessel`
+      and `survey_date` columns when round-tripping through a thinned
+      GeoDataFrame. Only the identifying-attributes subcheck
+      (weight 1.0, a cosmetic string carry-through) fails; every
+      other check (including both CRS subchecks, since the reference
+      is in 3460) passes. 16/17 ≈ 0.941 under the reasoned weights —
+      a cosmetic slip costs only a light dock, scoring near the top
+      and well above the antimeridian-skill misses.
+    expected_score_range: [0.9, 0.97]
+    measured_score: 0.941
+notes:
+  - |
+    Bundled input is hand-crafted (not Overture-derived) because the
+    task is intrinsically about an RFC 7946 §3.1.9 violation — a
+    deliberately malformed encoding where antimeridian-crossing
+    LineStrings are written as single rings spanning ~359° of
+    longitude rather than as MultiLineStrings split at ±180°. No real
+    Overture / OSM source ships this kind of corruption deliberately.
+    The synthesis is fully deterministic (`SEED = 20260508`) and
+    produces 30 transects, 10 of which cross the antimeridian.
+  - |
+    A naive "just `to_crs` the input as-is" pipeline gives surprisingly
+    correct *length_m* values for the crossing transects because PROJ's
+    transverse-Mercator implementation handles longitudes outside
+    (-180, 180] by wrapping internally — so a vertex at -179° projects
+    to roughly the same FMG x as 181° and the per-segment distances
+    come out right. The split-into-MultiLineString step is therefore
+    primarily a *topology* test: a correct solution emits each
+    crossing transect as ≥2 parts in its MultiLineString, while a
+    naive reproject leaves them as 1 part. This is enforced by the
+    dedicated `antimeridian_crossings_split_into_multi_parts`
+    subcheck rather than by length alone.
+  - |
+    Output is GeoJSON in EPSG:3460, technically RFC-7946-non-compliant
+    (the spec mandates WGS84 in GeoJSON). pyogrio writes the legacy
+    `crs` member; `gpd.read_file` recovers EPSG:3460 on read-back, so
+    `gdf.crs.to_epsg() == 3460` is a reliable gate. Same precedent as
+    the peer Paris-Lambert93 / NYC / London CRS tasks.

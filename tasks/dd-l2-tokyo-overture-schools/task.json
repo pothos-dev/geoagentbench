@@ -1,0 +1,57 @@
+{
+  "task_id": "dd-l2-tokyo-overture-schools",
+  "version": 2,
+  "tags": {
+    "region": ["tokyo"],
+    "data_source": ["bundled"],
+    "formats": ["geoparquet", "geojson"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["point"],
+    "operations": ["attribute_filter", "join_contains", "bbox"],
+    "themes": ["places.place"],
+    "quality_issues": ["non_latin_script"],
+    "scale": "medium"
+  },
+  "instruction": "Pulling together a summer briefing on school-density disparities for children aged 8–14 across the 23 special wards. Out of `tokyo_places` I need every school relevant to that age range whose point sits inside the wards rectangle in `tokyo_23wards_bbox`. A colleague will visualise the result in R, so it has to land as `tokyo_schools.geojson`.\n\nEach feature's properties must use these exact keys: `id`, `name`, `confidence`, `address_freeform`, `address_locality`, and `address_postcode`.",
+  "analyst_notes": {
+    "description": "Tests whether the agent can map the persona's age-8–14 framing onto Overture's place taxonomy. The hidden judgement is that Japan's compulsory-education range (小学校 + 中学校) lines up with the school-category family in `places.place` (school, elementary_school, middle_school, plus the ownership-tagged private_school and public_school), and that the bare `school` catch-all carries most actual schools in the bundled slice and so must be kept. Underneath that, the task probes reading a Hive-partitioned GeoParquet, filtering on a nested struct field, spatial-joining points against a polygon, and emitting GeoJSON with CJK names round-tripped intact.",
+    "approach": [
+      "Open the bundled places file and inspect the schema: confirm the categories struct, the names struct, the address list, and the Point geometry in WGS84.",
+      "Pick the primary categories that fit the 8–14 age range. Include the generic `school` because it is the catch-all that holds most of the data, plus the labeled school subtypes that map onto Japanese compulsory education. Exclude preschool, high_school, and the specialty schools like driving or language schools.",
+      "Read the 23-wards bbox polygon and crop the filtered places to points that sit inside it.",
+      "Project the output schema to exactly the six required keys, pulling the first address record's freeform, locality, and postcode fields and keeping the place name verbatim with its CJK characters intact.",
+      "Write the result as a GeoJSON FeatureCollection of Points and double-check that the CJK names survive the JSON encoding."
+    ],
+    "pitfalls": [
+      "Filtering on `categories.primary = 'school'` alone misses the elementary_school, middle_school, and private_school subtypes that the age framing implies, so the answer comes out narrower than the reference.",
+      "Filtering with `LIKE '%school%'` sweeps in driving_school, language_school, dance_school, and other specialty schools that have nothing to do with 8–14-year-olds.",
+      "Dropping the bare `school` category in favour of only the labeled subtypes loses the vast majority of features in the bundled slice, because most Tokyo schools tag as the generic `school` rather than a specific level.",
+      "Reading only one of the Hive partitions returns roughly a quarter of the data and the count check fails.",
+      "Skipping the spatial crop against the wards bbox leaves in features from the outer band of the input slice.",
+      "Encoding the GeoJSON with `ensure_ascii=True` and not decoding back to UTF-8 mangles every Japanese place name.",
+      "Reprojecting the points to a metric CRS like JGD2011 plane EPSG:6677 before writing GeoJSON puts the coordinates in the millions of metres and trips the Tokyo coordinate-window check.",
+      "Stripping the confidence or address fields out of the output silently breaks the schema check even though the file still parses."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "tokyo_places",
+      "url": "tasks/dd-l2-tokyo-overture-schools/inputs/tokyo_places.parquet",
+      "format": "geoparquet"
+    },
+    {
+      "name": "tokyo_23wards_bbox",
+      "url": "tasks/dd-l2-tokyo-overture-schools/inputs/tokyo_23wards_bbox.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "tokyo_schools.geojson",
+      "format": "geojson",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point"
+    }
+  ],
+  "deadline_seconds": 600
+}

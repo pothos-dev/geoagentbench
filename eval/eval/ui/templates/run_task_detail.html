@@ -1,0 +1,434 @@
+{% extends "base.html" %}
+{% block title %}{{ run_id }} / {{ task.task_id }} · eval{% endblock %}
+{% block nav_runs %}active{% endblock %}
+{% block breadcrumbs %}
+<nav class="breadcrumbs">
+  <a href="/runs">Runs</a>
+  <span class="sep">/</span>
+  <a href="/runs/{{ run_id }}">{{ run_id }}</a>
+  <span class="sep">/</span>
+  <span>{{ task.task_id }}</span>
+</nav>
+{% endblock %}
+{% block body %}
+<h1>{{ task.task_id }}
+  <a href="/tasks/{{ task.task_id }}" class="btn btn-nav" title="View task definition" style="margin-left:8px;vertical-align:middle">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+  </a>
+  {% if task_state.status in ('done', 'failed', 'cancelled') %}
+    <form method="post" action="/runs/{{ run_id }}/{{ task.task_id }}/rerun"
+          style="display:inline; margin-left:8px; vertical-align:middle"
+          onsubmit="return confirm('Delete this task’s artefacts and rerun it?');">
+      <button type="submit" class="btn btn-nav" title="Delete artefacts and rerun this task">Rerun</button>
+    </form>
+  {% endif %}
+</h1>
+<div class="meta-row">
+  <div>Status: <span class="status-pill status-{{ task_state.status }}">{{ task_state.status }}</span></div>
+  <div>Score: <strong>{{ '%.3f' % task_state.score if task_state.score is not none else '—' }}</strong></div>
+  <div>Duration: <strong>{% if task_state.duration_s is not none %}{{ '%d:%02d' % (task_state.duration_s // 60, task_state.duration_s % 60) }}{% elif task_state.elapsed_s is defined and task_state.elapsed_s is not none %}<em>{{ '%d:%02d elapsed' % (task_state.elapsed_s // 60, task_state.elapsed_s % 60) }}</em>{% else %}—{% endif %}</strong></div>
+  <div>Cost: <strong>{{ '%.2f¢' % (task_state.estimated_cost_usd * 100) if task_state.estimated_cost_usd is not none else '—' }}</strong></div>
+  <div>Model: <strong>{{ task_state.reported_model or '—' }}</strong></div>
+</div>
+
+<div class="split">
+  <div class="map-pane">
+    <div class="prompt-row">
+      <div class="prompt-avatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div class="prompt-bubble md" data-md="{{ task.instruction }}"></div>
+    </div>
+    {% if retrospective %}
+      {% set cat = retrospective.category or 'unknown' %}
+      <div class="retro retro-{{ cat }}">
+        <div class="retro-head">
+          <span class="retro-badge retro-badge-{{ cat }}">
+            {% if cat == 'model_error' %}Model error
+            {% elif cat == 'task_error' %}Task error
+            {% elif cat == 'infra_error' %}Infra error
+            {% else %}{{ cat }}{% endif %}
+          </span>
+          <span class="retro-title">Retrospective</span>
+          {% if retrospective.assessed_at %}
+            <span class="retro-ts">assessed {{ retrospective.assessed_at }}</span>
+          {% endif %}
+        </div>
+        <div class="retro-body md" data-md="{{ retrospective.summary or '' }}"></div>
+      </div>
+    {% endif %}
+    <h2>Map <small>(reference ← swipe → agent)</small></h2>
+    <div id="layer-toggle"></div>
+    <div id="compare-container" class="map compare-container">
+      <div id="map-ref" class="compare-map"></div>
+      <div id="map-agent" class="compare-map"></div>
+    </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-compare@0.5.0/dist/maplibre-gl-compare.css">
+    <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-compare@0.5.0/dist/maplibre-gl-compare.js"></script>
+    <script>
+      const protocol = new pmtiles.Protocol();
+      maplibregl.addProtocol("pmtiles", protocol.tile);
+      const refLayers = {{ ref_layers | tojson }};
+      const refBase = "{{ ref_layers_base }}";
+      const agentLayers = {{ agent_layers | tojson }};
+      const agentBase = "{{ agent_layers_base }}";
+      const vizGlobe = {{ viz_globe | tojson }};
+
+      const layerNames = Array.from(new Set([
+        ...refLayers.map(L => L.name).filter(Boolean),
+        ...agentLayers.map(L => L.name).filter(Boolean),
+      ]));
+
+      const mapRef = new maplibregl.Map({
+        container: 'map-ref',
+        style: 'https://tiles.openfreemap.org/styles/positron',
+        center: [0, 0], zoom: 1,
+        attributionControl: false,
+      });
+      const mapAgent = new maplibregl.Map({
+        container: 'map-agent',
+        style: 'https://tiles.openfreemap.org/styles/positron',
+        center: [0, 0], zoom: 1,
+        attributionControl: false,
+      });
+
+      const pmtilesInstances = [];
+      const layerIds = { ref: [], agent: [] };
+
+      function addGroup(map, layers, base, prefix, defaultColor, sideKey) {
+        layers.forEach((L, idx) => {
+          const sid = prefix + idx;
+          const url = base + L.pmtiles;
+          const p = new pmtiles.PMTiles(url);
+          protocol.add(p);
+          pmtilesInstances.push(p);
+          map.addSource(sid, { type: 'vector', url: 'pmtiles://' + url });
+          const gt = (L.geometry_type || '').toLowerCase();
+          const type = gt.includes('point') ? 'circle' : gt.includes('line') ? 'line' : 'fill';
+          const paint = L.style || (type === 'fill' ? { 'fill-color': defaultColor, 'fill-opacity': 0.4 } :
+                                    type === 'line' ? { 'line-color': defaultColor, 'line-width': 1.4 } :
+                                    { 'circle-color': defaultColor, 'circle-radius': 3 });
+          const layerId = prefix + (L.name || sid);
+          map.addLayer({ id: layerId, type, source: sid, 'source-layer': L.source_layer || L.name, paint });
+          layerIds[sideKey].push({ id: layerId, name: L.name });
+          map.on('click', layerId, e => {
+            if (!e.features || !e.features.length) return;
+            const props = e.features[0].properties;
+            const rows = Object.entries(props).map(([k, v]) =>
+              `<tr><td style="font-weight:600;padding:2px 6px">${k}</td><td style="padding:2px 6px">${v}</td></tr>`
+            ).join('');
+            new maplibregl.Popup({ maxWidth: '360px' })
+              .setLngLat(e.lngLat)
+              .setHTML(`<table style="font-size:12px;border-collapse:collapse">${rows}</table>`)
+              .addTo(map);
+          });
+          map.on('mouseenter', layerId, () => { map.getCanvas().style.cursor = 'pointer'; });
+          map.on('mouseleave', layerId, () => { map.getCanvas().style.cursor = ''; });
+        });
+      }
+
+      function setVisibleLayer(name) {
+        for (const side of ['ref', 'agent']) {
+          const map = side === 'ref' ? mapRef : mapAgent;
+          for (const L of layerIds[side]) {
+            const vis = (name === null || L.name === name) ? 'visible' : 'none';
+            if (map.getLayer(L.id)) map.setLayoutProperty(L.id, 'visibility', vis);
+          }
+        }
+      }
+
+      async function fitToLayers() {
+        const headers = await Promise.all(pmtilesInstances.map(p => p.getHeader().catch(() => null)));
+        const bounds = new maplibregl.LngLatBounds();
+        let any = false;
+        for (const h of headers) {
+          if (!h) continue;
+          bounds.extend([h.minLon, h.minLat]);
+          bounds.extend([h.maxLon, h.maxLat]);
+          any = true;
+        }
+        if (vizGlobe) {
+          // Globe mode: aim camera at the bbox centre (falls back to layer
+          // centroid for a degenerate / single-point bbox) at a polar-friendly zoom.
+          let center = [0, 0];
+          if (any) {
+            center = bounds.getCenter().toArray();
+          } else {
+            const centroids = headers.filter(Boolean).map(h => [(h.minLon + h.maxLon) / 2, (h.minLat + h.maxLat) / 2]);
+            if (centroids.length) {
+              center = [
+                centroids.reduce((s, c) => s + c[0], 0) / centroids.length,
+                centroids.reduce((s, c) => s + c[1], 0) / centroids.length,
+              ];
+            }
+          }
+          mapRef.jumpTo({ center, zoom: 2 });
+          mapAgent.jumpTo({ center, zoom: 2 });
+        } else if (any) {
+          mapRef.fitBounds(bounds, { padding: 24, animate: false, maxZoom: 16 });
+          mapAgent.fitBounds(bounds, { padding: 24, animate: false, maxZoom: 16 });
+        }
+      }
+
+      Promise.all([
+        new Promise(r => mapRef.on('load', r)),
+        new Promise(r => mapAgent.on('load', r)),
+      ]).then(() => {
+        if (vizGlobe) {
+          mapRef.setProjection({ type: 'globe' });
+          mapAgent.setProjection({ type: 'globe' });
+        }
+        if (refLayers.length) addGroup(mapRef, refLayers, refBase, 'ref-', '#1a4480', 'ref');
+        if (agentLayers.length) addGroup(mapAgent, agentLayers, agentBase, 'agent-', '#cc4400', 'agent');
+        new maplibregl.Compare(mapRef, mapAgent, '#compare-container', { mousemove: false });
+        fitToLayers();
+
+        if (layerNames.length >= 2) {
+          const wrap = document.getElementById('layer-toggle');
+          wrap.innerHTML = '<strong>Layer:</strong> ' + layerNames.map((n, i) =>
+            `<label style="margin-right:10px"><input type="radio" name="layer-pick" value="${n}" ${i === 0 ? 'checked' : ''}> ${n}</label>`
+          ).join('');
+          wrap.querySelectorAll('input[name="layer-pick"]').forEach(el => {
+            el.addEventListener('change', e => setVisibleLayer(e.target.value));
+          });
+          setVisibleLayer(layerNames[0]);
+        }
+      });
+    </script>
+  </div>
+  <div class="side-pane">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="transcript">Transcript</button>
+      <button class="tab-btn" data-tab="score">Score</button>
+      <button class="tab-btn" data-tab="session">Session</button>
+      <button class="tab-btn" data-tab="outputs">Outputs</button>
+    </div>
+
+    <section class="tab" data-tab="transcript">
+      {% if transcript %}
+        {% for e in transcript.events %}
+          <div class="event event-{{ e.type }}{% if e.role %} event-{{ e.type }}-{{ e.role }}{% endif %}">
+            <span class="evt-ts">{{ e.rel_ts or '' }}</span>
+            {% if e.type == 'system' %}
+              {% if e.content_json %}
+                <details class="json-viewer">
+                  <summary class="evt-system">System info</summary>
+                  <pre class="mono">{{ e.content_json }}</pre>
+                </details>
+              {% else %}
+                <em class="evt-system">{{ e.content }}</em>
+              {% endif %}
+            {% elif e.type == 'text' %}
+              {% if e.role == 'user' %}
+                <div class="bubble bubble-user">{{ e.content }}</div>
+              {% else %}
+                <div class="bubble bubble-assistant md" data-md="{{ e.content }}"></div>
+              {% endif %}
+            {% elif e.type == 'thinking' %}
+              {% set lines = e.content.split('\n') %}
+              {% if lines|length > 3 %}
+                <div class="preview-fade" onclick="this.classList.toggle('expanded')">
+                  <pre class="mono preview-text">{{ e.content }}</pre>
+                </div>
+              {% else %}
+                <pre class="mono">{{ e.content }}</pre>
+              {% endif %}
+
+            {% elif e.type == 'tool_merged' %}
+              {% set call = e.content %}
+              {% set rp = e.get('result_parsed') if e.get('result_parsed') else {} %}
+              {% set result = e.result %}
+              {# Status dot #}
+              {% if result is none %}
+                {% set dot = 'tool-dot-pending' %}
+              {% elif rp.get('exit_code') is not none %}
+                {% set dot = 'tool-dot-ok' if rp.exit_code == 0 else 'tool-dot-err' %}
+              {% elif result.is_error %}
+                {% set dot = 'tool-dot-err' %}
+              {% else %}
+                {% set dot = 'tool-dot-ok' %}
+              {% endif %}
+
+              <div class="tool-line">
+                <span class="tool-dot {{ dot }}"></span>
+                <span class="tool-name">{{ call.name }}</span>
+                {% if e.summary %}<span class="tool-summary">{{ e.summary }}</span>{% endif %}
+              </div>
+
+              {% if call.name == 'Bash' %}
+                {% set cmd_lines = call.arguments.command.split('\n') %}
+                {% if cmd_lines|length > 3 %}
+                  <div class="preview-fade tool-preview tool-bash" onclick="this.classList.toggle('expanded')">
+                    <pre class="mono preview-text tool-bash">{{ call.arguments.command }}</pre>
+                  </div>
+                {% elif cmd_lines|length > 1 %}
+                  <pre class="mono tool-preview-inline tool-bash">{{ call.arguments.command }}</pre>
+                {% endif %}
+              {% elif call.name == 'Write' and call.arguments.content is defined %}
+                {% set fp = call.arguments.file_path or '' %}
+                {% set ext = (fp.rsplit('.', 1)[-1] | lower) if '.' in fp else '' %}
+                {% set lang_map = {
+                  'py':'python','pyi':'python',
+                  'js':'javascript','mjs':'javascript','cjs':'javascript',
+                  'ts':'typescript','tsx':'typescript','jsx':'javascript',
+                  'html':'xml','htm':'xml','xml':'xml','svg':'xml',
+                  'css':'css','scss':'scss',
+                  'json':'json','geojson':'json','ndjson':'json',
+                  'yaml':'yaml','yml':'yaml',
+                  'toml':'ini','ini':'ini','cfg':'ini',
+                  'md':'markdown',
+                  'sh':'bash','bash':'bash','zsh':'bash',
+                  'sql':'sql',
+                  'go':'go','rs':'rust','rb':'ruby',
+                  'c':'c','h':'c','cpp':'cpp','hpp':'cpp','cc':'cpp',
+                  'java':'java','kt':'kotlin','swift':'swift',
+                  'dockerfile':'dockerfile','tf':'hcl'
+                } %}
+                {% set lang = lang_map.get(ext, 'plaintext') %}
+                {% set write_lines = call.arguments.content.split('\n') | length %}
+                <details class="tool-detail tool-write">
+                  <summary>content · {{ write_lines }} line{{ '' if write_lines == 1 else 's' }}{% if ext %} · {{ ext }}{% endif %}</summary>
+                  <pre class="mono"><code class="language-{{ lang }}">{{ call.arguments.content }}</code></pre>
+                </details>
+              {% elif call.name not in ('Read', 'Write', 'Edit') %}
+                <div class="preview-fade tool-preview" onclick="this.classList.toggle('expanded')">
+                  <pre class="mono preview-text">{{ call.arguments | tojson(indent=2) }}</pre>
+                </div>
+              {% endif %}
+
+              {% if result %}
+                {% if rp.get('stdout') %}
+                  {% set out_lines = rp.stdout.split('\n') %}
+                  {% if out_lines|length > 3 %}
+                    <div class="preview-fade tool-preview tool-bash" onclick="this.classList.toggle('expanded')">
+                      <pre class="mono preview-text tool-bash">{{ rp.stdout }}</pre>
+                    </div>
+                  {% else %}
+                    <pre class="mono tool-preview-inline tool-bash">{{ rp.stdout }}</pre>
+                  {% endif %}
+                {% endif %}
+                {% if rp.get('stderr') %}
+                  {% set err_lines = rp.stderr.split('\n') %}
+                  {% if err_lines|length > 3 %}
+                    <div class="preview-fade tool-preview tool-bash" onclick="this.classList.toggle('expanded')">
+                      <pre class="mono preview-text tool-err tool-bash">{{ rp.stderr }}</pre>
+                    </div>
+                  {% else %}
+                    <pre class="mono tool-preview-inline tool-err tool-bash">{{ rp.stderr }}</pre>
+                  {% endif %}
+                {% endif %}
+                {% if not rp.get('stdout') and not rp.get('stderr') and rp.get('exit_code') is not none %}
+                  <span class="tool-empty-result">(no output)</span>
+                {% elif not rp %}
+                  {# Non-bash tool result #}
+                  {% set out_str = result.output if result.output is string else (result.output | tojson(indent=2)) %}
+                  {% set out_lines = out_str.split('\n') %}
+                  {% if out_lines|length > 3 %}
+                    <div class="preview-fade tool-preview" onclick="this.classList.toggle('expanded')">
+                      <pre class="mono preview-text{% if result.is_error %} tool-err{% endif %}">{{ out_str }}</pre>
+                    </div>
+                  {% else %}
+                    <pre class="mono tool-preview-inline{% if result.is_error %} tool-err{% endif %}">{{ out_str }}</pre>
+                  {% endif %}
+                {% endif %}
+                {% if result.truncated %}<small>truncated by adapter</small>{% endif %}
+              {% endif %}
+
+            {% elif e.type == 'tool_call' %}
+              <details open><summary>{{ e.content.name }}({{ '…' if e.content.arguments else '' }})</summary>
+                <pre class="mono">{{ e.content.arguments | tojson(indent=2) }}</pre>
+              </details>
+            {% elif e.type == 'tool_result' %}
+              <pre class="mono{% if e.content.is_error %} tool-err{% endif %}">{{ e.content.output if e.content.output is string else (e.content.output | tojson(indent=2)) }}</pre>
+              {% if e.content.truncated %}<small>truncated by adapter</small>{% endif %}
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <p><em>no transcript</em></p>
+      {% endif %}
+    </section>
+
+    <section class="tab" data-tab="score" style="display:none">
+      {% if score %}
+        <p>score: <strong>{{ '%.3f' % score.score if score.score is not none else '—' }}</strong></p>
+        {% if score.grader_error %}<pre class="mono tool-err">{{ score.grader_error }}</pre>{% endif %}
+        <h4>Gates</h4>
+        <ul>
+          {% for g in score.gates %}<li>{{ '✓' if g.passed else '✗' }} <strong>{{ g.name }}</strong> {{ g.detail }}</li>{% endfor %}
+        </ul>
+        <h4>Subchecks</h4>
+        <ul>
+          {% for s in score.subchecks %}<li>{{ '✓' if s.passed else '✗' }} <strong>{{ s.name }}</strong>{% if s.weight and s.weight != 1.0 %} <em>(×{{ '%g' % s.weight }})</em>{% endif %} {{ s.detail }}</li>{% endfor %}
+        </ul>
+      {% else %}
+        <p><em>no score yet</em></p>
+      {% endif %}
+    </section>
+
+    <section class="tab" data-tab="session" style="display:none">
+      {% if session %}<pre class="mono">{{ session | tojson(indent=2) }}</pre>{% else %}<p><em>no session.json yet</em></p>{% endif %}
+    </section>
+
+    <section class="tab" data-tab="outputs" style="display:none">
+      {% if output_files %}
+        <ul class="output-list">
+          {% for f in output_files %}
+            <li>
+              {% if f.is_source %}
+                <a href="/runs/{{ run_id }}/{{ task.task_id }}/outputs/{{ f.name }}/view" target="_blank" rel="noopener">{{ f.name }}</a>
+              {% else %}
+                <span class="output-name-static">{{ f.name }}</span>
+              {% endif %}
+              <a class="output-download" href="/runs/{{ run_id }}/{{ task.task_id }}/outputs/{{ f.name }}" download title="Download">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}<p><em>no outputs downloaded</em></p>{% endif %}
+    </section>
+  </div>
+</div>
+
+{% if tables %}
+  <h2>Tabular outputs</h2>
+  {% for t in tables %}
+    <h3>{{ t.name }}</h3>
+    <div class="scroll-x">
+      <table class="data">
+        <thead><tr>{% for h in t.headers %}<th>{{ h }}</th>{% endfor %}</tr></thead>
+        <tbody>
+          {% for row in t.rows %}<tr>{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endfor %}
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/marked@14.1.3/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+<script>
+  document.querySelectorAll('.tool-write pre code').forEach(el => {
+    try { hljs.highlightElement(el); } catch (_) {}
+  });
+  marked.setOptions({ gfm: true, breaks: true });
+  document.querySelectorAll('.bubble.md, .prompt-bubble.md, .retro-body.md').forEach(el => {
+    const src = el.getAttribute('data-md') || '';
+    el.innerHTML = DOMPurify.sanitize(marked.parse(src));
+  });
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const want = btn.dataset.tab;
+    document.querySelectorAll('section.tab').forEach(s => {
+      s.style.display = (s.dataset.tab === want) ? '' : 'none';
+    });
+  }));
+</script>
+{% endblock %}

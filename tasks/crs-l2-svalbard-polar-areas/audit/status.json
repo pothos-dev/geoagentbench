@@ -1,0 +1,22 @@
+{
+  "task_id": "crs-l2-svalbard-polar-areas",
+  "evaluator_finished_at": "2026-06-11T00:00:00Z",
+  "status": "completed-with-flags",
+  "verdict": "calibrated",
+  "unilateral_edits": [
+    "metadata.yaml: refreshed broken_solutions measured scores to the 3x-weighted grader (no_reprojection 0.444 -> 0.353, range [0.4,0.5] -> [0.3,0.45]; conformal_pick 0.889 -> 0.941; offset_topN 0.778 -> 0.647) and noted weight arithmetic in descriptions",
+    "README.md: updated score fractions to the 17-point weighted scale and documented the 3x data-content weighting in the Accepted projections section",
+    "coverage.yaml: refreshed evaluator_run_at timestamp (no axis changes)"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "pass",
+  "human_review_items": [
+    {
+      "id": "HR-001",
+      "category": "inventory-mismatch",
+      "severity": "low",
+      "summary": "inventory.md row still describes the pre-72759765 design (CRS out pinned to EPSG:3995, 6-column output schema without crs_epsg, story naming Arctic Polar Stereographic); refresh it to the v2 accept-list design with canonical EPSG:3575. Task files themselves are correct; no task edit needed."
+    }
+  ],
+  "blocker": null
+}

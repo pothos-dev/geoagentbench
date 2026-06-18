@@ -1,0 +1,50 @@
+{
+  "task_id": "dc-l1-bangkok-attribute-coercion",
+  "version": 3,
+  "tags": {
+    "region": ["bangkok"],
+    "data_source": ["bundled"],
+    "formats": ["geojson"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["point"],
+    "operations": [],
+    "themes": ["railway"],
+    "quality_issues": ["type_coercion", "non_latin_script"],
+    "scale": "small"
+  },
+  "instruction": "Our analytics dashboard computes averages from the vendor's bangkok_aq_stations export and the numbers are coming back wrong. The means show up as NaN and the city director keeps getting figures that do not reconcile. Please investigate the file and fix whatever is keeping the numeric computations from working. Leave the string columns and the geometry alone, and keep Thai script in any string field exactly as it arrives. Write the result to bangkok_aq_typed.geojson.",
+  "analyst_notes": {
+    "description": "Tests whether the agent recognises an attribute-type problem in a malformed vendor GeoJSON: every numeric column arrives as a JSON string, so client-side parseFloat in the dashboard silently returns NaN. The prompt deliberately names the symptom (NaN averages) instead of the operation (type coercion), the affected columns, or the int-versus-float split, so the agent has to inspect the file and work out what the defect is on its own.",
+    "approach": [
+      "Open the input GeoJSON and inspect a few features to see how each property is encoded.",
+      "Notice that every numeric column is serialised as a JSON string and that the dashboard's parseFloat fails on those.",
+      "Decide which fields are integer identifiers and which are floating-point measurements based on what the values look like.",
+      "Rewrite every numeric property as a proper JSON number, keeping the station_id as an integer and the measurement columns as floats.",
+      "Leave the Thai-script name field, any other string columns, and the point geometry untouched, and write the result back as GeoJSON."
+    ],
+    "pitfalls": [
+      "Reading the file with GeoPandas and writing it straight back does not fix the defect, because the GeoJSON driver re-emits the object-typed columns as strings and the dashboard keeps producing NaN.",
+      "Coercing the three measurement columns to float but leaving station_id alone is the most common partial fix, and it leaves the identifier column as a string which the grader treats as a clear miss.",
+      "Casting station_id through float on the way to int turns the identifiers into 1.0, 2.0, ... and the JSON type subcheck for integers fails.",
+      "Round-tripping the file through a non-UTF-8 stage like Shapefile or KML corrupts the Thai name_th values into question marks or mojibake.",
+      "Reprojecting the points to a metric CRS to clean them up shifts every coordinate and changes the output CRS away from WGS84, even though the task is purely about attribute types.",
+      "Dropping one of the required columns (station_id, name_th, sensor_value, pm25_ug_m3, elevation_m) on the way out fails Gate 1 outright."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "bangkok_aq_stations",
+      "url": "tasks/dc-l1-bangkok-attribute-coercion/inputs/bangkok_aq_stations.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "bangkok_aq_typed.geojson",
+      "format": "geojson",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point"
+    }
+  ],
+  "deadline_seconds": 600
+}

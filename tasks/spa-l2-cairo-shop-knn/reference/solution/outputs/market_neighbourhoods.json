@@ -1,0 +1,6302 @@
+[
+  {
+    "anchor_id": "M001",
+    "anchor_name_normalised": "tahrir square plaza",
+    "knn": [
+      {
+        "shop_id": "S07233",
+        "normalised_name": "seoudi",
+        "distance_m": 565.577,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05762",
+        "normalised_name": "oscar",
+        "distance_m": 722.33,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08811",
+        "normalised_name": "seoudi",
+        "distance_m": 851.148,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01722",
+        "normalised_name": "local shop 01722",
+        "distance_m": 852.442,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04111",
+        "normalised_name": "local shop 04111",
+        "distance_m": 868.963,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2487.008,
+        2174.324,
+        3254.511
+      ],
+      [
+        1534.484,
+        1756.646,
+        2217.729
+      ],
+      [
+        1083.478,
+        2432.536,
+        2523.216
+      ],
+      [
+        1080.923,
+        2423.438,
+        2512.908
+      ],
+      [
+        2589.647,
+        1669.144,
+        2955.677
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M002",
+    "anchor_name_normalised": "zamalek riverside",
+    "knn": [
+      {
+        "shop_id": "S07867",
+        "normalised_name": "local shop 07867",
+        "distance_m": 269.652,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08880",
+        "normalised_name": "local shop 08880",
+        "distance_m": 312.578,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01618",
+        "normalised_name": "hyperone",
+        "distance_m": 376.431,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08973",
+        "normalised_name": "metro",
+        "distance_m": 398.443,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03901",
+        "normalised_name": "local shop 03901",
+        "distance_m": 553.533,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1944.491,
+        1953.944,
+        1947.441
+      ],
+      [
+        1618.27,
+        2242.838,
+        2252.195
+      ],
+      [
+        1563.293,
+        2300.71,
+        2321.027
+      ],
+      [
+        1556.2,
+        2312.907,
+        2370.065
+      ],
+      [
+        1378.434,
+        2483.232,
+        2317.787
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M003",
+    "anchor_name_normalised": "maadi corniche",
+    "knn": [
+      {
+        "shop_id": "S04460",
+        "normalised_name": "oscar",
+        "distance_m": 72.953,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08308",
+        "normalised_name": "seoudi",
+        "distance_m": 88.728,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09296",
+        "normalised_name": "abu_zekry",
+        "distance_m": 98.212,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09427",
+        "normalised_name": "carrefour",
+        "distance_m": 99.578,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07126",
+        "normalised_name": "local shop 07126",
+        "distance_m": 116.758,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1943.365,
+        1920.324,
+        2145.043
+      ],
+      [
+        1930.347,
+        1934.725,
+        2128.349
+      ],
+      [
+        2028.674,
+        1832.344,
+        2216.23
+      ],
+      [
+        1943.546,
+        1922.527,
+        2118.054
+      ],
+      [
+        1826.382,
+        2036.012,
+        2270.837
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M004",
+    "anchor_name_normalised": "heliopolis square",
+    "knn": [
+      {
+        "shop_id": "S07243",
+        "normalised_name": "local shop 07243",
+        "distance_m": 16.758,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08211",
+        "normalised_name": "abu_zekry",
+        "distance_m": 71.727,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09992",
+        "normalised_name": "local shop 09992",
+        "distance_m": 73.413,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02270",
+        "normalised_name": "local shop 02270",
+        "distance_m": 73.48,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04115",
+        "normalised_name": "metro",
+        "distance_m": 100.786,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1921.399,
+        1939.724,
+        2231.101
+      ],
+      [
+        1906.444,
+        1956.92,
+        2284.325
+      ],
+      [
+        1974.243,
+        1888.629,
+        2277.079
+      ],
+      [
+        1998.047,
+        1863.416,
+        2188.647
+      ],
+      [
+        1958.048,
+        1907.887,
+        2119.593
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M005",
+    "anchor_name_normalised": "new cairo tagamoa",
+    "knn": [
+      {
+        "shop_id": "S06518",
+        "normalised_name": "local shop 06518",
+        "distance_m": 28.135,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05810",
+        "normalised_name": "local shop 05810",
+        "distance_m": 37.519,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07612",
+        "normalised_name": "local shop 07612",
+        "distance_m": 91.176,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08564",
+        "normalised_name": "local shop 08564",
+        "distance_m": 127.999,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06537",
+        "normalised_name": "local shop 06537",
+        "distance_m": 174.578,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1957.692,
+        1903.359,
+        2209.908
+      ],
+      [
+        1936.292,
+        1925.439,
+        2179.936
+      ],
+      [
+        1924.49,
+        1940.788,
+        2126.259
+      ],
+      [
+        1855.766,
+        2010.618,
+        2116.629
+      ],
+      [
+        2082.204,
+        1782.996,
+        2132.612
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M006",
+    "anchor_name_normalised": "nasr city hub",
+    "knn": [
+      {
+        "shop_id": "S02587",
+        "normalised_name": "seoudi",
+        "distance_m": 106.505,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00300",
+        "normalised_name": "local shop 00300",
+        "distance_m": 227.653,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05940",
+        "normalised_name": "local shop 05940",
+        "distance_m": 253.188,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02292",
+        "normalised_name": "oscar",
+        "distance_m": 269.548,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02236",
+        "normalised_name": "local shop 02236",
+        "distance_m": 356.92,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1935.54,
+        1931.339,
+        2110.574
+      ],
+      [
+        1754.449,
+        2116.466,
+        2361.495
+      ],
+      [
+        1688.544,
+        2175.03,
+        2161.094
+      ],
+      [
+        1835.499,
+        2056.663,
+        1974.787
+      ],
+      [
+        2018.201,
+        1906.616,
+        1865.534
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M007",
+    "anchor_name_normalised": "mohandessin centre",
+    "knn": [
+      {
+        "shop_id": "S00857",
+        "normalised_name": "local shop 00857",
+        "distance_m": 60.929,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09356",
+        "normalised_name": "local shop 09356",
+        "distance_m": 522.875,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06624",
+        "normalised_name": "local shop 06624",
+        "distance_m": 549.417,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02306",
+        "normalised_name": "local shop 02306",
+        "distance_m": 647.854,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09328",
+        "normalised_name": "local shop 09328",
+        "distance_m": 651.945,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1990.627,
+        1870.463,
+        2227.978
+      ],
+      [
+        1811.605,
+        2172.177,
+        1738.373
+      ],
+      [
+        1564.677,
+        2368.344,
+        1895.301
+      ],
+      [
+        1639.259,
+        2367.636,
+        1732.598
+      ],
+      [
+        1640.045,
+        2369.337,
+        1728.338
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M008",
+    "anchor_name_normalised": "garden city walk",
+    "knn": [
+      {
+        "shop_id": "S00683",
+        "normalised_name": "local shop 00683",
+        "distance_m": 893.295,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06446",
+        "normalised_name": "local shop 06446",
+        "distance_m": 1558.028,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S01136",
+        "normalised_name": "local shop 01136",
+        "distance_m": 1568.368,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S08439",
+        "normalised_name": "hyperone",
+        "distance_m": 1591.275,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S09549",
+        "normalised_name": "local shop 09549",
+        "distance_m": 1755.431,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1917.008,
+        2318.247,
+        1369.1
+      ],
+      [
+        3022.796,
+        1780.593,
+        1159.223
+      ],
+      [
+        2937.29,
+        1935.131,
+        1005.531
+      ],
+      [
+        2949.477,
+        1953.902,
+        986.061
+      ],
+      [
+        3064.368,
+        2055.589,
+        894.571
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M009",
+    "anchor_name_normalised": "dokki market",
+    "knn": [
+      {
+        "shop_id": "S08667",
+        "normalised_name": "local shop 08667",
+        "distance_m": 1589.293,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S06446",
+        "normalised_name": "local shop 06446",
+        "distance_m": 1780.593,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S01136",
+        "normalised_name": "local shop 01136",
+        "distance_m": 1935.131,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S08439",
+        "normalised_name": "hyperone",
+        "distance_m": 1953.902,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S09549",
+        "normalised_name": "local shop 09549",
+        "distance_m": 2055.589,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2671.8,
+        2316.456,
+        684.1
+      ],
+      [
+        1558.028,
+        3371.426,
+        1444.544
+      ],
+      [
+        1568.368,
+        3533.068,
+        1515.185
+      ],
+      [
+        1591.275,
+        3543.47,
+        1502.542
+      ],
+      [
+        1755.431,
+        3580.798,
+        1394.25
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M010",
+    "anchor_name_normalised": "giza pyramids gate",
+    "knn": [
+      {
+        "shop_id": "S04479",
+        "normalised_name": "hyperone",
+        "distance_m": 1731.181,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S00183",
+        "normalised_name": "carrefour",
+        "distance_m": 2158.077,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S08667",
+        "normalised_name": "local shop 08667",
+        "distance_m": 2316.456,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S02604",
+        "normalised_name": "local shop 02604",
+        "distance_m": 2443.773,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S06446",
+        "normalised_name": "local shop 06446",
+        "distance_m": 3371.426,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2734.397,
+        533.884,
+        2182.677
+      ],
+      [
+        3228.566,
+        542.896,
+        2461.692
+      ],
+      [
+        1589.293,
+        1818.663,
+        684.1
+      ],
+      [
+        3615.528,
+        876.245,
+        2804.712
+      ],
+      [
+        1780.593,
+        3206.41,
+        1444.544
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M011",
+    "anchor_name_normalised": "roxy square",
+    "knn": [
+      {
+        "shop_id": "S04328",
+        "normalised_name": "abu_zekry",
+        "distance_m": 187.092,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05158",
+        "normalised_name": "local shop 05158",
+        "distance_m": 231.294,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05294",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 252.979,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09033",
+        "normalised_name": "spinneys",
+        "distance_m": 263.687,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01560",
+        "normalised_name": "local shop 01560",
+        "distance_m": 417.388,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1795.534,
+        2096.392,
+        2346.431
+      ],
+      [
+        2017.573,
+        1999.867,
+        2436.826
+      ],
+      [
+        1986.992,
+        1967.857,
+        2467.008
+      ],
+      [
+        1726.267,
+        2384.438,
+        2069.809
+      ],
+      [
+        1732.285,
+        2574.03,
+        1885.042
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M012",
+    "anchor_name_normalised": "ramses crossing",
+    "knn": [
+      {
+        "shop_id": "S06449",
+        "normalised_name": "local shop 06449",
+        "distance_m": 166.058,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01440",
+        "normalised_name": "metro",
+        "distance_m": 230.596,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05105",
+        "normalised_name": "local shop 05105",
+        "distance_m": 242.655,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08432",
+        "normalised_name": "local shop 08432",
+        "distance_m": 330.982,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01810",
+        "normalised_name": "local shop 01810",
+        "distance_m": 374.163,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2092.976,
+        1767.863,
+        2189.294
+      ],
+      [
+        2147.663,
+        1716.001,
+        2147.266
+      ],
+      [
+        1968.136,
+        1922.174,
+        2458.702
+      ],
+      [
+        1970.789,
+        1945.657,
+        2547.814
+      ],
+      [
+        2019.403,
+        1911.144,
+        2587.714
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M013",
+    "anchor_name_normalised": "sayeda zeinab plaza",
+    "knn": [
+      {
+        "shop_id": "S03765",
+        "normalised_name": "hyperone",
+        "distance_m": 162.441,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06164",
+        "normalised_name": "carrefour",
+        "distance_m": 188.771,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06427",
+        "normalised_name": "oscar",
+        "distance_m": 311.704,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07236",
+        "normalised_name": "local shop 07236",
+        "distance_m": 311.704,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02542",
+        "normalised_name": "spinneys",
+        "distance_m": 333.582,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1967.359,
+        1906.072,
+        2057.773
+      ],
+      [
+        2044.97,
+        1827.564,
+        2373.64
+      ],
+      [
+        2185.482,
+        1693.767,
+        2042.007
+      ],
+      [
+        2185.482,
+        1693.767,
+        2042.007
+      ],
+      [
+        2148.458,
+        1748.494,
+        2490.798
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M014",
+    "anchor_name_normalised": "khan el khalili approach",
+    "knn": [
+      {
+        "shop_id": "S08861",
+        "normalised_name": "local shop 08861",
+        "distance_m": 195.442,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02479",
+        "normalised_name": "hyperone",
+        "distance_m": 239.16,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01292",
+        "normalised_name": "abu_zekry",
+        "distance_m": 397.373,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08141",
+        "normalised_name": "local shop 08141",
+        "distance_m": 420.62,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05133",
+        "normalised_name": "local shop 05133",
+        "distance_m": 428.777,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2031.361,
+        1844.135,
+        2047.847
+      ],
+      [
+        1691.418,
+        2168.93,
+        2216.14
+      ],
+      [
+        2251.545,
+        1642.234,
+        2488.034
+      ],
+      [
+        2330.523,
+        1540.505,
+        2391.558
+      ],
+      [
+        1530.712,
+        2339.971,
+        2117.578
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M015",
+    "anchor_name_normalised": "bab al louq corner",
+    "knn": [
+      {
+        "shop_id": "S09639",
+        "normalised_name": "local shop 09639",
+        "distance_m": 280.925,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02344",
+        "normalised_name": "local shop 02344",
+        "distance_m": 393.971,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01648",
+        "normalised_name": "local shop 01648",
+        "distance_m": 394.046,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02142",
+        "normalised_name": "spinneys",
+        "distance_m": 403.506,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06831",
+        "normalised_name": "local shop 06831",
+        "distance_m": 432.076,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1818.702,
+        2073.828,
+        2470.151
+      ],
+      [
+        1754.788,
+        2163.721,
+        2560.347
+      ],
+      [
+        1607.727,
+        2275.229,
+        2038.563
+      ],
+      [
+        1942.313,
+        2000.888,
+        2619.62
+      ],
+      [
+        1757.635,
+        2176.033,
+        1853.527
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M016",
+    "anchor_name_normalised": "korba quarter",
+    "knn": [
+      {
+        "shop_id": "S06244",
+        "normalised_name": "local shop 06244",
+        "distance_m": 79.638,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09855",
+        "normalised_name": "local shop 09855",
+        "distance_m": 110.63,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02801",
+        "normalised_name": "oscar",
+        "distance_m": 136.61,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02599",
+        "normalised_name": "abu_zekry",
+        "distance_m": 146.174,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05243",
+        "normalised_name": "abu_zekry",
+        "distance_m": 191.808,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1920.17,
+        1943.315,
+        2138.296
+      ],
+      [
+        2034.138,
+        1826.903,
+        2180.818
+      ],
+      [
+        1842.741,
+        2022.955,
+        2321.38
+      ],
+      [
+        2004.654,
+        1864.081,
+        2346.195
+      ],
+      [
+        2039.439,
+        1834.379,
+        2381.157
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M017",
+    "anchor_name_normalised": "manial riverbank",
+    "knn": [
+      {
+        "shop_id": "S08401",
+        "normalised_name": "hyperone",
+        "distance_m": 247.913,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00614",
+        "normalised_name": "spinneys",
+        "distance_m": 289.979,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06816",
+        "normalised_name": "local shop 06816",
+        "distance_m": 364.608,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09964",
+        "normalised_name": "local shop 09964",
+        "distance_m": 386.211,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09153",
+        "normalised_name": "local shop 09153",
+        "distance_m": 406.119,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1907.057,
+        1984.112,
+        2462.219
+      ],
+      [
+        2081.987,
+        1812.22,
+        2476.872
+      ],
+      [
+        2092.196,
+        1827.466,
+        1882.931
+      ],
+      [
+        2313.289,
+        1548.477,
+        2302.074
+      ],
+      [
+        2089.746,
+        1847.533,
+        2606.866
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M018",
+    "anchor_name_normalised": "shubra north",
+    "knn": [
+      {
+        "shop_id": "S04367",
+        "normalised_name": "spinneys",
+        "distance_m": 131.732,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04591",
+        "normalised_name": "local shop 04591",
+        "distance_m": 132.001,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00580",
+        "normalised_name": "abu_zekry",
+        "distance_m": 160.07,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04121",
+        "normalised_name": "carrefour",
+        "distance_m": 380.476,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01396",
+        "normalised_name": "oscar",
+        "distance_m": 411.764,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1982.589,
+        1885.46,
+        2095.214
+      ],
+      [
+        1982.763,
+        1885.315,
+        2094.993
+      ],
+      [
+        2078.692,
+        1783.557,
+        2283.676
+      ],
+      [
+        2216.576,
+        1681.466,
+        1967.804
+      ],
+      [
+        2284.324,
+        1603.633,
+        2469.109
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M019",
+    "anchor_name_normalised": "ain shams plaza",
+    "knn": [
+      {
+        "shop_id": "S08667",
+        "normalised_name": "local shop 08667",
+        "distance_m": 684.1,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07904",
+        "normalised_name": "oscar",
+        "distance_m": 1176.893,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S01200",
+        "normalised_name": "abu_zekry",
+        "distance_m": 1257.341,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S07089",
+        "normalised_name": "local shop 07089",
+        "distance_m": 1279.036,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S04445",
+        "normalised_name": "seoudi",
+        "distance_m": 1382.451,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2253.827,
+        1818.663,
+        1589.293
+      ],
+      [
+        858.62,
+        3079.542,
+        2777.497
+      ],
+      [
+        682.689,
+        3185.385,
+        2466.29
+      ],
+      [
+        700.371,
+        3198.761,
+        2734.977
+      ],
+      [
+        550.43,
+        3312.139,
+        2573.143
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M020",
+    "anchor_name_normalised": "abbasiya junction",
+    "knn": [
+      {
+        "shop_id": "S04479",
+        "normalised_name": "hyperone",
+        "distance_m": 533.884,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00183",
+        "normalised_name": "carrefour",
+        "distance_m": 542.896,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02604",
+        "normalised_name": "local shop 02604",
+        "distance_m": 876.245,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08735",
+        "normalised_name": "seoudi",
+        "distance_m": 1519.821,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S08901",
+        "normalised_name": "local shop 08901",
+        "distance_m": 1550.576,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2182.677,
+        1731.181,
+        2721.015
+      ],
+      [
+        2461.692,
+        2158.077,
+        2400.629
+      ],
+      [
+        2804.712,
+        2443.773,
+        2322.59
+      ],
+      [
+        2132.579,
+        3707.335,
+        840.349
+      ],
+      [
+        2179.37,
+        3743.001,
+        793.301
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M021",
+    "anchor_name_normalised": "boulaq edge",
+    "knn": [
+      {
+        "shop_id": "S02452",
+        "normalised_name": "hyperone",
+        "distance_m": 143.124,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04480",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 155.55,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02622",
+        "normalised_name": "carrefour",
+        "distance_m": 218.845,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03134",
+        "normalised_name": "metro",
+        "distance_m": 232.595,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01855",
+        "normalised_name": "abu_zekry",
+        "distance_m": 277.908,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1794.275,
+        2265.714,
+        2176.732
+      ],
+      [
+        1779.414,
+        2260.514,
+        2183.832
+      ],
+      [
+        1717.69,
+        2278.108,
+        2176.388
+      ],
+      [
+        1702.953,
+        2277.017,
+        2180.378
+      ],
+      [
+        1817.557,
+        2466.625,
+        1975.063
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M022",
+    "anchor_name_normalised": "garbiya plaza",
+    "knn": [
+      {
+        "shop_id": "S00964",
+        "normalised_name": "hyperone",
+        "distance_m": 289.518,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05290",
+        "normalised_name": "local shop 05290",
+        "distance_m": 299.55,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08907",
+        "normalised_name": "local shop 08907",
+        "distance_m": 386.388,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06907",
+        "normalised_name": "hyperone",
+        "distance_m": 413.316,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05230",
+        "normalised_name": "seoudi",
+        "distance_m": 436.68,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1713.952,
+        2162.836,
+        2047.858
+      ],
+      [
+        1839.954,
+        2059.599,
+        1941.985
+      ],
+      [
+        2138.084,
+        1781.765,
+        2564.843
+      ],
+      [
+        2310.764,
+        1565.207,
+        2075.948
+      ],
+      [
+        1909.239,
+        2045.532,
+        1787.356
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M023",
+    "anchor_name_normalised": "sakakini approach",
+    "knn": [
+      {
+        "shop_id": "S07861",
+        "normalised_name": "local shop 07861",
+        "distance_m": 431.195,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06043",
+        "normalised_name": "oscar",
+        "distance_m": 547.541,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09406",
+        "normalised_name": "carrefour",
+        "distance_m": 548.921,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05303",
+        "normalised_name": "local shop 05303",
+        "distance_m": 576.17,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02485",
+        "normalised_name": "local shop 02485",
+        "distance_m": 589.769,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1924.005,
+        2029.167,
+        2645.421
+      ],
+      [
+        1485.034,
+        2416.989,
+        2540.145
+      ],
+      [
+        2272.404,
+        1699.077,
+        1778.762
+      ],
+      [
+        1488.725,
+        2428.087,
+        1952.452
+      ],
+      [
+        1511.72,
+        2420.301,
+        2623.735
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M024",
+    "anchor_name_normalised": "dar el salaam",
+    "knn": [
+      {
+        "shop_id": "S08247",
+        "normalised_name": "local shop 08247",
+        "distance_m": 303.772,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06329",
+        "normalised_name": "local shop 06329",
+        "distance_m": 491.117,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08710",
+        "normalised_name": "local shop 08710",
+        "distance_m": 504.706,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09186",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 727.138,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08321",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 888.862,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2132.673,
+        1756.183,
+        1988.849
+      ],
+      [
+        2419.232,
+        1441.332,
+        2313.911
+      ],
+      [
+        1438.732,
+        2426.384,
+        2173.317
+      ],
+      [
+        2118.135,
+        2004.797,
+        1493.671
+      ],
+      [
+        1136.311,
+        2781.532,
+        2086.839
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M025",
+    "anchor_name_normalised": "el marg hub",
+    "knn": [
+      {
+        "shop_id": "S06563",
+        "normalised_name": "carrefour",
+        "distance_m": 95.126,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07868",
+        "normalised_name": "oscar",
+        "distance_m": 238.93,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04428",
+        "normalised_name": "local shop 04428",
+        "distance_m": 295.764,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09140",
+        "normalised_name": "local shop 09140",
+        "distance_m": 477.14,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05093",
+        "normalised_name": "local shop 05093",
+        "distance_m": 498.726,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1846.017,
+        2014.466,
+        2262.807
+      ],
+      [
+        1829.921,
+        2052.609,
+        2430.692
+      ],
+      [
+        1831.139,
+        2066.273,
+        2490.782
+      ],
+      [
+        1843.955,
+        2121.94,
+        2676.137
+      ],
+      [
+        2366.764,
+        1530.961,
+        1996.46
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M026",
+    "anchor_name_normalised": "helwan centre",
+    "knn": [
+      {
+        "shop_id": "S00688",
+        "normalised_name": "local shop 00688",
+        "distance_m": 392.559,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09139",
+        "normalised_name": "local shop 09139",
+        "distance_m": 498.69,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07966",
+        "normalised_name": "local shop 07966",
+        "distance_m": 632.701,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06235",
+        "normalised_name": "carrefour",
+        "distance_m": 635.961,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06933",
+        "normalised_name": "spinneys",
+        "distance_m": 695.143,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2280.328,
+        1598.744,
+        2433.076
+      ],
+      [
+        1886.662,
+        2094.282,
+        1733.315
+      ],
+      [
+        2535.063,
+        1349.716,
+        2500.059
+      ],
+      [
+        2339.321,
+        1668.505,
+        2771.141
+      ],
+      [
+        2593.849,
+        1298.474,
+        2540.29
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M027",
+    "anchor_name_normalised": "maasara crossing",
+    "knn": [
+      {
+        "shop_id": "S01296",
+        "normalised_name": "seoudi",
+        "distance_m": 50.304,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09440",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 193.504,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09344",
+        "normalised_name": "carrefour",
+        "distance_m": 292.146,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09777",
+        "normalised_name": "carrefour",
+        "distance_m": 385.179,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00107",
+        "normalised_name": "carrefour",
+        "distance_m": 450.79,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1978.282,
+        1881.296,
+        2230.963
+      ],
+      [
+        1750.839,
+        2111.237,
+        2154.419
+      ],
+      [
+        2146.571,
+        1735.192,
+        2021.403
+      ],
+      [
+        1907.378,
+        2026.377,
+        2598.149
+      ],
+      [
+        1839.129,
+        2114.607,
+        2648.965
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M028",
+    "anchor_name_normalised": "tora edge",
+    "knn": [
+      {
+        "shop_id": "S07222",
+        "normalised_name": "carrefour",
+        "distance_m": 1038.647,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S08146",
+        "normalised_name": "local shop 08146",
+        "distance_m": 1146.481,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S00413",
+        "normalised_name": "local shop 00413",
+        "distance_m": 1162.898,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S07665",
+        "normalised_name": "carrefour",
+        "distance_m": 1370.955,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S08878",
+        "normalised_name": "abu_zekry",
+        "distance_m": 1379.87,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2022.303,
+        2348.409,
+        3244.431
+      ],
+      [
+        1326.099,
+        2884.211,
+        1678.602
+      ],
+      [
+        1677.677,
+        2708.734,
+        3274.427
+      ],
+      [
+        561.66,
+        3300.221,
+        2565.845
+      ],
+      [
+        1463.377,
+        3018.901,
+        3383.031
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M029",
+    "anchor_name_normalised": "mokattam heights",
+    "knn": [
+      {
+        "shop_id": "S04699",
+        "normalised_name": "abu_zekry",
+        "distance_m": 926.113,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08181",
+        "normalised_name": "carrefour",
+        "distance_m": 1338.419,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S08735",
+        "normalised_name": "seoudi",
+        "distance_m": 1715.744,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S08901",
+        "normalised_name": "local shop 08901",
+        "distance_m": 1724.595,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S05829",
+        "normalised_name": "spinneys",
+        "distance_m": 1792.84,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1622.443,
+        2555.67,
+        1526.826
+      ],
+      [
+        3255.385,
+        657.952,
+        2787.172
+      ],
+      [
+        3553.834,
+        840.349,
+        2132.579
+      ],
+      [
+        3573.159,
+        793.301,
+        2179.37
+      ],
+      [
+        3658.034,
+        704.017,
+        2286.953
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M030",
+    "anchor_name_normalised": "nozha promenade",
+    "knn": [
+      {
+        "shop_id": "S08181",
+        "normalised_name": "carrefour",
+        "distance_m": 657.952,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05829",
+        "normalised_name": "spinneys",
+        "distance_m": 704.017,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08901",
+        "normalised_name": "local shop 08901",
+        "distance_m": 793.301,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08735",
+        "normalised_name": "seoudi",
+        "distance_m": 840.349,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01591",
+        "normalised_name": "metro",
+        "distance_m": 932.592,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1338.419,
+        2531.719,
+        2070.528
+      ],
+      [
+        1792.84,
+        1584.606,
+        2882.916
+      ],
+      [
+        1724.595,
+        1550.576,
+        2947.078
+      ],
+      [
+        1715.744,
+        1519.821,
+        2988.883
+      ],
+      [
+        2192.406,
+        3148.516,
+        1287.318
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M031",
+    "anchor_name_normalised": "sheraton heliopolis",
+    "knn": [
+      {
+        "shop_id": "S00527",
+        "normalised_name": "local shop 00527",
+        "distance_m": 253.76,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01047",
+        "normalised_name": "local shop 01047",
+        "distance_m": 283.246,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04959",
+        "normalised_name": "local shop 04959",
+        "distance_m": 346.592,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06835",
+        "normalised_name": "spinneys",
+        "distance_m": 350.528,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08893",
+        "normalised_name": "metro",
+        "distance_m": 350.528,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1677.444,
+        2202.958,
+        2259.751
+      ],
+      [
+        1650.181,
+        2278.64,
+        2190.655
+      ],
+      [
+        1923.833,
+        2561.972,
+        1872.768
+      ],
+      [
+        2142.388,
+        1934.054,
+        2517.119
+      ],
+      [
+        2142.388,
+        1934.054,
+        2517.119
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M032",
+    "anchor_name_normalised": "triumph square",
+    "knn": [
+      {
+        "shop_id": "S01025",
+        "normalised_name": "local shop 01025",
+        "distance_m": 79.838,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02664",
+        "normalised_name": "local shop 02664",
+        "distance_m": 157.667,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02254",
+        "normalised_name": "local shop 02254",
+        "distance_m": 164.902,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02175",
+        "normalised_name": "abu_zekry",
+        "distance_m": 174.606,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01506",
+        "normalised_name": "local shop 01506",
+        "distance_m": 192.938,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1929.059,
+        1932.916,
+        2296.874
+      ],
+      [
+        1780.254,
+        2079.692,
+        2271.284
+      ],
+      [
+        2077.709,
+        1783.901,
+        2147.405
+      ],
+      [
+        2103.949,
+        1754.74,
+        2223.926
+      ],
+      [
+        1879.234,
+        1996.946,
+        2034.262
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M033",
+    "anchor_name_normalised": "cleopatra plaza",
+    "knn": [
+      {
+        "shop_id": "S02522",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 237.893,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04301",
+        "normalised_name": "carrefour",
+        "distance_m": 320.687,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00992",
+        "normalised_name": "local shop 00992",
+        "distance_m": 335.257,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04656",
+        "normalised_name": "local shop 04656",
+        "distance_m": 355.221,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03626",
+        "normalised_name": "local shop 03626",
+        "distance_m": 372.149,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2013.336,
+        1872.051,
+        1991.323
+      ],
+      [
+        1724.901,
+        2162.246,
+        1996.197
+      ],
+      [
+        2129.73,
+        1770.2,
+        2505.416
+      ],
+      [
+        1586.179,
+        2276.228,
+        2161.692
+      ],
+      [
+        2063.725,
+        1860.792,
+        2576.683
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M034",
+    "anchor_name_normalised": "salah salem strip",
+    "knn": [
+      {
+        "shop_id": "S07583",
+        "normalised_name": "abu_zekry",
+        "distance_m": 172.865,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02222",
+        "normalised_name": "local shop 02222",
+        "distance_m": 304.187,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04567",
+        "normalised_name": "local shop 04567",
+        "distance_m": 505.875,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01907",
+        "normalised_name": "carrefour",
+        "distance_m": 586.784,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09828",
+        "normalised_name": "carrefour",
+        "distance_m": 593.389,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1757.567,
+        2101.312,
+        2205.336
+      ],
+      [
+        1630.723,
+        2229.471,
+        2289.989
+      ],
+      [
+        1591.834,
+        2328.611,
+        2584.634
+      ],
+      [
+        1477.652,
+        2439.207,
+        2589.276
+      ],
+      [
+        2436.464,
+        1487.571,
+        1932.823
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M035",
+    "anchor_name_normalised": "autostrad corner",
+    "knn": [
+      {
+        "shop_id": "S00068",
+        "normalised_name": "metro",
+        "distance_m": 451.774,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03315",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 475.96,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01325",
+        "normalised_name": "local shop 01325",
+        "distance_m": 508.025,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02045",
+        "normalised_name": "metro",
+        "distance_m": 547.125,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06849",
+        "normalised_name": "local shop 06849",
+        "distance_m": 565.32,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1518.116,
+        2355.511,
+        2094.049
+      ],
+      [
+        1766.054,
+        2186.14,
+        1805.364
+      ],
+      [
+        1720.222,
+        2236.538,
+        1802.999
+      ],
+      [
+        1583.671,
+        2352.814,
+        1877.169
+      ],
+      [
+        1668.032,
+        2302.596,
+        1785.654
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M036",
+    "anchor_name_normalised": "el rehab gate one",
+    "knn": [
+      {
+        "shop_id": "S03215",
+        "normalised_name": "seoudi",
+        "distance_m": 324.996,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03906",
+        "normalised_name": "oscar",
+        "distance_m": 656.522,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01442",
+        "normalised_name": "abu_zekry",
+        "distance_m": 753.233,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07420",
+        "normalised_name": "seoudi",
+        "distance_m": 753.233,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09268",
+        "normalised_name": "local shop 09268",
+        "distance_m": 784.563,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1651.13,
+        2220.346,
+        2081.557
+      ],
+      [
+        2585.443,
+        1273.717,
+        2285.604
+      ],
+      [
+        1950.914,
+        2184.941,
+        1479.676
+      ],
+      [
+        1950.914,
+        2184.941,
+        1479.676
+      ],
+      [
+        1972.684,
+        2187.449,
+        1445.738
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M037",
+    "anchor_name_normalised": "el rehab gate two",
+    "knn": [
+      {
+        "shop_id": "S00158",
+        "normalised_name": "local shop 00158",
+        "distance_m": 167.069,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06706",
+        "normalised_name": "local shop 06706",
+        "distance_m": 429.334,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01968",
+        "normalised_name": "local shop 01968",
+        "distance_m": 497.944,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03103",
+        "normalised_name": "local shop 03103",
+        "distance_m": 511.55,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01792",
+        "normalised_name": "local shop 01792",
+        "distance_m": 529.913,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1824.156,
+        2042.799,
+        2345.768
+      ],
+      [
+        1726.754,
+        2198.193,
+        1876.308
+      ],
+      [
+        2307.675,
+        1617.283,
+        1896.782
+      ],
+      [
+        1463.783,
+        2413.642,
+        2088.129
+      ],
+      [
+        1453.971,
+        2427.459,
+        2073.011
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M038",
+    "anchor_name_normalised": "madinaty promenade",
+    "knn": [
+      {
+        "shop_id": "S04970",
+        "normalised_name": "carrefour",
+        "distance_m": 764.094,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01161",
+        "normalised_name": "hyperone",
+        "distance_m": 1118.616,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S07222",
+        "normalised_name": "carrefour",
+        "distance_m": 1209.156,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S08154",
+        "normalised_name": "local shop 08154",
+        "distance_m": 1225.167,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S00398",
+        "normalised_name": "spinneys",
+        "distance_m": 1318.308,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1271.737,
+        2644.809,
+        2624.755
+      ],
+      [
+        2033.691,
+        2410.565,
+        3321.534
+      ],
+      [
+        2114.799,
+        2428.458,
+        1038.647
+      ],
+      [
+        2018.155,
+        2524.516,
+        3418.455
+      ],
+      [
+        2756.503,
+        1822.528,
+        3457.947
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M039",
+    "anchor_name_normalised": "fifth settlement north",
+    "knn": [
+      {
+        "shop_id": "S05366",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 399.066,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08385",
+        "normalised_name": "seoudi",
+        "distance_m": 584.966,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06961",
+        "normalised_name": "local shop 06961",
+        "distance_m": 1261.303,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S07646",
+        "normalised_name": "local shop 07646",
+        "distance_m": 1291.185,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S03656",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 1300.714,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2320.278,
+        1542.646,
+        2164.361
+      ],
+      [
+        1403.795,
+        2481.626,
+        2495.259
+      ],
+      [
+        1736.081,
+        2758.974,
+        3381.698
+      ],
+      [
+        1767.215,
+        2766.836,
+        3417.81
+      ],
+      [
+        3149.714,
+        953.036,
+        2016.782
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M040",
+    "anchor_name_normalised": "fifth settlement south",
+    "knn": [
+      {
+        "shop_id": "S05154",
+        "normalised_name": "carrefour",
+        "distance_m": 355.149,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01903",
+        "normalised_name": "local shop 01903",
+        "distance_m": 941.13,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03656",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 953.036,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01591",
+        "normalised_name": "metro",
+        "distance_m": 1287.318,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S05366",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 1542.646,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1854.353,
+        1881.212,
+        2558.175
+      ],
+      [
+        1386.617,
+        1729.794,
+        2934.318
+      ],
+      [
+        1300.714,
+        1812.092,
+        2892.03
+      ],
+      [
+        2365.019,
+        932.592,
+        3503.658
+      ],
+      [
+        399.066,
+        2627.816,
+        2772.19
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M041",
+    "anchor_name_normalised": "american university gate",
+    "knn": [
+      {
+        "shop_id": "S06204",
+        "normalised_name": "local shop 06204",
+        "distance_m": 47.856,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04774",
+        "normalised_name": "local shop 04774",
+        "distance_m": 59.135,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02335",
+        "normalised_name": "local shop 02335",
+        "distance_m": 66.744,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01736",
+        "normalised_name": "hyperone",
+        "distance_m": 75.579,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09114",
+        "normalised_name": "abu_zekry",
+        "distance_m": 86.867,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1969.913,
+        2242.446,
+        2192.439
+      ],
+      [
+        1978.855,
+        2185.482,
+        2249.763
+      ],
+      [
+        1987.106,
+        2184.574,
+        2251.07
+      ],
+      [
+        2002.978,
+        2233.836,
+        2202.765
+      ],
+      [
+        2015.762,
+        2222.086,
+        2215.446
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M042",
+    "anchor_name_normalised": "police academy strip",
+    "knn": [
+      {
+        "shop_id": "S02577",
+        "normalised_name": "local shop 02577",
+        "distance_m": 138.255,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08729",
+        "normalised_name": "metro",
+        "distance_m": 146.208,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05734",
+        "normalised_name": "local shop 05734",
+        "distance_m": 154.679,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02227",
+        "normalised_name": "local shop 02227",
+        "distance_m": 258.609,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07174",
+        "normalised_name": "hyperone",
+        "distance_m": 295.79,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2036.074,
+        1826.046,
+        2129.871
+      ],
+      [
+        1975.249,
+        1892.879,
+        2077.221
+      ],
+      [
+        2068.56,
+        1791.845,
+        2152.546
+      ],
+      [
+        2155.503,
+        1711.55,
+        2097.106
+      ],
+      [
+        2202.169,
+        1663.51,
+        2113.288
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M043",
+    "anchor_name_normalised": "ring road north",
+    "knn": [
+      {
+        "shop_id": "S08805",
+        "normalised_name": "local shop 08805",
+        "distance_m": 22.673,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04397",
+        "normalised_name": "local shop 04397",
+        "distance_m": 106.941,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05913",
+        "normalised_name": "spinneys",
+        "distance_m": 128.446,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03170",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 179.536,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00891",
+        "normalised_name": "local shop 00891",
+        "distance_m": 257.874,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1907.261,
+        1950.681,
+        2210.637
+      ],
+      [
+        1822.276,
+        2035.671,
+        2212.423
+      ],
+      [
+        2021.844,
+        1840.34,
+        2309.652
+      ],
+      [
+        1784.552,
+        2078.865,
+        2119.646
+      ],
+      [
+        1905.318,
+        1986.04,
+        2472.044
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M044",
+    "anchor_name_normalised": "ring road east",
+    "knn": [
+      {
+        "shop_id": "S08237",
+        "normalised_name": "oscar",
+        "distance_m": 295.539,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05017",
+        "normalised_name": "carrefour",
+        "distance_m": 318.761,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06025",
+        "normalised_name": "local shop 06025",
+        "distance_m": 343.605,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01873",
+        "normalised_name": "local shop 01873",
+        "distance_m": 359.874,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07428",
+        "normalised_name": "abu_zekry",
+        "distance_m": 448.301,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1633.594,
+        2224.376,
+        2227.466
+      ],
+      [
+        2221.335,
+        1646.44,
+        2100.699
+      ],
+      [
+        2230.718,
+        1643.754,
+        2061.638
+      ],
+      [
+        1874.593,
+        2046.086,
+        2567.714
+      ],
+      [
+        2004.901,
+        1955.609,
+        1769.666
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M045",
+    "anchor_name_normalised": "ring road west",
+    "knn": [
+      {
+        "shop_id": "S01699",
+        "normalised_name": "local shop 01699",
+        "distance_m": 679.418,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07675",
+        "normalised_name": "hyperone",
+        "distance_m": 711.89,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01019",
+        "normalised_name": "abu_zekry",
+        "distance_m": 858.817,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09871",
+        "normalised_name": "hyperone",
+        "distance_m": 892.08,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04389",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 918.595,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2592.87,
+        1281.378,
+        2473.55
+      ],
+      [
+        1846.323,
+        2246.334,
+        2904.37
+      ],
+      [
+        2762.839,
+        1132.911,
+        2596.524
+      ],
+      [
+        2798.549,
+        1096.074,
+        2602.519
+      ],
+      [
+        2845.75,
+        1015.473,
+        2334.251
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M046",
+    "anchor_name_normalised": "city stars mall",
+    "knn": [
+      {
+        "shop_id": "S06723",
+        "normalised_name": "local shop 06723",
+        "distance_m": 446.598,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01305",
+        "normalised_name": "oscar",
+        "distance_m": 872.346,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02505",
+        "normalised_name": "carrefour",
+        "distance_m": 901.618,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03866",
+        "normalised_name": "metro",
+        "distance_m": 962.508,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07002",
+        "normalised_name": "hyperone",
+        "distance_m": 1013.062,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1492.309,
+        2369.345,
+        2179.387
+      ],
+      [
+        1922.954,
+        2294.663,
+        3072.157
+      ],
+      [
+        2343.017,
+        1891.386,
+        3093.902
+      ],
+      [
+        2416.131,
+        1859.13,
+        3143.948
+      ],
+      [
+        918.921,
+        2941.095,
+        2388.113
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M047",
+    "anchor_name_normalised": "cairo festival city",
+    "knn": [
+      {
+        "shop_id": "S00160",
+        "normalised_name": "abu_zekry",
+        "distance_m": 57.668,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00443",
+        "normalised_name": "local shop 00443",
+        "distance_m": 71.014,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03856",
+        "normalised_name": "local shop 03856",
+        "distance_m": 163.019,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03366",
+        "normalised_name": "metro",
+        "distance_m": 229.396,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02179",
+        "normalised_name": "local shop 02179",
+        "distance_m": 285.025,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1981.224,
+        1877.036,
+        2192.976
+      ],
+      [
+        1943.488,
+        1916.961,
+        2286.881
+      ],
+      [
+        1932.191,
+        1939.466,
+        2380.061
+      ],
+      [
+        2081.043,
+        1793.386,
+        2399.64
+      ],
+      [
+        1915.438,
+        1983.743,
+        2500.246
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M048",
+    "anchor_name_normalised": "mall of egypt gate",
+    "knn": [
+      {
+        "shop_id": "S09330",
+        "normalised_name": "oscar",
+        "distance_m": 241.068,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03014",
+        "normalised_name": "hyperone",
+        "distance_m": 244.632,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03344",
+        "normalised_name": "hyperone",
+        "distance_m": 397.273,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01236",
+        "normalised_name": "abu_zekry",
+        "distance_m": 399.57,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07495",
+        "normalised_name": "hyperone",
+        "distance_m": 450.355,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1741.44,
+        2127.341,
+        2082.304
+      ],
+      [
+        2157.83,
+        1704.521,
+        2137.757
+      ],
+      [
+        1649.486,
+        2244.302,
+        1979.733
+      ],
+      [
+        1587.437,
+        2289.401,
+        2059.73
+      ],
+      [
+        1523.782,
+        2350.685,
+        2084.468
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M049",
+    "anchor_name_normalised": "tagamoa first",
+    "knn": [
+      {
+        "shop_id": "S06910",
+        "normalised_name": "local shop 06910",
+        "distance_m": 40.792,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03497",
+        "normalised_name": "local shop 03497",
+        "distance_m": 93.54,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05232",
+        "normalised_name": "local shop 05232",
+        "distance_m": 128.919,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00056",
+        "normalised_name": "local shop 00056",
+        "distance_m": 225.18,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05766",
+        "normalised_name": "oscar",
+        "distance_m": 232.076,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1890.491,
+        1967.556,
+        2204.035
+      ],
+      [
+        1957.899,
+        1904.228,
+        2127.658
+      ],
+      [
+        2004.11,
+        1859.733,
+        2324.948
+      ],
+      [
+        2048.45,
+        1829.561,
+        2023.604
+      ],
+      [
+        2036.229,
+        1844.865,
+        2008.224
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M050",
+    "anchor_name_normalised": "tagamoa third",
+    "knn": [
+      {
+        "shop_id": "S08198",
+        "normalised_name": "spinneys",
+        "distance_m": 192.367,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06874",
+        "normalised_name": "spinneys",
+        "distance_m": 526.393,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00883",
+        "normalised_name": "hyperone",
+        "distance_m": 631.818,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03165",
+        "normalised_name": "local shop 03165",
+        "distance_m": 722.295,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03197",
+        "normalised_name": "carrefour",
+        "distance_m": 786.022,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1766.357,
+        2125.253,
+        2321.276
+      ],
+      [
+        2441.149,
+        2141.588,
+        2408.07
+      ],
+      [
+        2298.996,
+        2788.426,
+        1689.402
+      ],
+      [
+        2650.674,
+        2364.258,
+        2298.853
+      ],
+      [
+        1477.928,
+        2825.99,
+        1755.12
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M051",
+    "anchor_name_normalised": "el mokattam plateau",
+    "knn": [
+      {
+        "shop_id": "S02831",
+        "normalised_name": "oscar",
+        "distance_m": 89.833,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07977",
+        "normalised_name": "hyperone",
+        "distance_m": 92.366,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00155",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 105.364,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01199",
+        "normalised_name": "spinneys",
+        "distance_m": 133.251,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07333",
+        "normalised_name": "local shop 07333",
+        "distance_m": 137.814,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1980.517,
+        2291.88,
+        2143.421
+      ],
+      [
+        1947.077,
+        2308.029,
+        2126.24
+      ],
+      [
+        1928.962,
+        2322.407,
+        2111.743
+      ],
+      [
+        1797.261,
+        2242.823,
+        2199.111
+      ],
+      [
+        2065.93,
+        2209.774,
+        2232.872
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M052",
+    "anchor_name_normalised": "al ahly stadium",
+    "knn": [
+      {
+        "shop_id": "S03065",
+        "normalised_name": "local shop 03065",
+        "distance_m": 7.861,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04333",
+        "normalised_name": "local shop 04333",
+        "distance_m": 96.346,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05091",
+        "normalised_name": "local shop 05091",
+        "distance_m": 131.384,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02369",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 156.507,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02591",
+        "normalised_name": "spinneys",
+        "distance_m": 159.02,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1920.77,
+        1936.37,
+        2218.072
+      ],
+      [
+        2012.164,
+        1846.227,
+        2169.73
+      ],
+      [
+        1910.394,
+        1955.446,
+        2087.765
+      ],
+      [
+        1902.713,
+        1966.606,
+        2064.13
+      ],
+      [
+        1817.502,
+        2045.995,
+        2109.76
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M053",
+    "anchor_name_normalised": "cairo stadium",
+    "knn": [
+      {
+        "shop_id": "S07633",
+        "normalised_name": "local shop 07633",
+        "distance_m": 113.657,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07248",
+        "normalised_name": "metro",
+        "distance_m": 141.281,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02088",
+        "normalised_name": "local shop 02088",
+        "distance_m": 162.654,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08471",
+        "normalised_name": "local shop 08471",
+        "distance_m": 168.814,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09832",
+        "normalised_name": "local shop 09832",
+        "distance_m": 183.016,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1991.2,
+        1870.741,
+        2314.2
+      ],
+      [
+        1828.123,
+        2033.896,
+        2122.89
+      ],
+      [
+        2031.578,
+        1834.201,
+        2348.283
+      ],
+      [
+        1870.849,
+        1998.898,
+        2374.06
+      ],
+      [
+        1892.18,
+        1981.298,
+        2040.104
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M054",
+    "anchor_name_normalised": "sharkawi plaza",
+    "knn": [
+      {
+        "shop_id": "S05787",
+        "normalised_name": "abu_zekry",
+        "distance_m": 224.312,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09703",
+        "normalised_name": "local shop 09703",
+        "distance_m": 285.381,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01996",
+        "normalised_name": "local shop 01996",
+        "distance_m": 294.678,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03243",
+        "normalised_name": "carrefour",
+        "distance_m": 298.252,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04457",
+        "normalised_name": "hyperone",
+        "distance_m": 299.68,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2139.342,
+        1721.217,
+        2307.4
+      ],
+      [
+        1852.409,
+        2042.078,
+        2487.759
+      ],
+      [
+        2218.8,
+        1639.947,
+        2181.632
+      ],
+      [
+        1782.17,
+        2107.228,
+        2471.707
+      ],
+      [
+        1868.392,
+        2031.584,
+        2506.536
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M055",
+    "anchor_name_normalised": "el obour hub",
+    "knn": [
+      {
+        "shop_id": "S05248",
+        "normalised_name": "carrefour",
+        "distance_m": 346.813,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08253",
+        "normalised_name": "local shop 08253",
+        "distance_m": 530.097,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05678",
+        "normalised_name": "local shop 05678",
+        "distance_m": 545.525,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00319",
+        "normalised_name": "local shop 00319",
+        "distance_m": 558.425,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07708",
+        "normalised_name": "hyperone",
+        "distance_m": 562.582,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2255.466,
+        1610.019,
+        2364.515
+      ],
+      [
+        1457.253,
+        2424.272,
+        2475.742
+      ],
+      [
+        1791.443,
+        2196.453,
+        2728.872
+      ],
+      [
+        1399.388,
+        2470.649,
+        2429.003
+      ],
+      [
+        2182.915,
+        1818.53,
+        1697.753
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M056",
+    "anchor_name_normalised": "shoubra mazallat",
+    "knn": [
+      {
+        "shop_id": "S09007",
+        "normalised_name": "local shop 09007",
+        "distance_m": 194.836,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07758",
+        "normalised_name": "abu_zekry",
+        "distance_m": 253.87,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08702",
+        "normalised_name": "local shop 08702",
+        "distance_m": 268.142,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09533",
+        "normalised_name": "hyperone",
+        "distance_m": 302.264,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04559",
+        "normalised_name": "local shop 04559",
+        "distance_m": 305.343,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2009.274,
+        1864.858,
+        2037.541
+      ],
+      [
+        2141.668,
+        1726.583,
+        2082.161
+      ],
+      [
+        2057.03,
+        1830.69,
+        1977.706
+      ],
+      [
+        2198.712,
+        1669.528,
+        2089.259
+      ],
+      [
+        2080.376,
+        1815.807,
+        2495.217
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M057",
+    "anchor_name_normalised": "abdeen palace edge",
+    "knn": [
+      {
+        "shop_id": "S07177",
+        "normalised_name": "spinneys",
+        "distance_m": 37.032,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07285",
+        "normalised_name": "spinneys",
+        "distance_m": 85.172,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02409",
+        "normalised_name": "local shop 02409",
+        "distance_m": 90.673,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02554",
+        "normalised_name": "metro",
+        "distance_m": 139.725,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09171",
+        "normalised_name": "metro",
+        "distance_m": 142.992,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1932.608,
+        1925.253,
+        2253.939
+      ],
+      [
+        1922.528,
+        1938.348,
+        2301.904
+      ],
+      [
+        1875.852,
+        1984.044,
+        2290.467
+      ],
+      [
+        1837.725,
+        2025.029,
+        2115.594
+      ],
+      [
+        2047.521,
+        1813.105,
+        2301.834
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M058",
+    "anchor_name_normalised": "el hussein square",
+    "knn": [
+      {
+        "shop_id": "S07894",
+        "normalised_name": "hyperone",
+        "distance_m": 53.846,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05648",
+        "normalised_name": "local shop 05648",
+        "distance_m": 55.113,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04373",
+        "normalised_name": "local shop 04373",
+        "distance_m": 68.649,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02702",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 97.045,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08671",
+        "normalised_name": "local shop 08671",
+        "distance_m": 100.865,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1927.891,
+        1930.79,
+        2163.264
+      ],
+      [
+        1982.633,
+        1874.601,
+        2206.823
+      ],
+      [
+        1927.417,
+        1932.181,
+        2285.699
+      ],
+      [
+        2021.53,
+        1836.059,
+        2247.564
+      ],
+      [
+        1831.784,
+        2025.788,
+        2191.62
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M059",
+    "anchor_name_normalised": "al ghouriya strip",
+    "knn": [
+      {
+        "shop_id": "S05680",
+        "normalised_name": "abu_zekry",
+        "distance_m": 146.314,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00337",
+        "normalised_name": "local shop 00337",
+        "distance_m": 151.705,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04385",
+        "normalised_name": "local shop 04385",
+        "distance_m": 156.051,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02311",
+        "normalised_name": "local shop 02311",
+        "distance_m": 182.785,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07296",
+        "normalised_name": "local shop 07296",
+        "distance_m": 209.076,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1807.778,
+        2052.733,
+        2140.722
+      ],
+      [
+        2060.33,
+        1800.007,
+        2143.313
+      ],
+      [
+        1798.363,
+        2062.415,
+        2138.182
+      ],
+      [
+        1831.893,
+        2037.153,
+        2068.618
+      ],
+      [
+        1773.736,
+        2092.912,
+        2088.62
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M060",
+    "anchor_name_normalised": "el mosky quarter",
+    "knn": [
+      {
+        "shop_id": "S04011",
+        "normalised_name": "hyperone",
+        "distance_m": 226.349,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03066",
+        "normalised_name": "local shop 03066",
+        "distance_m": 278.77,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07866",
+        "normalised_name": "spinneys",
+        "distance_m": 525.607,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01457",
+        "normalised_name": "local shop 01457",
+        "distance_m": 550.231,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02909",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 550.231,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1828.391,
+        2022.818,
+        2416.971
+      ],
+      [
+        1755.873,
+        2017.206,
+        2432.566
+      ],
+      [
+        2126.114,
+        1714.782,
+        2728.21
+      ],
+      [
+        1404.553,
+        2419.18,
+        2141.061
+      ],
+      [
+        1404.553,
+        2419.18,
+        2141.061
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M061",
+    "anchor_name_normalised": "bab zuweila approach",
+    "knn": [
+      {
+        "shop_id": "S07455",
+        "normalised_name": "metro",
+        "distance_m": 44.625,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02210",
+        "normalised_name": "seoudi",
+        "distance_m": 188.015,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04914",
+        "normalised_name": "spinneys",
+        "distance_m": 374.728,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03268",
+        "normalised_name": "local shop 03268",
+        "distance_m": 388.374,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01194",
+        "normalised_name": "spinneys",
+        "distance_m": 439.157,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1971.705,
+        2207.541,
+        2227.473
+      ],
+      [
+        1975.351,
+        2033.425,
+        2401.411
+      ],
+      [
+        2099.421,
+        1875.873,
+        2567.652
+      ],
+      [
+        2247.182,
+        2001.806,
+        2474.941
+      ],
+      [
+        1603.998,
+        2510.435,
+        1978.465
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M062",
+    "anchor_name_normalised": "ataba square",
+    "knn": [
+      {
+        "shop_id": "S02928",
+        "normalised_name": "local shop 02928",
+        "distance_m": 241.371,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01579",
+        "normalised_name": "abu_zekry",
+        "distance_m": 258.135,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09971",
+        "normalised_name": "metro",
+        "distance_m": 269.135,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04199",
+        "normalised_name": "local shop 04199",
+        "distance_m": 484.809,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09726",
+        "normalised_name": "local shop 09726",
+        "distance_m": 484.809,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1935.413,
+        1951.058,
+        1975.853
+      ],
+      [
+        1936.181,
+        1954.588,
+        1959.133
+      ],
+      [
+        1995.3,
+        1897.26,
+        1953.159
+      ],
+      [
+        2275.886,
+        1651.043,
+        2602.422
+      ],
+      [
+        2275.886,
+        1651.043,
+        2602.422
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M063",
+    "anchor_name_normalised": "opera square",
+    "knn": [
+      {
+        "shop_id": "S08522",
+        "normalised_name": "carrefour",
+        "distance_m": 117.381,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02665",
+        "normalised_name": "local shop 02665",
+        "distance_m": 121.191,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08278",
+        "normalised_name": "spinneys",
+        "distance_m": 125.803,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09780",
+        "normalised_name": "local shop 09780",
+        "distance_m": 158.899,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04975",
+        "normalised_name": "local shop 04975",
+        "distance_m": 163.21,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1975.841,
+        1886.655,
+        2109.004
+      ],
+      [
+        2049.166,
+        1807.231,
+        2213.073
+      ],
+      [
+        1877.23,
+        1985.831,
+        2104.349
+      ],
+      [
+        1934.925,
+        1934.544,
+        2058.183
+      ],
+      [
+        1941.226,
+        1928.941,
+        2053.998
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M064",
+    "anchor_name_normalised": "talaat harb plaza",
+    "knn": [
+      {
+        "shop_id": "S01309",
+        "normalised_name": "spinneys",
+        "distance_m": 126.492,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00967",
+        "normalised_name": "carrefour",
+        "distance_m": 298.128,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03294",
+        "normalised_name": "local shop 03294",
+        "distance_m": 345.845,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05580",
+        "normalised_name": "local shop 05580",
+        "distance_m": 350.631,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00035",
+        "normalised_name": "local shop 00035",
+        "distance_m": 370.261,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2016.99,
+        1843.805,
+        2126.74
+      ],
+      [
+        1900.474,
+        2000.491,
+        1923.945
+      ],
+      [
+        2220.736,
+        1656.346,
+        2039.14
+      ],
+      [
+        1582.403,
+        2275.462,
+        2192.065
+      ],
+      [
+        2251.63,
+        1624.894,
+        2046.883
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M065",
+    "anchor_name_normalised": "soliman pasha corner",
+    "knn": [
+      {
+        "shop_id": "S08633",
+        "normalised_name": "hyperone",
+        "distance_m": 362.239,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01595",
+        "normalised_name": "local shop 01595",
+        "distance_m": 373.142,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07007",
+        "normalised_name": "local shop 07007",
+        "distance_m": 430.593,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03486",
+        "normalised_name": "local shop 03486",
+        "distance_m": 438.821,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08874",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 447.566,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1770.488,
+        2136.315,
+        1914.82
+      ],
+      [
+        1641.154,
+        2240.706,
+        2455.197
+      ],
+      [
+        1604.303,
+        2287.506,
+        2498.982
+      ],
+      [
+        1553.435,
+        2325.496,
+        2049.755
+      ],
+      [
+        1489.923,
+        2369.945,
+        2182.264
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M066",
+    "anchor_name_normalised": "sherif street",
+    "knn": [
+      {
+        "shop_id": "S08285",
+        "normalised_name": "local shop 08285",
+        "distance_m": 256.981,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05527",
+        "normalised_name": "hyperone",
+        "distance_m": 265.038,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08372",
+        "normalised_name": "local shop 08372",
+        "distance_m": 271.731,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02046",
+        "normalised_name": "local shop 02046",
+        "distance_m": 276.357,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07693",
+        "normalised_name": "oscar",
+        "distance_m": 278.01,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2087.133,
+        1792.188,
+        2012.729
+      ],
+      [
+        1978.65,
+        1913.493,
+        1954.376
+      ],
+      [
+        2095.462,
+        1786.815,
+        2000.197
+      ],
+      [
+        1922.778,
+        1972.74,
+        1942.052
+      ],
+      [
+        2173.525,
+        1693.016,
+        2092.217
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M067",
+    "anchor_name_normalised": "qasr el nile",
+    "knn": [
+      {
+        "shop_id": "S02166",
+        "normalised_name": "local shop 02166",
+        "distance_m": 64.728,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03230",
+        "normalised_name": "local shop 03230",
+        "distance_m": 130.825,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02678",
+        "normalised_name": "local shop 02678",
+        "distance_m": 138.412,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02839",
+        "normalised_name": "local shop 02839",
+        "distance_m": 160.824,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09584",
+        "normalised_name": "local shop 09584",
+        "distance_m": 174.093,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1980.187,
+        1876.987,
+        2256.747
+      ],
+      [
+        2049.905,
+        1807.748,
+        2269.775
+      ],
+      [
+        2059.783,
+        1797.622,
+        2265.234
+      ],
+      [
+        1767.475,
+        2088.929,
+        2228.507
+      ],
+      [
+        1770.877,
+        2088.187,
+        2151.526
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M068",
+    "anchor_name_normalised": "kasr el aini strip",
+    "knn": [
+      {
+        "shop_id": "S06454",
+        "normalised_name": "local shop 06454",
+        "distance_m": 78.136,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03350",
+        "normalised_name": "local shop 03350",
+        "distance_m": 120.165,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01686",
+        "normalised_name": "local shop 01686",
+        "distance_m": 163.932,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08844",
+        "normalised_name": "local shop 08844",
+        "distance_m": 208.676,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03930",
+        "normalised_name": "local shop 03930",
+        "distance_m": 228.097,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1881.359,
+        1977.005,
+        2279.373
+      ],
+      [
+        1921.796,
+        1942.006,
+        2336.857
+      ],
+      [
+        1803.653,
+        2058.253,
+        2323.661
+      ],
+      [
+        1740.41,
+        2119.881,
+        2311.363
+      ],
+      [
+        1744.879,
+        2120.202,
+        2353.671
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M069",
+    "anchor_name_normalised": "el sayeda aisha",
+    "knn": [
+      {
+        "shop_id": "S04665",
+        "normalised_name": "local shop 04665",
+        "distance_m": 332.727,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00086",
+        "normalised_name": "local shop 00086",
+        "distance_m": 355.448,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03118",
+        "normalised_name": "carrefour",
+        "distance_m": 401.15,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02216",
+        "normalised_name": "carrefour",
+        "distance_m": 423.593,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03746",
+        "normalised_name": "local shop 03746",
+        "distance_m": 479.491,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1830.407,
+        2075.367,
+        1912.389
+      ],
+      [
+        2275.758,
+        1584.164,
+        2164.04
+      ],
+      [
+        1594.668,
+        2283.562,
+        2444.088
+      ],
+      [
+        1514.501,
+        2345.423,
+        2335.101
+      ],
+      [
+        1463.312,
+        2398.831,
+        2366.22
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M070",
+    "anchor_name_normalised": "kobri el qubba",
+    "knn": [
+      {
+        "shop_id": "S07958",
+        "normalised_name": "local shop 07958",
+        "distance_m": 628.981,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09570",
+        "normalised_name": "local shop 09570",
+        "distance_m": 654.126,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08243",
+        "normalised_name": "local shop 08243",
+        "distance_m": 685.664,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01141",
+        "normalised_name": "abu_zekry",
+        "distance_m": 687.189,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05875",
+        "normalised_name": "local shop 05875",
+        "distance_m": 745.048,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1497.274,
+        1880.81,
+        2661.752
+      ],
+      [
+        2581.256,
+        2352.707,
+        2269.73
+      ],
+      [
+        1633.267,
+        1702.482,
+        2805.88
+      ],
+      [
+        1657.631,
+        1682.771,
+        2818.489
+      ],
+      [
+        1203.683,
+        2205.314,
+        2465.342
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M071",
+    "anchor_name_normalised": "mar mina plaza",
+    "knn": [
+      {
+        "shop_id": "S04568",
+        "normalised_name": "local shop 04568",
+        "distance_m": 289.904,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07240",
+        "normalised_name": "local shop 07240",
+        "distance_m": 306.354,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02340",
+        "normalised_name": "seoudi",
+        "distance_m": 306.969,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02204",
+        "normalised_name": "spinneys",
+        "distance_m": 324.452,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05616",
+        "normalised_name": "spinneys",
+        "distance_m": 509.402,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1734.295,
+        2023.177,
+        2430.185
+      ],
+      [
+        1641.552,
+        2136.099,
+        2335.753
+      ],
+      [
+        2206.435,
+        2370.713,
+        2097.41
+      ],
+      [
+        2128.753,
+        1958.599,
+        2491.061
+      ],
+      [
+        1953.435,
+        2725.112,
+        1709.88
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M072",
+    "anchor_name_normalised": "saint fatima hub",
+    "knn": [
+      {
+        "shop_id": "S02581",
+        "normalised_name": "local shop 02581",
+        "distance_m": 642.522,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04661",
+        "normalised_name": "local shop 04661",
+        "distance_m": 741.933,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08384",
+        "normalised_name": "local shop 08384",
+        "distance_m": 762.201,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05220",
+        "normalised_name": "local shop 05220",
+        "distance_m": 770.255,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00255",
+        "normalised_name": "hyperone",
+        "distance_m": 813.409,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2467.379,
+        1473.347,
+        1893.098
+      ],
+      [
+        1267.481,
+        2631.993,
+        2063.243
+      ],
+      [
+        2657.279,
+        1238.293,
+        2577.753
+      ],
+      [
+        1330.956,
+        2616.905,
+        1932.849
+      ],
+      [
+        1159.876,
+        2722.293,
+        2158.384
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M073",
+    "anchor_name_normalised": "el nozha el gedida",
+    "knn": [
+      {
+        "shop_id": "S02606",
+        "normalised_name": "oscar",
+        "distance_m": 234.059,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02674",
+        "normalised_name": "seoudi",
+        "distance_m": 260.687,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02695",
+        "normalised_name": "spinneys",
+        "distance_m": 276.982,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01173",
+        "normalised_name": "local shop 01173",
+        "distance_m": 294.442,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06012",
+        "normalised_name": "local shop 06012",
+        "distance_m": 303.412,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1697.049,
+        2159.25,
+        2265.749
+      ],
+      [
+        1954.892,
+        1935.79,
+        1956.604
+      ],
+      [
+        1852.001,
+        2038.75,
+        1958.893
+      ],
+      [
+        1902.913,
+        1996.323,
+        1927.039
+      ],
+      [
+        1861.59,
+        2037.545,
+        1929.067
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M074",
+    "anchor_name_normalised": "rabaa square",
+    "knn": [
+      {
+        "shop_id": "S08989",
+        "normalised_name": "local shop 08989",
+        "distance_m": 109.003,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04753",
+        "normalised_name": "hyperone",
+        "distance_m": 163.635,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01770",
+        "normalised_name": "local shop 01770",
+        "distance_m": 179.14,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04162",
+        "normalised_name": "carrefour",
+        "distance_m": 230.891,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08926",
+        "normalised_name": "spinneys",
+        "distance_m": 287.598,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1980.99,
+        1879.447,
+        2121.278
+      ],
+      [
+        1997.127,
+        1870.281,
+        2067.308
+      ],
+      [
+        1829.58,
+        2037.089,
+        2073.88
+      ],
+      [
+        2120.128,
+        1744.873,
+        2091.646
+      ],
+      [
+        1989.403,
+        1908.064,
+        1932.884
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M075",
+    "anchor_name_normalised": "tagamoa el saba",
+    "knn": [
+      {
+        "shop_id": "S04185",
+        "normalised_name": "local shop 04185",
+        "distance_m": 247.259,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04743",
+        "normalised_name": "local shop 04743",
+        "distance_m": 254.398,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03818",
+        "normalised_name": "local shop 03818",
+        "distance_m": 263.406,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05223",
+        "normalised_name": "seoudi",
+        "distance_m": 308.192,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08890",
+        "normalised_name": "local shop 08890",
+        "distance_m": 328.628,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1927.243,
+        1959.849,
+        1970.451
+      ],
+      [
+        1972.95,
+        1915.611,
+        2470.012
+      ],
+      [
+        1664.687,
+        2190.983,
+        2244.147
+      ],
+      [
+        1922.332,
+        1981.828,
+        1910.615
+      ],
+      [
+        2087.664,
+        1813.913,
+        2518.918
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M076",
+    "anchor_name_normalised": "bahteem crossing",
+    "knn": [
+      {
+        "shop_id": "S00012",
+        "normalised_name": "seoudi",
+        "distance_m": 107.354,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09951",
+        "normalised_name": "seoudi",
+        "distance_m": 107.946,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02880",
+        "normalised_name": "oscar",
+        "distance_m": 125.143,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02283",
+        "normalised_name": "local shop 02283",
+        "distance_m": 148.423,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01269",
+        "normalised_name": "local shop 01269",
+        "distance_m": 215.149,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2026.933,
+        1829.594,
+        2261.491
+      ],
+      [
+        2027.313,
+        1829.243,
+        2262.154
+      ],
+      [
+        1845.282,
+        2014.739,
+        2126.78
+      ],
+      [
+        1822.293,
+        2038.649,
+        2321.089
+      ],
+      [
+        1713.265,
+        2142.462,
+        2242.691
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M077",
+    "anchor_name_normalised": "el salam city",
+    "knn": [
+      {
+        "shop_id": "S02582",
+        "normalised_name": "local shop 02582",
+        "distance_m": 21.748,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01682",
+        "normalised_name": "local shop 01682",
+        "distance_m": 82.606,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02381",
+        "normalised_name": "abu_zekry",
+        "distance_m": 114.088,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00736",
+        "normalised_name": "local shop 00736",
+        "distance_m": 115.152,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03469",
+        "normalised_name": "local shop 03469",
+        "distance_m": 141.982,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1926.206,
+        1929.646,
+        2238.781
+      ],
+      [
+        1991.866,
+        1865.215,
+        2165.014
+      ],
+      [
+        1967.335,
+        1894.353,
+        2109.342
+      ],
+      [
+        2042.947,
+        1812.667,
+        2218.481
+      ],
+      [
+        1808.657,
+        2049.879,
+        2145.73
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M078",
+    "anchor_name_normalised": "madinet nasr eighth zone",
+    "knn": [
+      {
+        "shop_id": "S07458",
+        "normalised_name": "local shop 07458",
+        "distance_m": 112.218,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06665",
+        "normalised_name": "local shop 06665",
+        "distance_m": 215.774,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03649",
+        "normalised_name": "local shop 03649",
+        "distance_m": 351.735,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01800",
+        "normalised_name": "local shop 01800",
+        "distance_m": 352.925,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04395",
+        "normalised_name": "metro",
+        "distance_m": 367.276,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1900.061,
+        1961.576,
+        2325.215
+      ],
+      [
+        1830.415,
+        2043.396,
+        2406.863
+      ],
+      [
+        1577.337,
+        2278.675,
+        2218.09
+      ],
+      [
+        1773.955,
+        2129.528,
+        2527.098
+      ],
+      [
+        1766.812,
+        2140.291,
+        2538.94
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M079",
+    "anchor_name_normalised": "madinet nasr tenth zone",
+    "knn": [
+      {
+        "shop_id": "S00764",
+        "normalised_name": "spinneys",
+        "distance_m": 39.808,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00938",
+        "normalised_name": "local shop 00938",
+        "distance_m": 99.24,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01375",
+        "normalised_name": "local shop 01375",
+        "distance_m": 103.56,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01091",
+        "normalised_name": "local shop 01091",
+        "distance_m": 105.986,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00711",
+        "normalised_name": "local shop 00711",
+        "distance_m": 150.958,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1961.251,
+        1894.624,
+        2195.575
+      ],
+      [
+        1915.044,
+        1945.548,
+        2315.216
+      ],
+      [
+        1982.424,
+        1877.313,
+        2306.906
+      ],
+      [
+        1985.974,
+        1873.828,
+        2307.689
+      ],
+      [
+        2035.313,
+        1826.491,
+        2110.836
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M080",
+    "anchor_name_normalised": "el hadaba el wosta",
+    "knn": [
+      {
+        "shop_id": "S05836",
+        "normalised_name": "local shop 05836",
+        "distance_m": 228.97,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03187",
+        "normalised_name": "metro",
+        "distance_m": 436.524,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07732",
+        "normalised_name": "local shop 07732",
+        "distance_m": 447.588,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00495",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 455.304,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06442",
+        "normalised_name": "metro",
+        "distance_m": 461.389,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1724.866,
+        2126.877,
+        2326.465
+      ],
+      [
+        1640.658,
+        2538.782,
+        1940.844
+      ],
+      [
+        1617.865,
+        2534.213,
+        1951.825
+      ],
+      [
+        1607.399,
+        2535.197,
+        1954.115
+      ],
+      [
+        1568.502,
+        2506.443,
+        1993.662
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M081",
+    "anchor_name_normalised": "mokattam sector one",
+    "knn": [
+      {
+        "shop_id": "S03635",
+        "normalised_name": "local shop 03635",
+        "distance_m": 21.396,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00220",
+        "normalised_name": "spinneys",
+        "distance_m": 386.012,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07464",
+        "normalised_name": "seoudi",
+        "distance_m": 620.767,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09386",
+        "normalised_name": "abu_zekry",
+        "distance_m": 879.151,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05150",
+        "normalised_name": "oscar",
+        "distance_m": 1164.024,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1921.983,
+        2196.43,
+        2237.772
+      ],
+      [
+        2150.548,
+        1895.66,
+        2556.462
+      ],
+      [
+        2435.881,
+        2658.9,
+        1879.351
+      ],
+      [
+        1894.89,
+        1388.979,
+        3073.691
+      ],
+      [
+        2186.005,
+        1058.235,
+        3379.507
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M082",
+    "anchor_name_normalised": "mokattam sector six",
+    "knn": [
+      {
+        "shop_id": "S00485",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 484.733,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07884",
+        "normalised_name": "local shop 07884",
+        "distance_m": 716.485,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05200",
+        "normalised_name": "local shop 05200",
+        "distance_m": 978.415,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08312",
+        "normalised_name": "local shop 08312",
+        "distance_m": 1061.24,
+        "within_1km": false
+      },
+      {
+        "shop_id": "S09250",
+        "normalised_name": "local shop 09250",
+        "distance_m": 1116.739,
+        "within_1km": false
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2275.068,
+        1650.464,
+        1878.396
+      ],
+      [
+        1342.971,
+        2579.37,
+        1976.806
+      ],
+      [
+        2517.146,
+        1734.289,
+        3125.08
+      ],
+      [
+        2917.168,
+        1082.615,
+        2850.128
+      ],
+      [
+        1748.749,
+        2620.411,
+        1312.09
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M083",
+    "anchor_name_normalised": "el maadi degla",
+    "knn": [
+      {
+        "shop_id": "S00572",
+        "normalised_name": "hyperone",
+        "distance_m": 149.479,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02308",
+        "normalised_name": "local shop 02308",
+        "distance_m": 156.29,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05229",
+        "normalised_name": "seoudi",
+        "distance_m": 201.16,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06553",
+        "normalised_name": "local shop 06553",
+        "distance_m": 202.264,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03963",
+        "normalised_name": "spinneys",
+        "distance_m": 220.049,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1825.487,
+        2035.194,
+        2325.846
+      ],
+      [
+        1839.603,
+        2023.469,
+        2345.154
+      ],
+      [
+        1842.775,
+        2028.495,
+        2397.148
+      ],
+      [
+        1921.409,
+        1954.398,
+        2418.735
+      ],
+      [
+        1849.527,
+        2026.267,
+        2420.041
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M084",
+    "anchor_name_normalised": "maadi sarayat",
+    "knn": [
+      {
+        "shop_id": "S03267",
+        "normalised_name": "spinneys",
+        "distance_m": 119.137,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04218",
+        "normalised_name": "local shop 04218",
+        "distance_m": 137.975,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02615",
+        "normalised_name": "local shop 02615",
+        "distance_m": 165.516,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01252",
+        "normalised_name": "metro",
+        "distance_m": 197.369,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08252",
+        "normalised_name": "metro",
+        "distance_m": 236.69,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1811.385,
+        2043.798,
+        2193.959
+      ],
+      [
+        1831.53,
+        2028.166,
+        2122.704
+      ],
+      [
+        2085.696,
+        1770.456,
+        2172.489
+      ],
+      [
+        1823.752,
+        2044.937,
+        2056.89
+      ],
+      [
+        1701.52,
+        2155.609,
+        2294.791
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M085",
+    "anchor_name_normalised": "maadi cornish",
+    "knn": [
+      {
+        "shop_id": "S06810",
+        "normalised_name": "local shop 06810",
+        "distance_m": 107.912,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08092",
+        "normalised_name": "seoudi",
+        "distance_m": 118.843,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09372",
+        "normalised_name": "metro",
+        "distance_m": 261.786,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03104",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 267.918,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05944",
+        "normalised_name": "local shop 05944",
+        "distance_m": 297.761,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1932.045,
+        1928.834,
+        2109.202
+      ],
+      [
+        1834.932,
+        2022.637,
+        2291.847
+      ],
+      [
+        1665.629,
+        2189.197,
+        2231.326
+      ],
+      [
+        1717.648,
+        2150.111,
+        2384.187
+      ],
+      [
+        2056.002,
+        1838.533,
+        1943.453
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M086",
+    "anchor_name_normalised": "old cairo babylon",
+    "knn": [
+      {
+        "shop_id": "S08850",
+        "normalised_name": "oscar",
+        "distance_m": 189.797,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07027",
+        "normalised_name": "hyperone",
+        "distance_m": 270.536,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07860",
+        "normalised_name": "local shop 07860",
+        "distance_m": 305.81,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01690",
+        "normalised_name": "local shop 01690",
+        "distance_m": 334.718,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02562",
+        "normalised_name": "local shop 02562",
+        "distance_m": 364.115,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2063.938,
+        1800.548,
+        2357.157
+      ],
+      [
+        2150.025,
+        1718.58,
+        2389.166
+      ],
+      [
+        2114.21,
+        1773.933,
+        2476.177
+      ],
+      [
+        2226.797,
+        1641.704,
+        2395.919
+      ],
+      [
+        2288.84,
+        1567.246,
+        2198.769
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M087",
+    "anchor_name_normalised": "coptic cairo plaza",
+    "knn": [
+      {
+        "shop_id": "S00591",
+        "normalised_name": "local shop 00591",
+        "distance_m": 28.421,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08506",
+        "normalised_name": "local shop 08506",
+        "distance_m": 33.92,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02966",
+        "normalised_name": "local shop 02966",
+        "distance_m": 89.785,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06177",
+        "normalised_name": "local shop 06177",
+        "distance_m": 93.87,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04719",
+        "normalised_name": "seoudi",
+        "distance_m": 213.723,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1934.498,
+        1920.727,
+        2244.692
+      ],
+      [
+        1918.054,
+        1937.336,
+        2184.608
+      ],
+      [
+        1876.809,
+        1980.818,
+        2144.574
+      ],
+      [
+        1848.379,
+        2007.743,
+        2168.989
+      ],
+      [
+        2045.55,
+        1826.7,
+        2402.912
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M088",
+    "anchor_name_normalised": "fustat park edge",
+    "knn": [
+      {
+        "shop_id": "S06154",
+        "normalised_name": "local shop 06154",
+        "distance_m": 109.446,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08686",
+        "normalised_name": "seoudi",
+        "distance_m": 124.921,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01872",
+        "normalised_name": "local shop 01872",
+        "distance_m": 128.232,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05573",
+        "normalised_name": "spinneys",
+        "distance_m": 131.018,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07532",
+        "normalised_name": "oscar",
+        "distance_m": 147.661,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2004.499,
+        1853.617,
+        2139.214
+      ],
+      [
+        1994.606,
+        1866.208,
+        2110.988
+      ],
+      [
+        1944.251,
+        1919.053,
+        2089.54
+      ],
+      [
+        1969.396,
+        1893.62,
+        2092.06
+      ],
+      [
+        2041.327,
+        1818.395,
+        2123.364
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M089",
+    "anchor_name_normalised": "manial bridge",
+    "knn": [
+      {
+        "shop_id": "S02267",
+        "normalised_name": "local shop 02267",
+        "distance_m": 114.493,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00114",
+        "normalised_name": "hyperone",
+        "distance_m": 219.857,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03600",
+        "normalised_name": "local shop 03600",
+        "distance_m": 245.956,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04579",
+        "normalised_name": "abu_zekry",
+        "distance_m": 257.196,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04556",
+        "normalised_name": "seoudi",
+        "distance_m": 265.012,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1813.752,
+        2041.186,
+        2233.314
+      ],
+      [
+        1760.13,
+        2104.389,
+        2359.667
+      ],
+      [
+        1696.907,
+        2161.335,
+        2309.317
+      ],
+      [
+        1732.126,
+        2135.902,
+        2068.587
+      ],
+      [
+        1662.833,
+        2192.12,
+        2219.09
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M090",
+    "anchor_name_normalised": "embaba crossing",
+    "knn": [
+      {
+        "shop_id": "S06038",
+        "normalised_name": "seoudi",
+        "distance_m": 172.356,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05161",
+        "normalised_name": "local shop 05161",
+        "distance_m": 650.505,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05837",
+        "normalised_name": "local shop 05837",
+        "distance_m": 693.512,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06526",
+        "normalised_name": "local shop 06526",
+        "distance_m": 839.711,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07408",
+        "normalised_name": "local shop 07408",
+        "distance_m": 955.571,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1813.902,
+        2094.713,
+        2345.814
+      ],
+      [
+        2574.434,
+        2234.583,
+        2384.159
+      ],
+      [
+        2617.203,
+        2241.637,
+        2401.716
+      ],
+      [
+        2536.097,
+        1644.214,
+        2921.995
+      ],
+      [
+        2784.306,
+        2841.308,
+        1893.265
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M091",
+    "anchor_name_normalised": "imbaba airport strip",
+    "knn": [
+      {
+        "shop_id": "S01848",
+        "normalised_name": "oscar",
+        "distance_m": 306.07,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07331",
+        "normalised_name": "local shop 07331",
+        "distance_m": 306.07,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09351",
+        "normalised_name": "local shop 09351",
+        "distance_m": 468.523,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00611",
+        "normalised_name": "local shop 00611",
+        "distance_m": 489.39,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04177",
+        "normalised_name": "abu_zekry",
+        "distance_m": 543.514,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2093.502,
+        1955.649,
+        2848.596
+      ],
+      [
+        2093.502,
+        1955.649,
+        2848.596
+      ],
+      [
+        1805.228,
+        2657.527,
+        3178.428
+      ],
+      [
+        1546.413,
+        2524.351,
+        2919.705
+      ],
+      [
+        2220.064,
+        1745.167,
+        2771.249
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M092",
+    "anchor_name_normalised": "mit okba plaza",
+    "knn": [
+      {
+        "shop_id": "S07997",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 343.549,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09397",
+        "normalised_name": "local shop 09397",
+        "distance_m": 676.021,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09808",
+        "normalised_name": "spinneys",
+        "distance_m": 730.243,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05602",
+        "normalised_name": "oscar",
+        "distance_m": 751.03,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04947",
+        "normalised_name": "hyperone",
+        "distance_m": 784.109,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        2189.125,
+        1694.229,
+        2466.082
+      ],
+      [
+        1712.845,
+        2325.201,
+        2830.396
+      ],
+      [
+        2428.542,
+        1610.926,
+        2840.919
+      ],
+      [
+        2215.1,
+        1910.159,
+        1492.963
+      ],
+      [
+        2545.447,
+        1475.64,
+        1757.292
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M093",
+    "anchor_name_normalised": "el agouza riverside",
+    "knn": [
+      {
+        "shop_id": "S02149",
+        "normalised_name": "local shop 02149",
+        "distance_m": 16.601,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03701",
+        "normalised_name": "local shop 03701",
+        "distance_m": 107.708,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04732",
+        "normalised_name": "local shop 04732",
+        "distance_m": 193.909,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02314",
+        "normalised_name": "spinneys",
+        "distance_m": 218.371,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05721",
+        "normalised_name": "spinneys",
+        "distance_m": 338.561,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1917.317,
+        1936.813,
+        2230.562
+      ],
+      [
+        2015.472,
+        1840.608,
+        2281.616
+      ],
+      [
+        2034.439,
+        1833.836,
+        2384.956
+      ],
+      [
+        2037.185,
+        1836.352,
+        2025.968
+      ],
+      [
+        2060.821,
+        1846.309,
+        2540.056
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M094",
+    "anchor_name_normalised": "el sahel junction",
+    "knn": [
+      {
+        "shop_id": "S05993",
+        "normalised_name": "local shop 05993",
+        "distance_m": 34.708,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02717",
+        "normalised_name": "local shop 02717",
+        "distance_m": 426.041,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04664",
+        "normalised_name": "local shop 04664",
+        "distance_m": 473.793,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09809",
+        "normalised_name": "local shop 09809",
+        "distance_m": 565.886,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05067",
+        "normalised_name": "local shop 05067",
+        "distance_m": 582.826,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1900.563,
+        1953.742,
+        2194.958
+      ],
+      [
+        2215.791,
+        1697.024,
+        2565.564
+      ],
+      [
+        1497.705,
+        2373.349,
+        2087.605
+      ],
+      [
+        1462.82,
+        2434.672,
+        1997.856
+      ],
+      [
+        1900.127,
+        2120.401,
+        1649.721
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M095",
+    "anchor_name_normalised": "rod el farag bridge",
+    "knn": [
+      {
+        "shop_id": "S06608",
+        "normalised_name": "local shop 06608",
+        "distance_m": 36.569,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07457",
+        "normalised_name": "spinneys",
+        "distance_m": 227.399,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02325",
+        "normalised_name": "local shop 02325",
+        "distance_m": 646.979,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03053",
+        "normalised_name": "metro",
+        "distance_m": 693.549,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00929",
+        "normalised_name": "spinneys",
+        "distance_m": 769.019,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1962.891,
+        1891.185,
+        2210.203
+      ],
+      [
+        2124.92,
+        1736.392,
+        2108.514
+      ],
+      [
+        1306.24,
+        2560.83,
+        2161.06
+      ],
+      [
+        1621.483,
+        2400.008,
+        1704.054
+      ],
+      [
+        1660.843,
+        2419.022,
+        1611.852
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M096",
+    "anchor_name_normalised": "shubra el kheima centre",
+    "knn": [
+      {
+        "shop_id": "S02843",
+        "normalised_name": "kheir_zaman",
+        "distance_m": 298.868,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02232",
+        "normalised_name": "hyperone",
+        "distance_m": 337.458,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05565",
+        "normalised_name": "local shop 05565",
+        "distance_m": 353.755,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04124",
+        "normalised_name": "local shop 04124",
+        "distance_m": 354.836,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S09093",
+        "normalised_name": "local shop 09093",
+        "distance_m": 385.962,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1817.389,
+        2074.316,
+        1952.175
+      ],
+      [
+        1997.702,
+        1914.166,
+        1882.804
+      ],
+      [
+        2117.742,
+        1786.765,
+        1912.968
+      ],
+      [
+        1998.855,
+        1919.244,
+        1865.029
+      ],
+      [
+        2125.745,
+        1790.467,
+        2569.102
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M097",
+    "anchor_name_normalised": "el sawah corner",
+    "knn": [
+      {
+        "shop_id": "S03860",
+        "normalised_name": "local shop 03860",
+        "distance_m": 142.132,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S05532",
+        "normalised_name": "hyperone",
+        "distance_m": 160.602,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S00246",
+        "normalised_name": "local shop 00246",
+        "distance_m": 163.791,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04570",
+        "normalised_name": "local shop 04570",
+        "distance_m": 192.632,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02460",
+        "normalised_name": "local shop 02460",
+        "distance_m": 238.068,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1967.935,
+        1895.946,
+        2079.952
+      ],
+      [
+        2068.525,
+        1788.749,
+        2300.064
+      ],
+      [
+        2059.356,
+        1799.906,
+        2121.329
+      ],
+      [
+        2072.321,
+        1790.67,
+        2352.436
+      ],
+      [
+        1985.157,
+        1897.164,
+        2451.42
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M098",
+    "anchor_name_normalised": "demerdash plaza",
+    "knn": [
+      {
+        "shop_id": "S01180",
+        "normalised_name": "local shop 01180",
+        "distance_m": 121.896,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S06637",
+        "normalised_name": "local shop 06637",
+        "distance_m": 222.942,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S04915",
+        "normalised_name": "spinneys",
+        "distance_m": 247.216,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08538",
+        "normalised_name": "local shop 08538",
+        "distance_m": 247.216,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S01172",
+        "normalised_name": "local shop 01172",
+        "distance_m": 306.909,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1874.909,
+        1985.263,
+        2326.423
+      ],
+      [
+        2149.608,
+        1704.555,
+        2214.836
+      ],
+      [
+        1739.05,
+        2127.144,
+        2377.495
+      ],
+      [
+        1739.05,
+        2127.144,
+        2377.495
+      ],
+      [
+        1724.24,
+        2154.632,
+        2011.357
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M099",
+    "anchor_name_normalised": "el demerdash hospital edge",
+    "knn": [
+      {
+        "shop_id": "S02861",
+        "normalised_name": "oscar",
+        "distance_m": 118.692,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08158",
+        "normalised_name": "abu_zekry",
+        "distance_m": 223.407,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03031",
+        "normalised_name": "metro",
+        "distance_m": 242.12,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S07944",
+        "normalised_name": "local shop 07944",
+        "distance_m": 285.233,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S02816",
+        "normalised_name": "carrefour",
+        "distance_m": 335.103,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1893.637,
+        1967.059,
+        2104.59
+      ],
+      [
+        2129.67,
+        1729.544,
+        2127.689
+      ],
+      [
+        2168.306,
+        1686.003,
+        2251.523
+      ],
+      [
+        2063.938,
+        1824.823,
+        1962.366
+      ],
+      [
+        1607.712,
+        2250.966,
+        2148.63
+      ]
+    ]
+  },
+  {
+    "anchor_id": "M100",
+    "anchor_name_normalised": "ramses hilton plaza",
+    "knn": [
+      {
+        "shop_id": "S05866",
+        "normalised_name": "local shop 05866",
+        "distance_m": 47.044,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03839",
+        "normalised_name": "local shop 03839",
+        "distance_m": 74.59,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S08440",
+        "normalised_name": "local shop 08440",
+        "distance_m": 107.529,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03430",
+        "normalised_name": "local shop 03430",
+        "distance_m": 173.596,
+        "within_1km": true
+      },
+      {
+        "shop_id": "S03934",
+        "normalised_name": "local shop 03934",
+        "distance_m": 175.24,
+        "within_1km": true
+      }
+    ],
+    "full_distance_matrix_m": [
+      [
+        1948.444,
+        2175.102,
+        2919.94
+      ],
+      [
+        1893.585,
+        2283.466,
+        2965.642
+      ],
+      [
+        1959.436,
+        2113.976,
+        2880.535
+      ],
+      [
+        1951.577,
+        2044.419,
+        2821.156
+      ],
+      [
+        1928.884,
+        2042.001,
+        2803.638
+      ]
+    ]
+  }
+]

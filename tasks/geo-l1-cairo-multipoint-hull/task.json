@@ -1,0 +1,48 @@
+{
+  "task_id": "geo-l1-cairo-multipoint-hull",
+  "version": 2,
+  "tags": {
+    "region": ["cairo"],
+    "data_source": ["bundled"],
+    "formats": ["geojson"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["multipoint", "polygon"],
+    "operations": ["convex_hull"],
+    "themes": ["railway"],
+    "quality_issues": [],
+    "scale": "small"
+  },
+  "instruction": "I'm putting together the accessibility report for the Metro, and its static maps need to show how far each station's underground box reaches at street level. `cairo_metro_stations.geojson` has each station's street-level entrances. Can you compute the convex hull of each station's entrances and save the result to `cairo_metro_hulls.geojson`, one Polygon per station? Every row must carry `station_name_en` and `station_name_ar`, both non-empty, with the original Arabic strings and diacritics preserved exactly as they appear in the input.",
+  "inputs": [
+    {
+      "name": "cairo_metro_stations",
+      "url": "tasks/geo-l1-cairo-multipoint-hull/inputs/cairo_metro_stations.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "cairo_metro_hulls.geojson",
+      "format": "geojson",
+      "crs": "EPSG:4326",
+      "geometry_type": "Polygon"
+    }
+  ],
+  "deadline_seconds": 600,
+  "analyst_notes": {
+    "description": "This task checks whether the agent applies convex hull per row instead of collapsing all stations into a single hull, and whether it carries the bilingual name columns through the geometric operation without mangling the Arabic strings. The prompt names the operation because the task is L1, but it stays silent about the input geometry type (the agent has to open the file to see each row is a MultiPoint) and about the output CRS, which GeoJSON pins to WGS84 by convention.",
+    "approach": [
+      "Open `cairo_metro_stations.geojson` and confirm each feature is a MultiPoint of entrance points with both name columns.",
+      "Compute the convex hull on each row independently, keeping the row order so the names stay paired with their geometry.",
+      "Keep `station_name_en` and `station_name_ar` verbatim, including the Arabic diacritics, and drop nothing else.",
+      "Write the result to `cairo_metro_hulls.geojson` with one Polygon per station, leaving the coordinates in WGS84 as GeoJSON expects."
+    ],
+    "pitfalls": [
+      "Calling `convex_hull` on the unioned geometry collapses 20 stations into one polygon, which fails the heavily weighted row-count subcheck.",
+      "Reaching for `shapely.unary_union` to merge geometries drops the attribute columns and breaks the bilingual name preservation.",
+      "Round-tripping the Arabic names through a CSV or Latin-1 encoding mangles the diacritics and trips `arabic_names_match` even when the geometry is correct.",
+      "Returning the axis-aligned bounding box of each MultiPoint instead of the convex hull inflates the polygon by roughly 30 percent and drops `hull_iou_against_reference` below 0.95.",
+      "Reprojecting to a metric CRS for the hull computation and forgetting to project back to WGS84 docks the two CRS subchecks even when the geometry itself is fine."
+    ]
+  }
+}

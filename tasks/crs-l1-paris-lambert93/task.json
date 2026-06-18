@@ -1,0 +1,49 @@
+{
+  "task_id": "crs-l1-paris-lambert93",
+  "version": 2,
+  "tags": {
+    "region": ["paris"],
+    "data_source": ["bundled"],
+    "formats": ["geojson", "gpkg"],
+    "crs": ["EPSG:4326", "EPSG:2154"],
+    "geometry_type": ["polygon"],
+    "operations": ["reprojection"],
+    "themes": ["buildings.building", "building"],
+    "quality_issues": [],
+    "scale": "small"
+  },
+  "instruction": "Our heat-loss model won't accept the `paris_buildings` file in lat/lon. It needs the coordinates in metres using the standard official projection for the Paris region. Can you convert the buildings over so the model can ingest them? Please leave the attributes alone, and keep every geometry as a plain Polygon rather than turning it into a MultiPolygon. Write the result as a GeoPackage to `paris_buildings_lambert93.gpkg`, and use `id` as the key.",
+  "analyst_notes": {
+    "description": "Tests reprojection from WGS84 to a specific national grid: Lambert-93 (EPSG:2154), the canonical CRS for metropolitan France. The prompt deliberately uses the category-level hint 'standard official projection for the Paris region' instead of naming the EPSG, so the agent has to know that Lambert-93 is the official French grid rather than any other metric projection.",
+    "approach": [
+      "Read the input GeoJSON and inspect its CRS metadata.",
+      "Identify the standard official projection for metropolitan France as Lambert-93 (EPSG:2154).",
+      "Reproject the polygons from EPSG:4326 to EPSG:2154.",
+      "Preserve every input column and keep each geometry as a Polygon.",
+      "Write the result as a GeoPackage to `paris_buildings_lambert93.gpkg` with the Lambert-93 CRS declared."
+    ],
+    "pitfalls": [
+      "Picking a UTM zone (31N or 32N) instead of Lambert-93 produces metric coordinates that are defensible for local distance work but are not the official French grid the downstream model expects.",
+      "Reprojecting to Web Mercator (EPSG:3857) because the prompt asks for metres, since Web Mercator's metres are distorted and the downstream model will reject them.",
+      "Letting Polygon geometries turn into MultiPolygons during the round-trip.",
+      "Dropping or renaming input columns so the downstream model loses the attributes it needs.",
+      "Writing the output in a different format like GeoJSON or CSV instead of a GeoPackage."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "paris_buildings",
+      "url": "tasks/crs-l1-paris-lambert93/inputs/paris_buildings_wgs84.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "paris_buildings_lambert93.gpkg",
+      "format": "gpkg",
+      "crs": "EPSG:2154",
+      "geometry_type": "Polygon"
+    }
+  ],
+  "deadline_seconds": 600
+}

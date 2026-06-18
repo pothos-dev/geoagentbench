@@ -1,0 +1,18 @@
+{
+  "task_id": "crs-l1-nyc-webmercator-cycleways",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": ["grade.py", "metadata.yaml", "README.md", "audit/AUTHORING_HISTORY.md", "audit/status.json"],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-001",
+      "category": "reference-or-data-edit-needed",
+      "severity": "low",
+      "summary": "Residual slug mismatch: metadata.yaml > broken_solutions key 'wrong_crs_metadata_only' vs. on-disk directory reference/failures/broken_wrong_crs/ (README now aligned to the directory name at this audit). Cosmetic, nothing programmatic consumes the key; fix touches reference/failures/ on one side so the evaluator cannot apply it. Suggest renaming the metadata key to 'wrong_crs'; no task.json.version bump needed. Carried forward (6th consecutive review)."
+    }
+  ],
+  "blocker": null
+}

@@ -1,0 +1,48 @@
+{
+  "task_id": "crs-l1-nyc-webmercator-cycleways",
+  "tags": {
+    "region": ["nyc"],
+    "data_source": ["bundled"],
+    "formats": ["geoparquet"],
+    "crs": ["EPSG:3857", "EPSG:4326"],
+    "geometry_type": ["linestring"],
+    "operations": ["reprojection"],
+    "themes": ["transportation.segment", "highway"],
+    "quality_issues": [],
+    "scale": "small"
+  },
+  "instruction": "The `nyc_cycleways` file came out of our tile-renderer, but our web map client can't read the coordinates as they are. It needs plain lat/lon. Can you convert them over? Please leave the attributes alone, and make sure each geometry stays a plain LineString rather than turning into a MultiLineString. Write the result as GeoParquet to `nyc_cycleways_wgs84.geoparquet`, and use `id` as the key.",
+  "analyst_notes": {
+    "description": "Tests basic reprojection from Web Mercator (EPSG:3857) to WGS84 (EPSG:4326) on linestrings, with strict preservation of attributes and geometry type. Neither CRS is named, so the agent has to infer the source from the tile-renderer framing and the target from the request for plain lat/lon.",
+    "approach": [
+      "Read the input GeoParquet and inspect its CRS metadata.",
+      "Confirm the source CRS is Web Mercator (EPSG:3857).",
+      "Reproject the geometries to EPSG:4326.",
+      "Preserve every original column and keep each LineString as a LineString.",
+      "Write the result as GeoParquet to `nyc_cycleways_wgs84.geoparquet` with EPSG:4326 declared."
+    ],
+    "pitfalls": [
+      "Missing the source CRS in the file metadata and reprojecting from a wrong assumption produces coordinates that are wildly off.",
+      "GeoPandas or Shapely can silently turn single LineStrings into MultiLineStrings during the round-trip.",
+      "Dropping or renaming the attribute columns means the renderer loses the metadata it needs.",
+      "Writing the output in a different format like GeoJSON or Shapefile instead of GeoParquet leaves downstream tools unable to read it.",
+      "Letting the CRS metadata get lost on write so EPSG:4326 isn't declared on the output file."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "nyc_cycleways",
+      "url": "tasks/crs-l1-nyc-webmercator-cycleways/inputs/nyc_cycleways_webmercator.geoparquet",
+      "format": "geoparquet"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "nyc_cycleways_wgs84.geoparquet",
+      "format": "geoparquet",
+      "crs": "EPSG:4326",
+      "geometry_type": "LineString"
+    }
+  ],
+  "deadline_seconds": 600
+}

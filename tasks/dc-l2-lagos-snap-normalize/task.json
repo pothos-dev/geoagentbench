@@ -1,0 +1,51 @@
+{
+  "task_id": "dc-l2-lagos-snap-normalize",
+  "tags": {
+    "region": ["lagos"],
+    "data_source": ["bundled"],
+    "formats": ["gpkg"],
+    "crs": ["EPSG:26331"],
+    "geometry_type": ["polygon"],
+    "operations": ["spatial_aggregation", "dissolve", "area_calculation"],
+    "themes": [],
+    "quality_issues": ["unsnapped_vertices", "zero_area_polygon", "inconsistent_values"],
+    "scale": "medium"
+  },
+  "version": 3,
+  "instruction": "I need to get our legacy zoning layer ready for the state portal. lagos_zoning_legacy.gpkg has inconsistent zoning_class values (mixed casing, spelling variations, and some blank entries) plus vertex precision issues that cause tiny gaps and overlaps between adjacent parcels. Can you clean up the class names to consistent canonical TitleCase values, drop any rows with blank or whitespace-only classes, fix the vertex precision problems, and produce one merged geometry per canonical zoning class? Please write the result to zoning_aggregated.gpkg, with each row carrying two columns: zoning_class and a numeric area_m2.",
+  "analyst_notes": {
+    "description": "Multi-step data-cleaning chain on a hand-crafted Lagos zoning fixture. The task tests whether the agent can read the data carefully enough to infer the four canonical zoning families from the variant spellings, order the cleanup steps so the dissolve actually unifies adjacent parcels, and resist the temptation to reproject to Web Mercator for a portal export. The deliberate hidden gotcha is the sub-millimetre vertex offset between adjacent parcels: a dissolve without a snap looks like it works but leaves thousands of tiny interior rings.",
+    "approach": [
+      "Read the GPKG and look at the zoning_class values to figure out the four canonical families behind the variant spellings.",
+      "Snap every coordinate to a 1 mm grid so adjacent parcels' shared corners coincide exactly.",
+      "Drop the zero-area ghost polygons left over from collinear-vertex parcels.",
+      "Normalise each non-blank class label to its canonical TitleCase value and drop the blank or whitespace-only rows.",
+      "Dissolve per canonical class and recompute area_m2 from the resulting geometry in metres.",
+      "Write the four-row result as GPKG, keeping the input CRS intact."
+    ],
+    "pitfalls": [
+      "Dissolving without snapping first looks correct on a quick check but produces MultiPolygons with hundreds of sub-millimetre interior holes along the internal grid lines, so the strict-Polygon and no-interior-holes subchecks both fail.",
+      "Reprojecting to Web Mercator before writing because it feels like the universal web-portal CRS costs two subchecks (the soft-CRS policy reprojects the submission back to EPSG:26331 for the geometric checks, but the canonical and meaningful-set checks both fail).",
+      "Picking ALL-CAPS canonical labels instead of TitleCase fails the canonical-class subcheck, even though the per-class area still matches.",
+      "Leaving the blank-class rows in produces a fifth row that trips the count gate.",
+      "Skipping the dissolve and emitting per-parcel rows blows the count gate completely (10 000 vs 4).",
+      "Recomputing area_m2 from the stale input column instead of from the dissolved geometry leaves the values at the per-parcel 100 m² nominal, so the area-recomputed subcheck fails."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "lagos_zoning_legacy",
+      "url": "tasks/dc-l2-lagos-snap-normalize/inputs/lagos_zoning_legacy.gpkg",
+      "format": "gpkg"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "zoning_aggregated.gpkg",
+      "format": "gpkg",
+      "crs": "EPSG:26331",
+      "geometry_type": "Polygon"
+    }
+  ],
+  "deadline_seconds": 600
+}

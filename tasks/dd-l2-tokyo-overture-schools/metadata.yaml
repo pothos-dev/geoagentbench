@@ -1,0 +1,213 @@
+task_id: dd-l2-tokyo-overture-schools
+category: data_discovery
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.9
+  jaccard_min_categories: 0.6
+  geom_eps_m: null
+  rationale: |
+    Bundled-input task with two orthogonal grading dimensions:
+    category-selection (which Overture primary categories the agent
+    picked) and pipeline correctness (partitioned read, spatial crop,
+    attribute preservation). The two are decoupled by filtering both
+    submission and reference to `categories.primary == 'school'` for
+    the count / id-Jaccard subchecks, so pipeline scores don't depend
+    on whether the agent included `private_school` or `preschool`.
+
+      * count_pct = 0.05 — ±5 % count tolerance on the
+        `school`-subset, absorbing implementation differences without
+        flipping on small fixture quirks.
+      * jaccard_min = 0.9 — id-set Jaccard on the `school`-subset.
+        Catches off-by-one filter errors and skipped partitions
+        without depending on category-selection.
+      * jaccard_min_categories = 0.6 — Jaccard between the agent's
+        chosen primary-category set and the ACCEPT list
+        ({school, elementary_school, middle_school, private_school,
+        public_school}). 0.6 passes the four-of-five reference (one
+        category — `public_school` — has zero post-bbox features and
+        is not observable in any submission). Fails a strict
+        `school`-only filter (Jaccard 0.2) and fails an agent that
+        adds two out-of-range categories like `preschool` and
+        `high_school` (Jaccard 0.571).
+      * geom_eps_m = null — the spatial-crop subcheck uses
+        `polygon.contains` / `polygon.intersects` directly; we
+        accept on-boundary points because the bbox polygon's edge
+        coincides with the persona's wards rectangle.
+      * `bbox_crop_applied` and `school_category_selection` are
+        anti-tautology subchecks: the former catches skipped spatial
+        crops; the latter catches both too-narrow (`school` only) and
+        too-broad (vocational / specialty schools) filters.
+      * `count_within_tolerance` and `feature_set_jaccard_high` are
+        rescued for a clean dropped-catch-all subset: when the agent's
+        `school`-subset is a high-purity subset of the reference
+        (precision >= 0.95, recall < 0.9), it kept only the
+        explicitly-age-tagged bare-`school` rows and dropped the generic
+        catch-all. That is a defensible-but-narrow read of the age-8-14
+        framing rather than a pipeline fault, so the penalty is routed
+        to the single weight-1 `generic_school_retained` instead of the
+        full count + Jaccard budget. Over-inclusion (skipped crop, junk)
+        drops precision below 0.95 and is still fully penalised.
+    weighting: |
+      Subchecks are weighted by how central the failure they catch is
+      to delivering a correct dataset (2026-06-14 severity
+      recalibration; total weight 18, reference 18/18 = 1.0):
+        * weight 3 — `feature_set_jaccard_high` (the core "right
+          features" id-set check) and `cjk_names_preserved` (the named
+          non-Latin-script data-quality concern; a transliterated /
+          stripped name set is a corrupted deliverable). These are the
+          two highest-severity, independent central failures.
+        * weight 2 — `count_within_tolerance` and `bbox_crop_applied`
+          (both correlate with feature-set Jaccard on a partition-miss
+          or skipped-crop, so held at 2 to avoid triple-counting one
+          underlying error); `school_category_selection` (a central
+          axis, but the strict-`school` narrowing is the task's most
+          defensible single-axis miss per HR-001, so it must not tank
+          below a broken deliverable); `coords_in_tokyo_window` (a
+          metric-CRS reprojection makes every point geographically
+          useless — more than cosmetic).
+        * weight 1 — `confidence_field_present`, `addresses_field_present`,
+          `ids_are_strings` (schema-plumbing / structural sanity;
+          cosmetic relative to data content); `generic_school_retained`
+          (dropping the generic `school` catch-all is a defensible but
+          narrow age-reading per HR-001, so it is priced as the lightest
+          possible non-zero drop rather than the 5-point count + Jaccard
+          cost it incurred before the 2026-06-14 catch-all rescue).
+      This replaces the blunt repo-wide 2026-06-07 weighting (five
+      data-content subchecks flat at 3, four at 1, total 19), under
+      which CJK-mangling tied a defensible category narrowing (both
+      0.84) and a useless-CRS reprojection priced as cheaply as a
+      nulled metadata field (both 0.95).
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent emitted a CSV (with the right filename `tokyo_schools.geojson`)
+      instead of a GeoJSON FeatureCollection. Gate 1 fails on the
+      JSON-parse step. Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  no_spatial_crop:
+    description: |
+      Agent chose the correct category set (the full ACCEPT list)
+      but skipped the spatial-join with the 23-wards bbox polygon —
+      so the output also includes schools sitting in the outer band
+      of the input slice. school_category_selection passes (right
+      categories), but count_within_tolerance and
+      feature_set_jaccard_high on the `school`-subset both flip
+      (1742 vs 1456), and bbox_crop_applied flips. Attribute /
+      naming subchecks still pass. Under the 2026-06-14 severity
+      weighting (feature-set Jaccard 3, count + bbox-crop 2 each;
+      count/jaccard correlate on a skipped crop so the pair is held
+      at 2 to avoid double-counting one underlying error), the three
+      flipped subchecks cost 7 of 18 points. → 11 / 18 ≈ 0.61. The
+      catch-all rescue does not fire here: the output is a *superset*
+      of the reference (precision ≈ 0.84 < 0.95), so it is not a clean
+      subset and count + Jaccard stay flipped.
+    expected_score_range: [0.52, 0.66]
+    measured_score: 0.6111
+  strict_school_only:
+    description: |
+      Agent applied the spatial crop correctly but filtered on the
+      bare `categories.primary = 'school'` string, missing the
+      elementary / middle / private subtypes the prompt's age-framing
+      implies. Output is exactly the 1456 features inside the bbox
+      that carry `primary='school'`. school_category_selection flips
+      (Jaccard {school} ∩ ACCEPT / union = 1 / 5 = 0.2 < 0.6); every
+      other subcheck passes. The flipped subcheck is weight-2 under
+      the 2026-06-14 severity weighting — this is the most defensible
+      single-axis miss in the task (a narrower-but-arguable taxonomic
+      reading, see HR-001), so it is the mildest non-cosmetic drop.
+      Keeps all 1456 in-bbox `primary='school'` rows, so its
+      `school`-subset equals the reference (recall 1.0): the catch-all
+      rescue does not fire and `generic_school_retained` passes.
+      → 16 / 18 ≈ 0.89.
+    expected_score_range: [0.84, 0.92]
+    measured_score: 0.8889
+  dropped_attrs:
+    description: |
+      Agent kept the right feature set (correct category-selection +
+      spatial crop) but only carried `id` and `name` through to the
+      output properties — `confidence` / `address_freeform` /
+      `address_locality` / `address_postcode` keys are present but
+      null. Gate 1 still passes (the keys exist). Only
+      confidence_field_present flips (addresses_field_present is a
+      key-presence check, so it still passes). confidence_field_present
+      is a weight-1 schema check under the 2026-06-14 severity
+      weighting, so this data-correct, schema-drifted submission
+      loses only 1 of 18 points by design — the lightest possible
+      non-zero drop. → 17 / 18 ≈ 0.94.
+    expected_score_range: [0.90, 0.98]
+    measured_score: 0.9444
+  dropped_catch_all:
+    description: |
+      Agent applied the crop and picked the right category family
+      ({school, elementary_school, middle_school, private_school},
+      Jaccard 0.8 ≥ 0.6) but, within the bare `school` rows, kept only
+      the 215 in-bbox rows carrying an explicit school-level
+      `categories.alternate` tag, dropping the generic catch-all — the
+      defensible-but-narrow age-8-14 reading four runs across three
+      agent families converged on (HR-001). Its `school`-subset is a
+      clean high-purity subset of the reference (precision 1.0, recall
+      ≈ 0.15), so count_within_tolerance and feature_set_jaccard_high
+      are rescued and only the weight-1 `generic_school_retained`
+      flips. → 17 / 18 ≈ 0.94. Before the 2026-06-14 catch-all rescue
+      this same submission scored 13/19 ≈ 0.68 (count + Jaccard, weight
+      5, both flipped).
+    expected_score_range: [0.90, 0.98]
+    measured_score: 0.9444
+design_note: |
+  The 2026-05-28 redesign added a taxonomic-judgment dimension to a
+  task that had previously been graded purely on pipeline mechanics.
+  Run evidence from 2026-05-26..28 showed two model families (Opus,
+  Gemma-4-26B) consistently expanding the reference's strict
+  `categories.primary = 'school'` filter to a school-category family
+  ({school, elementary_school, middle_school, high_school, preschool,
+  private_school}). That expansion was defensible against the
+  persona's "every place flagged as a school" phrasing, yet
+  flattened scores into the 0.43–0.57 partial-credit range against
+  the strict reference. The redesign:
+
+    1. Tightens the prompt's framing — names a target age range
+       (8–14, Japan's compulsory-education years) so the agent has
+       a non-vacuous criterion for choosing categories.
+    2. Broadens the reference to the full compulsory-education
+       accept-list ({school, elementary_school, middle_school,
+       private_school, public_school}), restoring 1.0 for an agent
+       that reads the framing correctly.
+    3. Adds a `school_category_selection` subcheck (Jaccard against
+       the accept-list) and decouples count / id-Jaccard from
+       category-selection by filtering both sides to
+       `categories.primary == 'school'` for those subchecks.
+    4. Replaces the old `broken_no_spatial_crop` (which conflated
+       skipped-crop with strict-category-filter) with a new
+       `broken_strict_school_only` for the strict-filter mode, and
+       redirects `broken_no_spatial_crop` to use the full accept-list
+       so it isolates the skipped-crop mode cleanly.
+
+notes:
+  - |
+    Bundled input is sliced from Overture release 2026-04-15.0 over
+    a Tokyo bbox slightly larger than the 23 special wards
+    (139.50–139.95, 35.45–35.85), then sub-sampled to ~13 400 rows
+    (every school + every 45th non-school, hash-deterministic). The
+    slice is split into four Hive-bucketed parquet partitions
+    (`bucket=0..3`) so the agent has to read a partitioned dataset
+    rather than a single file.
+  - |
+    The wards polygon is a single rectangle (139.560–139.910,
+    35.520–35.820) shipped as a one-feature GeoJSON in EPSG:4326.
+    Slightly smaller than the parquet's spatial extent, so the
+    spatial-join step removes ~286 features from the 1742-school
+    attribute-filter result. This makes "skipped the spatial crop"
+    a distinguishable failure class rather than a no-op.
+  - |
+    Output is a hand-written GeoJSON FeatureCollection with `name`
+    preserved verbatim (CJK characters not escaped) so an agent
+    that pipes through `ensure_ascii=True` still parses correctly,
+    but the cjk_names_preserved subcheck verifies at least one CJK
+    character appears in the submission's name set, catching agents
+    that transliterate or strip names.

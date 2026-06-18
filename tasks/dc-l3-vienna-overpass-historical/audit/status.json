@@ -1,0 +1,36 @@
+{
+  "task_id": "dc-l3-vienna-overpass-historical",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": ["grade.py", "metadata.yaml", "audit/AUTHORING_HISTORY.md", "audit/status.json"],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-001",
+      "category": "prompt-vs-grader-judgment",
+      "severity": "low",
+      "summary": "District-name normalisation form still not pinned by the prompt; grader compares against the reference's Title-case + diacritic-preserving names. Now reproduced in a fourth run and a second model family (deepseek run-20260608-074701Z lowercased all names: Jaccard 0, cascaded touches_changed_accuracy 0, costing 6 of 27 weight points). Decide: pin a canonical form in the prompt, case-fold + diacritic-strip in the grader, or accept the partial-credit shape as the intended drift signal."
+    },
+    {
+      "id": "HR-002",
+      "category": "grader-miscalibration-suspected",
+      "severity": "low",
+      "summary": "Area-based subchecks (unchanged_area_dominates, changed_area_is_small) operate on EPSG:4326 geometries and emit per-grade geopandas warnings; the ratios are scale-invariant so the warnings are cosmetic, but a reviewer should confirm this is intentional rather than reproject to a projected CRS."
+    },
+    {
+      "id": "HR-003",
+      "category": "inventory-mismatch",
+      "severity": "low",
+      "summary": "Inventory row labels data_scale 'Medium' but quantifies it as '~10^2 administrative polygons'; the thesis data-scale-table defines medium as 10^4-10^5 features. The reference output has 69 features -> small per thesis. coverage.yaml uses small; task.json tags.scale=medium left unchanged (borderline design-contract edit)."
+    },
+    {
+      "id": "HR-004",
+      "category": "prompt-vs-grader-judgment",
+      "severity": "low",
+      "summary": "The grader enforces one MultiPolygon feature per (district, change_type) via total_feature_count (69 +-20%) and per_type_feature_count (23 +-25%), and the README states it, but the instruction says 'classify each resulting geometry fragment', which pulls toward per-fragment features (run-20260609-084636Z emitted 1,483 fragment features and lost both count subchecks, though its geometry was independently wrong). Decide whether the prompt should state the dissolve explicitly (with a version bump) or whether inferring it from the MultiPolygon output type is part of the test."
+    }
+  ],
+  "blocker": null
+}

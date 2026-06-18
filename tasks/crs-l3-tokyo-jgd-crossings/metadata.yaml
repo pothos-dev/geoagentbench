@@ -1,0 +1,106 @@
+task_id: crs-l3-tokyo-jgd-crossings
+category: crs_reprojection
+difficulty: L3
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: med
+tolerances:
+  count_pct: 0.15
+  area_pct: 0.30
+  jaccard_min: 0.50
+  geom_eps_m: null
+  rationale: |
+    L3 task with live Overpass fetches: per-run drift on highway counts of
+    a few percent and on crossing counts of a few percent are both expected.
+    The grader's tolerance windows are widened relative to the L2 5% defaults.
+    Specifically:
+      - Crossing-count tolerance: +-15% (covers OSM tag drift, route-class
+        re-classification, and minor boundary-relation edits over the
+        reference-output lifetime).
+      - Buffer-area sanity check: +-30% around pi*50^2 m^2. Wide because
+        shapely's quad-segment count is implementation-dependent (default 16
+        underspecifies the true circle by ~0.4%) and because some agents
+        may use 8 segments. Failures here mean degree-buffers or wrong-radius
+        bugs, both of which are off by orders of magnitude.
+      - Top-5 dense-ward Jaccard floor: 0.5 (3-of-5 overlap). A
+        rank-correlation Spearman floor of 0.8 supplements this.
+      - Per-layer CRS metadata: exact EPSG match. The whole point of the
+        task is the round-trip reprojection, so the CRS subchecks are
+        principled-bound at exact equality, not tolerant.
+broken_solutions:
+  wrong_format:
+    description: |
+      CSV written under the .gpkg name. pyogrio cannot list_layers it,
+      so Gate 1 fails immediately.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  unprojected_pipeline:
+    description: |
+      Agent skipped the EPSG:4326 -> EPSG:6677 reprojection. Engineering
+      layers are left in WGS84 with CRS metadata stamped 4326, the 50 m
+      buffer is applied to lat/lon geometries (so the buffer disc is
+      ~50 degrees across), and the buffer-ward intersection is computed
+      in WGS84. Density layer is in WGS84 already so its CRS check passes.
+      Seven of the fourteen subchecks fail (four CRS metadata subchecks
+      for the engineering layers, the JGD coordinate-envelope check, and
+      the buffer planar-area and intersection-ceiling checks). Under the
+      2026-06-14 per-task reweighting the four CRS-metadata subchecks are
+      only 0.25 each (1.0 total) while the proof-of-reprojection checks
+      dominate (wards-envelope 3.0 + buffer-area 3.0 + intersection 2.0 =
+      8.0 of the lost weight), so this honestly-unprojected file loses
+      9.0 of 20.75 weight points.
+    expected_score_range: [0.45, 0.65]
+    measured_score: 0.5663
+  wrong_density_metric:
+    description: |
+      Engineering layers are correct, but the agent populated the public-
+      facing density layer's crossings_per_km2 column with the raw
+      crossing count (forgot to divide by area_km2). Tokyo wards span
+      ~10x in area so the ranking flips. Schema-shape and CRS subchecks
+      pass; only the density rank-correlation and top-5 subchecks fail.
+      Under the 2026-06-14 per-task reweighting the rank-correlation
+      check stays at 3.0 (the central density-metric correctness signal)
+      and top-5 drops to 1.5 (corroborating, same failure mode), so 4.5
+      of 20.75 weight points are lost.
+    expected_score_range: [0.70, 0.90]
+    measured_score: 0.7831
+notes:
+  - Broken-solution measured_score values re-measured 2026-06-14 against
+    the per-task reweighted grader. The blunt 2026-06-07 3x data-content
+    weighting (commit 05b389b) was replaced with weights reasoned from
+    what the task tests: proof-of-reprojection checks (wards JGD
+    coordinate-envelope 3.0, buffer planar-area 3.0, density WGS84
+    envelope 2.0, intersection ceiling 2.0) and the two central spatial
+    signals (crossing-count 3.0, density rank-correlation 3.0) carry the
+    weight; the five CRS-metadata-label subchecks are 0.25 each (a file
+    that only *declares* the right CRS must not out-leverage the checks
+    that prove the coordinates were actually transformed); top-5 is 1.5
+    (corroborates rank-correlation, same failure mode); the ward-count,
+    density-column-presence subchecks stay at 1.0. Total weight 20.75.
+    Both brokens remain inside their refreshed expected_score_range
+    windows and order sensibly (unprojected 0.5663 < wrong_density
+    0.7831).
+  - L3 reference fetches live OSM via Overpass at run time. Set the
+    OSM_DATE env var to an ISO-8601 timestamp to inject an attic
+    [date:"..."] directive for development reproducibility; default
+    behaviour is to query the current state.
+  - Highway tag filter: motorway/trunk/primary/secondary/tertiary
+    (+_link), residential, unclassified, living_street. Excludes
+    footway/cycleway/path/service to keep the response under Overpass'
+    practical timeout. The persona's wording "drivable road network
+    (excluding service roads)" pins this slice: it rules out
+    footway/cycleway/path implicitly (non-drivable) and service
+    explicitly. HR-001 (prompt-vs-grader-judgment, 2026-05-28) was
+    resolved by tightening this wording from the previous "highway
+    network", after runs clustered on three defensible slices
+    (trunk-only -58%, drivable+minor reference, drivable+minor+service
+    +32%) and the ±15% tolerance only fits the reference slice.
+  - Tokyo's 23 special wards are admin_level=7 in OSM. The kanji name
+    for each ends in "区", and the English name ends in " Ward".
+  - Reference run: 23 wards, ~85k highway segments, ~5400 crossings.
+    Densest ward by crossings/km^2: Toshima (~24/km^2). Least dense:
+    Edogawa (~1.8/km^2).
+  - GPKG byte-level differences between two consecutive reference runs
+    arise from internal SQLite metadata; per-feature attributes and
+    geometries are identical because Overpass returned identical OSM
+    state for the two queries that ran seconds apart.

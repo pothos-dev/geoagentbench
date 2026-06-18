@@ -1,0 +1,58 @@
+{
+  "task_id": "spa-l2-lagos-hotspot-overlaps",
+  "version": 3,
+  "tags": {
+    "region": ["lagos"],
+    "data_source": ["bundled"],
+    "formats": ["geojson", "geoparquet", "parquet"],
+    "crs": ["EPSG:4326", "EPSG:32631"],
+    "geometry_type": ["polygon"],
+    "operations": ["join_overlaps", "spatial_aggregation", "hotspot_ranking", "area_calculation"],
+    "themes": ["base.land_use"],
+    "quality_issues": ["sliver_polygons"],
+    "scale": "medium"
+  },
+  "instruction": "Hot-spot map for the Lagos housing brief. `lagos_landuse` carries land-use polygons with a population density attribute; `lagos_hex_grid` is a hex grid. I need the top 10 % of hex cells ranked by area-weighted mean population density across overlapping land-use polygons. Tiny polygons under 100 m² are noise and should be excluded.\n\nI need two output files that share exactly the same set of `hex_id` values, one row per cell. `hotspots.geoparquet` is a GeoParquet (Polygon or MultiPolygon geometry) in Nigeria's national grid with columns `hex_id`, `rank`, `area_weighted_density`, and `geometry`. `hotspot_ranking.parquet` is a plain Parquet with no geometry, carrying `hex_id`, `rank`, `area_weighted_density`, `n_overlap_polygons` (integer), and `n_slivers_filtered` (integer). In both files `rank` must be a unique integer starting at 1 where ascending rank corresponds to descending `area_weighted_density`.",
+  "analyst_notes": {
+    "description": "This task probes whether the agent reasons about scale and projection before doing any geometry. The 100 m² sliver threshold is the gotcha: it only makes sense in a metric CRS, so an agent that filters area in WGS84 degrees keeps all the synthetic slivers and lands on a wrong top-10 % list. The overlay step is also overlap-aware (a hex can intersect several land-use polygons), so the per-cell aggregate has to weight by intersection area, not by polygon count.",
+    "approach": [
+      "Reproject both inputs into a Lagos-appropriate metric CRS before any area work, so the 100 m² threshold and the area weights are in real units.",
+      "Drop land-use polygons whose area is below 100 m² and keep a per-cell count of how many were dropped.",
+      "Intersect the kept land-use polygons with the hex grid and, for each hex cell, compute the area-weighted mean of pop_density across all overlapping pieces.",
+      "Rank the cells by area-weighted density descending, take the top 10 %, and assign a unique integer rank starting at 1.",
+      "Write the two files with the same hex_id set: a GeoParquet with the hex polygons and a plain Parquet with the ranking table plus the overlap and sliver counts."
+    ],
+    "pitfalls": [
+      "Filtering the 100 m² threshold on the EPSG:4326 inputs removes almost nothing, because every polygon's degree² area is far below 100, so the slivers stay in and pull random cells onto the top list.",
+      "Using an unweighted mean of pop_density per cell instead of weighting by intersection area gives the right hex_ids but wrong density values, costing the density subcheck.",
+      "Computing the top 10 % off the full 1 782-cell hex grid instead of the eligible cells (those that overlap at least one kept land-use polygon) inflates the row count well past the reference's 104, so the heavily weighted hex_id overlap check fails.",
+      "Picking a non-Nigerian metric CRS (a generic Web Mercator, or no projection at all) costs subcheck points even if the geometry math is otherwise correct, because the grader reads the original CRS as well as reprojecting for the comparison.",
+      "Letting the GeoParquet and the Parquet ranking disagree on which hex_ids are in the top list fails the heavily weighted cross-file consistency check even if both files individually look right."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "lagos_landuse",
+      "url": "tasks/spa-l2-lagos-hotspot-overlaps/inputs/lagos_landuse.geojson",
+      "format": "geojson"
+    },
+    {
+      "name": "lagos_hex_grid",
+      "url": "tasks/spa-l2-lagos-hotspot-overlaps/inputs/lagos_hex_grid.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "hotspots.geoparquet",
+      "format": "geoparquet",
+      "crs": "EPSG:26331",
+      "geometry_type": "Polygon"
+    },
+    {
+      "name": "hotspot_ranking.parquet",
+      "format": "parquet"
+    }
+  ],
+  "deadline_seconds": 600
+}

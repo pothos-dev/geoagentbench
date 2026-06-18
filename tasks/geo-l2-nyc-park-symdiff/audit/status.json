@@ -1,0 +1,23 @@
+{
+  "task_id": "geo-l2-nyc-park-symdiff",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "calibrated",
+  "unilateral_edits": [
+    "grade.py (subcheck WEIGHTS recalibrated by error severity: total_area_within_tolerance 3.0->4.0 and unioned_geometry_iou 3.0->4.0 as the central symdiff-footprint checks; anchors_inside_disagreements 3.0->2.0 as a secondary label-anchor sub-skill; count_within_tolerance and source_label_distribution kept at 3.0; structural/CRS checks kept at 1.0; total weight 19->20. Docstring subcheck list annotated with weights/rationale. No check logic, thresholds, or gates changed.)",
+    "metadata.yaml (refreshed broken_solutions partial measured_score 0.3684->0.30 / range [0.30,0.45]->[0.25,0.40] and centroids measured_score 0.8421->0.90 / range [0.80,0.92]->[0.85,0.95]; updated weight-arithmetic prose to the new 20-point denominator)",
+    "README.md (refreshed stale weighted-score fractions in failure modes #4/#5 and the weak-agent paragraph to the new weights: partial 0.30, centroids 0.90, undeclared-coords 0.60, declared-6539 0.85/0.90)",
+    "audit/AUTHORING_HISTORY.md (appended 2026-06-14 grader weight-recalibration review block)"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-001",
+      "category": "inventory-mismatch",
+      "severity": "low",
+      "summary": "authoring/inventory.md lists Overture theme base.infrastructure for this task (line 600 data-source, line 610 themes, line 1096 coverage matrix), but the bundled inputs are sliced from base.land_use / subtype='park'. Author flagged this at initial authoring; carried forward across evaluator blocks. Update the inventory row to base.land_use; doing so leaves the base.infrastructure coverage-matrix row with zero tasks, a coverage-completeness question to resolve alongside. coverage.yaml uses the truer base.land_use slug."
+    }
+  ],
+  "blocker": null
+}

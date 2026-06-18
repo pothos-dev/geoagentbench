@@ -1,0 +1,20 @@
+{
+  "layers": [
+    {
+      "name": "boroughs",
+      "pmtiles": "boroughs.pmtiles",
+      "source_layer": "boroughs",
+      "geometry_type": "MultiPolygon",
+      "style": {
+        "fill-color": "#1a4480",
+        "fill-opacity": 0.45,
+        "fill-outline-color": "#1a4480"
+      },
+      "tooltip": [
+        "name",
+        "area_km2"
+      ]
+    }
+  ],
+  "error": null
+}

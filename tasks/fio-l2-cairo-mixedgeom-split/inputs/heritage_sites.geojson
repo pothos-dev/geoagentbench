@@ -1,0 +1,1292 @@
+{
+  "type": "FeatureCollection",
+  "name": "cairo_heritage_sites",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              31.256,
+              30.0316
+            ],
+            [
+              31.2572,
+              30.0316
+            ],
+            [
+              31.2572,
+              30.0328
+            ],
+            [
+              31.256,
+              30.0328
+            ],
+            [
+              31.256,
+              30.0316
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-001",
+        "feature_kind": "enclosure",
+        "name_en": "Sultan Hassan Mosque-Madrasa",
+        "name_ar": "مسجد ومدرسة السلطان حسن"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2556,
+            30.0321
+          ],
+          [
+            31.2566,
+            30.0322
+          ],
+          [
+            31.2576,
+            30.0323
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-001",
+        "feature_kind": "axial_line_1",
+        "name_en": "Sultan Hassan Mosque-Madrasa",
+        "name_ar": "مسجد ومدرسة السلطان حسن"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2567,
+            30.0312
+          ],
+          [
+            31.2566,
+            30.0322
+          ],
+          [
+            31.2565,
+            30.0332
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-001",
+        "feature_kind": "axial_line_2",
+        "name_en": "Sultan Hassan Mosque-Madrasa",
+        "name_ar": "مسجد ومدرسة السلطان حسن"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2566,
+          30.0326
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-001",
+        "feature_kind": "marker_gateway",
+        "name_en": "Sultan Hassan Mosque-Madrasa",
+        "name_ar": "مسجد ومدرسة السلطان حسن"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.257,
+          30.0322
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-001",
+        "feature_kind": "marker_mihrab",
+        "name_en": "Sultan Hassan Mosque-Madrasa",
+        "name_ar": "مسجد ومدرسة السلطان حسن"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2566,
+          30.0318
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-001",
+        "feature_kind": "marker_minaret",
+        "name_en": "Sultan Hassan Mosque-Madrasa",
+        "name_ar": "مسجد ومدرسة السلطان حسن"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                31.257,
+                30.0324
+              ],
+              [
+                31.2582,
+                30.0324
+              ],
+              [
+                31.2582,
+                30.0336
+              ],
+              [
+                31.257,
+                30.0336
+              ],
+              [
+                31.257,
+                30.0324
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                31.25865,
+                30.03349
+              ],
+              [
+                31.25935,
+                30.03349
+              ],
+              [
+                31.25935,
+                30.03419
+              ],
+              [
+                31.25865,
+                30.03419
+              ],
+              [
+                31.25865,
+                30.03349
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-002",
+        "feature_kind": "enclosure",
+        "name_en": "Al-Rifai Mosque",
+        "name_ar": "مسجد الرفاعي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2566,
+            30.0329
+          ],
+          [
+            31.2576,
+            30.033
+          ],
+          [
+            31.2586,
+            30.0331
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-002",
+        "feature_kind": "axial_line_1",
+        "name_en": "Al-Rifai Mosque",
+        "name_ar": "مسجد الرفاعي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2576,
+          30.0334
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-002",
+        "feature_kind": "marker_gateway",
+        "name_en": "Al-Rifai Mosque",
+        "name_ar": "مسجد الرفاعي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.258,
+          30.033
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-002",
+        "feature_kind": "marker_mihrab",
+        "name_en": "Al-Rifai Mosque",
+        "name_ar": "مسجد الرفاعي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                31.2491,
+                30.0281
+              ],
+              [
+                31.2503,
+                30.0281
+              ],
+              [
+                31.2503,
+                30.0293
+              ],
+              [
+                31.2491,
+                30.0293
+              ],
+              [
+                31.2491,
+                30.0281
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                31.25075,
+                30.02919
+              ],
+              [
+                31.25145,
+                30.02919
+              ],
+              [
+                31.25145,
+                30.02989
+              ],
+              [
+                31.25075,
+                30.02989
+              ],
+              [
+                31.25075,
+                30.02919
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-003",
+        "feature_kind": "enclosure",
+        "name_en": "Ibn Tulun Mosque",
+        "name_ar": "مسجد ابن طولون"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2487,
+            30.0286
+          ],
+          [
+            31.2497,
+            30.0287
+          ],
+          [
+            31.2507,
+            30.0288
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-003",
+        "feature_kind": "axial_line_1",
+        "name_en": "Ibn Tulun Mosque",
+        "name_ar": "مسجد ابن طولون"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2498,
+            30.0277
+          ],
+          [
+            31.2497,
+            30.0287
+          ],
+          [
+            31.2496,
+            30.0297
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-003",
+        "feature_kind": "axial_line_2",
+        "name_en": "Ibn Tulun Mosque",
+        "name_ar": "مسجد ابن طولون"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2497,
+          30.0291
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-003",
+        "feature_kind": "marker_gateway",
+        "name_en": "Ibn Tulun Mosque",
+        "name_ar": "مسجد ابن طولون"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2501,
+          30.0287
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-003",
+        "feature_kind": "marker_mihrab",
+        "name_en": "Ibn Tulun Mosque",
+        "name_ar": "مسجد ابن طولون"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2497,
+          30.0283
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-003",
+        "feature_kind": "marker_minaret",
+        "name_en": "Ibn Tulun Mosque",
+        "name_ar": "مسجد ابن طولون"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              31.2618,
+              30.0453
+            ],
+            [
+              31.263,
+              30.0453
+            ],
+            [
+              31.263,
+              30.0465
+            ],
+            [
+              31.2618,
+              30.0465
+            ],
+            [
+              31.2618,
+              30.0453
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-004",
+        "feature_kind": "enclosure",
+        "name_en": "Al-Azhar Mosque",
+        "name_ar": "الجامع الأزهر"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2614,
+            30.0458
+          ],
+          [
+            31.2624,
+            30.0459
+          ],
+          [
+            31.2634,
+            30.046
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-004",
+        "feature_kind": "axial_line_1",
+        "name_en": "Al-Azhar Mosque",
+        "name_ar": "الجامع الأزهر"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2625,
+            30.0449
+          ],
+          [
+            31.2624,
+            30.0459
+          ],
+          [
+            31.2623,
+            30.0469
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-004",
+        "feature_kind": "axial_line_2",
+        "name_en": "Al-Azhar Mosque",
+        "name_ar": "الجامع الأزهر"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2624,
+          30.0463
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-004",
+        "feature_kind": "marker_gateway",
+        "name_en": "Al-Azhar Mosque",
+        "name_ar": "الجامع الأزهر"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2628,
+          30.0459
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-004",
+        "feature_kind": "marker_mihrab",
+        "name_en": "Al-Azhar Mosque",
+        "name_ar": "الجامع الأزهر"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2624,
+          30.0455
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-004",
+        "feature_kind": "marker_minaret",
+        "name_en": "Al-Azhar Mosque",
+        "name_ar": "الجامع الأزهر"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              31.262,
+              30.0473
+            ],
+            [
+              31.2632,
+              30.0473
+            ],
+            [
+              31.2632,
+              30.0485
+            ],
+            [
+              31.262,
+              30.0485
+            ],
+            [
+              31.262,
+              30.0473
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-005",
+        "feature_kind": "enclosure",
+        "name_en": "Al-Hussein Mosque",
+        "name_ar": "مسجد الحسين"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2616,
+            30.0478
+          ],
+          [
+            31.2626,
+            30.0479
+          ],
+          [
+            31.2636,
+            30.048
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-005",
+        "feature_kind": "axial_line_1",
+        "name_en": "Al-Hussein Mosque",
+        "name_ar": "مسجد الحسين"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2626,
+          30.0483
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-005",
+        "feature_kind": "marker_gateway",
+        "name_en": "Al-Hussein Mosque",
+        "name_ar": "مسجد الحسين"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.263,
+          30.0479
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-005",
+        "feature_kind": "marker_mihrab",
+        "name_en": "Al-Hussein Mosque",
+        "name_ar": "مسجد الحسين"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                31.2614,
+                30.0524
+              ],
+              [
+                31.2626,
+                30.0524
+              ],
+              [
+                31.2626,
+                30.0536
+              ],
+              [
+                31.2614,
+                30.0536
+              ],
+              [
+                31.2614,
+                30.0524
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                31.26305,
+                30.05349
+              ],
+              [
+                31.26375,
+                30.05349
+              ],
+              [
+                31.26375,
+                30.05419
+              ],
+              [
+                31.26305,
+                30.05419
+              ],
+              [
+                31.26305,
+                30.05349
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-006",
+        "feature_kind": "enclosure",
+        "name_en": "Bayt Al-Suhaymi",
+        "name_ar": "بيت السحيمي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.261,
+            30.0529
+          ],
+          [
+            31.262,
+            30.053
+          ],
+          [
+            31.263,
+            30.0531
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-006",
+        "feature_kind": "axial_line_1",
+        "name_en": "Bayt Al-Suhaymi",
+        "name_ar": "بيت السحيمي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.262,
+          30.0534
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-006",
+        "feature_kind": "marker_gateway",
+        "name_en": "Bayt Al-Suhaymi",
+        "name_ar": "بيت السحيمي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2624,
+          30.053
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-006",
+        "feature_kind": "marker_mihrab",
+        "name_en": "Bayt Al-Suhaymi",
+        "name_ar": "بيت السحيمي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.262,
+          30.0526
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-006",
+        "feature_kind": "marker_minaret",
+        "name_en": "Bayt Al-Suhaymi",
+        "name_ar": "بيت السحيمي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              31.2574,
+              30.0426
+            ],
+            [
+              31.2586,
+              30.0426
+            ],
+            [
+              31.2586,
+              30.0438
+            ],
+            [
+              31.2574,
+              30.0438
+            ],
+            [
+              31.2574,
+              30.0426
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-007",
+        "feature_kind": "enclosure",
+        "name_en": "Bab Zuwayla",
+        "name_ar": "باب زويلة"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.257,
+            30.0431
+          ],
+          [
+            31.258,
+            30.0432
+          ],
+          [
+            31.259,
+            30.0433
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-007",
+        "feature_kind": "axial_line_1",
+        "name_en": "Bab Zuwayla",
+        "name_ar": "باب زويلة"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2581,
+            30.0422
+          ],
+          [
+            31.258,
+            30.0432
+          ],
+          [
+            31.2579,
+            30.0442
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-007",
+        "feature_kind": "axial_line_2",
+        "name_en": "Bab Zuwayla",
+        "name_ar": "باب زويلة"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.258,
+          30.0436
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-007",
+        "feature_kind": "marker_gateway",
+        "name_en": "Bab Zuwayla",
+        "name_ar": "باب زويلة"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2584,
+          30.0432
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-007",
+        "feature_kind": "marker_mihrab",
+        "name_en": "Bab Zuwayla",
+        "name_ar": "باب زويلة"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                31.2609,
+                30.0467
+              ],
+              [
+                31.2621,
+                30.0467
+              ],
+              [
+                31.2621,
+                30.0479
+              ],
+              [
+                31.2609,
+                30.0479
+              ],
+              [
+                31.2609,
+                30.0467
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                31.26255,
+                30.04779
+              ],
+              [
+                31.26325,
+                30.04779
+              ],
+              [
+                31.26325,
+                30.04849
+              ],
+              [
+                31.26255,
+                30.04849
+              ],
+              [
+                31.26255,
+                30.04779
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-008",
+        "feature_kind": "enclosure",
+        "name_en": "Khan el-Khalili",
+        "name_ar": "خان الخليلي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2605,
+            30.0472
+          ],
+          [
+            31.2615,
+            30.0473
+          ],
+          [
+            31.2625,
+            30.0474
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-008",
+        "feature_kind": "axial_line_1",
+        "name_en": "Khan el-Khalili",
+        "name_ar": "خان الخليلي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2616,
+            30.0463
+          ],
+          [
+            31.2615,
+            30.0473
+          ],
+          [
+            31.2614,
+            30.0483
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-008",
+        "feature_kind": "axial_line_2",
+        "name_en": "Khan el-Khalili",
+        "name_ar": "خان الخليلي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2615,
+          30.0477
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-008",
+        "feature_kind": "marker_gateway",
+        "name_en": "Khan el-Khalili",
+        "name_ar": "خان الخليلي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2619,
+          30.0473
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-008",
+        "feature_kind": "marker_mihrab",
+        "name_en": "Khan el-Khalili",
+        "name_ar": "خان الخليلي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2615,
+          30.0469
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-008",
+        "feature_kind": "marker_minaret",
+        "name_en": "Khan el-Khalili",
+        "name_ar": "خان الخليلي"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              31.2599,
+              30.0504
+            ],
+            [
+              31.2611,
+              30.0504
+            ],
+            [
+              31.2611,
+              30.0516
+            ],
+            [
+              31.2599,
+              30.0516
+            ],
+            [
+              31.2599,
+              30.0504
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-009",
+        "feature_kind": "enclosure",
+        "name_en": "Sabil-Kuttab of Katkhuda",
+        "name_ar": "سبيل وكتاب عبد الرحمن كتخدا"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.2595,
+            30.0509
+          ],
+          [
+            31.2605,
+            30.051
+          ],
+          [
+            31.2615,
+            30.0511
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-009",
+        "feature_kind": "axial_line_1",
+        "name_en": "Sabil-Kuttab of Katkhuda",
+        "name_ar": "سبيل وكتاب عبد الرحمن كتخدا"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2605,
+          30.0514
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-009",
+        "feature_kind": "marker_gateway",
+        "name_en": "Sabil-Kuttab of Katkhuda",
+        "name_ar": "سبيل وكتاب عبد الرحمن كتخدا"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2609,
+          30.051
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-009",
+        "feature_kind": "marker_mihrab",
+        "name_en": "Sabil-Kuttab of Katkhuda",
+        "name_ar": "سبيل وكتاب عبد الرحمن كتخدا"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                31.2624,
+                30.0549
+              ],
+              [
+                31.2636,
+                30.0549
+              ],
+              [
+                31.2636,
+                30.0561
+              ],
+              [
+                31.2624,
+                30.0561
+              ],
+              [
+                31.2624,
+                30.0549
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                31.26405,
+                30.05599
+              ],
+              [
+                31.26475,
+                30.05599
+              ],
+              [
+                31.26475,
+                30.05669
+              ],
+              [
+                31.26405,
+                30.05669
+              ],
+              [
+                31.26405,
+                30.05599
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-010",
+        "feature_kind": "enclosure",
+        "name_en": "Mosque of Al-Hakim",
+        "name_ar": "مسجد الحاكم بأمر الله"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.262,
+            30.0554
+          ],
+          [
+            31.263,
+            30.0555
+          ],
+          [
+            31.264,
+            30.0556
+          ]
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-010",
+        "feature_kind": "axial_line_1",
+        "name_en": "Mosque of Al-Hakim",
+        "name_ar": "مسجد الحاكم بأمر الله"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.263,
+          30.0559
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-010",
+        "feature_kind": "marker_gateway",
+        "name_en": "Mosque of Al-Hakim",
+        "name_ar": "مسجد الحاكم بأمر الله"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.2634,
+          30.0555
+        ]
+      },
+      "properties": {
+        "site_id": "EG-CAI-010",
+        "feature_kind": "marker_mihrab",
+        "name_en": "Mosque of Al-Hakim",
+        "name_ar": "مسجد الحاكم بأمر الله"
+      }
+    }
+  ]
+}

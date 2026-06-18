@@ -1,0 +1,19 @@
+{
+  "layers": [
+    {
+      "name": "cycleways",
+      "pmtiles": "cycleways.pmtiles",
+      "source_layer": "cycleways",
+      "geometry_type": "LineString",
+      "style": {
+        "line-color": "#1a4480",
+        "line-width": 2
+      },
+      "tooltip": [
+        "name",
+        "highway"
+      ]
+    }
+  ],
+  "error": null
+}

@@ -1,0 +1,16 @@
+{
+  "task_id": "geo-l1-cairo-multipoint-hull",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": [
+    "grade.py",
+    "metadata.yaml",
+    "README.md",
+    "audit/AUTHORING_HISTORY.md"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [],
+  "blocker": null
+}

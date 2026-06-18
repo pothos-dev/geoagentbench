@@ -1,0 +1,11 @@
+{
+  "task_id": "dd-l1-capetown-clinics-bbox",
+  "evaluator_finished_at": "2026-06-11T15:25:28Z",
+  "status": "completed",
+  "verdict": "calibrated",
+  "unilateral_edits": ["metadata.yaml", "README.md"],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "pass",
+  "human_review_items": [],
+  "blocker": null
+}

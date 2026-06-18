@@ -1,0 +1,49 @@
+{
+  "task_id": "fio-l1-paris-kml-pois",
+  "version": 3,
+  "tags": {
+    "region": ["paris"],
+    "data_source": ["bundled"],
+    "formats": ["kml", "geojson"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["point"],
+    "operations": ["format_conversion"],
+    "themes": ["amenity"],
+    "quality_issues": ["html_content"],
+    "scale": "small"
+  },
+  "instruction": "A colleague handed me `paris_late_night_pois`. Our internal map server only takes flat GeoJSON or GeoParquet, so please convert it to `paris_pois.geojson`, one row per placemark. Keep `name`, include the source's classification/grouping as a `category` column, and pull each entry's 'last verified' date out of the HTML blurb into a `verified_date` column as an ISO date. We want to flag stale records.",
+  "analyst_notes": {
+    "description": "This task tests format literacy on a Google-My-Maps style KML. The prompt never says KML, Folder, or HTML structure: the agent has to discover on its own that the file splits into three folders (which pyogrio exposes as separate layers, with the category living only in the layer name), that KML coordinates are lon,lat, and that the one piece of data worth extracting is a date buried in a CDATA-wrapped HTML info card with French labels and entities.",
+    "approach": [
+      "Inspect the input file and notice it is a KML with three folders of placemarks.",
+      "List the layers and read all of them, since a plain single read returns only the first folder.",
+      "Carry each layer's folder name through as the category value for its rows.",
+      "Decode the HTML description and pull out the date on the 'Dernière vérification' line.",
+      "Write the combined rows to paris_pois.geojson with name, category, and verified_date as a plain YYYY-MM-DD string."
+    ],
+    "pitfalls": [
+      "Reading the file with a single default read returns only the first folder, so 20 of 45 rows survive and the row count and name set checks fail.",
+      "The parent folder name is not a placemark attribute, so an agent that never looks at layer names has nothing to put in the category column.",
+      "Treating KML coordinates as lat,lon instead of lon,lat lands every point in the Indian Ocean.",
+      "Leaving the date embedded in the French label (or writing a full datetime) fails the ISO-format check even when the date value itself is right.",
+      "HTML entities like &egrave; need decoding before the date line can be matched reliably."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "paris_late_night_pois",
+      "url": "tasks/fio-l1-paris-kml-pois/inputs/paris_late_night_pois.kml",
+      "format": "kml"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "paris_pois.geojson",
+      "format": "geojson",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point"
+    }
+  ],
+  "deadline_seconds": 600
+}

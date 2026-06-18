@@ -1,0 +1,49 @@
+{
+  "task_id": "fio-l2-capetown-landuse-dissolve",
+  "version": 2,
+  "tags": {
+    "region": ["capetown"],
+    "data_source": ["bundled"],
+    "formats": ["flatgeobuf", "geoparquet"],
+    "crs": ["EPSG:32734"],
+    "geometry_type": ["polygon", "multipolygon"],
+    "operations": ["dissolve", "collect", "area_calculation", "format_conversion"],
+    "themes": ["landuse"],
+    "quality_issues": [],
+    "scale": "medium"
+  },
+  "instruction": "I'm prepping a transit-corridor study for the Cape Town metro, and I need a class-level summary of `landuse` so the team's spatial-SQL notebooks can join it against the bus-route table. Can you give me one row per landuse class with the geometry unified into a single MultiPolygon, the total area in m², and the count of source parcels that fed in? Please write the result to `landuse_dissolved.geoparquet` with `class`, `area_m2`, and `parcel_count` columns.",
+  "analyst_notes": {
+    "description": "Tests format-I/O composition: dissolve a Cape Town land-use FlatGeobuf by `class`, collect each per-class result into a single MultiPolygon, compute the per-class total area and source-parcel count, and write a GeoParquet in the input's projected CRS. The prompt deliberately omits the EPSG code and the input format so the agent has to read both off the bundled file and pick the right projection for the area math on its own.",
+    "approach": [
+      "Read the bundled land-use file and inspect its CRS, geometry types, and the `class` column.",
+      "Group features by `class` and union the per-class geometries.",
+      "Collect each per-class result into a single MultiPolygon, wrapping any plain Polygon so every row carries the same geometry type.",
+      "Compute `parcel_count` as the input feature count per class and `area_m2` as the dissolved-geometry area in projected metres.",
+      "Write the result to `landuse_dissolved.geoparquet` in the input's projected CRS with one row per class."
+    ],
+    "pitfalls": [
+      "Computing area in the geographic CRS (degrees squared) or after reprojecting to WGS84 produces nonsense numbers, so the area has to come from the projected geometry.",
+      "Reporting area in km² instead of m² is off by a factor of a million and trips the per-class area-tolerance check.",
+      "Skipping the single-to-multi collect leaves Polygon rows mixed in with MultiPolygons, so the geometry-type check fails even when everything else is right.",
+      "Dropping small or singleton classes (for example, keeping only the top N by parcel count) breaks the class-set and unioned-IoU checks.",
+      "Writing the output in the wrong format (still FlatGeobuf, or a GeoPackage / GeoJSON) or under the wrong filename means the grader cannot even open it."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "landuse",
+      "url": "tasks/fio-l2-capetown-landuse-dissolve/inputs/capetown_landuse.fgb",
+      "format": "flatgeobuf"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "landuse_dissolved.geoparquet",
+      "format": "geoparquet",
+      "crs": "EPSG:32734",
+      "geometry_type": "MultiPolygon"
+    }
+  ],
+  "deadline_seconds": 600
+}

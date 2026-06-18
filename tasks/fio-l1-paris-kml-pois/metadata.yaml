@@ -1,0 +1,114 @@
+task_id: fio-l1-paris-kml-pois
+category: format_io
+difficulty: L1
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.95
+  geom_eps_m: null
+  geom_eps_deg: 1.0e-5
+  rationale: |
+    Format-conversion task on a deterministic bundled KML. The agent's
+    job is to convert one container to another while preserving two
+    structural attributes (name, category) and extracting one date
+    field out of the HTML description — no filtering, no projection,
+    no aggregation. Row count uses the standard ±5% to allow
+    legitimate dedup of identically-named placemarks, but anything
+    more aggressive (e.g. dropping a whole Folder by reading only the
+    first KML layer) trips the gate.
+
+    Per-name geometry comparison uses 1e-5° (~1.1 m at this latitude) —
+    well above WKT-roundtrip drift but tight enough to flag the classic
+    KML axis-order mistake where (lat,lon) and (lon,lat) both look
+    plausible until the points land in the Indian Ocean.
+
+    The `verified_date` column has two subchecks. (1) An ISO-format
+    check that reads the raw JSON, so it sees exactly what the agent
+    wrote on disk — must be a literal "YYYY-MM-DD" string, not a
+    datetime nor the un-parsed French label "Dernière vérification :
+    2026-01-01". (2) A per-name value check that re-extracts a date
+    from either side and compares, so an agent who got the value right
+    but kept it embedded in a longer string still passes the value
+    subcheck (and only loses the format one). The persona wanted a
+    queryable date column; both shape and content matter, but they
+    are scored separately so failure modes land at distinct totals.
+
+    Subcheck weights are reasoned per-task (2026-06-14 recalibration,
+    replacing the blunt repo-wide 3x content weighting from c749e57;
+    total weight 22.5). The two central skills are weighted highest:
+    the HTML date extraction (`verified_date_values_match` 4.0,
+    `verified_date_iso_format` 2.0) and the Folder-aware multi-layer
+    read that preserves rows/names/categories (`name_set_preserved`
+    3.5, `row_count_within_tolerance` 3.0, `category_values_match`
+    3.0, `category_populated_and_recognised` 2.0). Conversion
+    correctness (`geometry_preserved_per_name` 3.0) is next.
+    Structural/cosmetic checks are lowest: `geometry_type_point_only`
+    1.0 (Z-points tolerated), `crs_is_canonical` / `crs_in_meaningful_set`
+    0.5 each (WGS84 is inferable from RFC 7946, so a wrong CRS
+    declaration is a minor slip). This yields a monotone severity
+    ordering: single-layer read (~0.711) < date-missing (0.733) <
+    axis-swap (0.867) < date-left-embedded (~0.911) < wrong-CRS
+    (~0.956) < full pass (1.0).
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent did not convert the KML — output file is the original KML
+      (or any non-GeoJSON). Gate 1 rejects: GeoPandas can read the KML
+      but the schema-required columns `name`, `category`,
+      `verified_date` are absent. Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  axis_swap:
+    description: |
+      Agent built the right schema, extracted the date, preserved
+      categories, but read KML coordinates as (lat,lon) instead of
+      (lon,lat) — the classic KML axis-order trap. Only
+      `geometry_preserved_per_name` (weight 3.0) fails. Under the
+      per-task reasoned weights (2026-06-14 recalibration, total
+      weight 22.5) that is 19.5/22.5 = 0.867. A single localised
+      geometry error sits above the central-skill failures (date
+      extraction, folder/row preservation) but below cosmetic slips.
+    expected_score_range: [0.84, 0.89]
+    measured_score: 0.867
+  verified_date_missing:
+    description: |
+      Agent built the right schema and preserved name / category /
+      geometry but never pulled the date out of the HTML — the
+      `verified_date` column is null on every row. Both
+      `verified_date_iso_format` (weight 2.0) and
+      `verified_date_values_match` (weight 4.0) fail. The HTML date
+      extraction is one of the two central skills this task probes, so
+      both date subchecks are weighted heavily: under the per-task
+      reasoned weights (2026-06-14 recalibration, total weight 22.5)
+      this is 16.5/22.5 = 0.733. That places a wholly-missing central
+      column below the localised axis-swap error (0.867) and just
+      above the single-layer-read failure (~0.711), back inside the
+      author-set range (resolves the former HR-003 weighting
+      miscalibration where it measured 0.8).
+    expected_score_range: [0.70, 0.75]
+    measured_score: 0.733
+notes:
+  - |
+    Bundled input is sliced from Overture release 2026-04-15.0,
+    `theme=places/type=place` over a central-Paris bbox
+    (2.30–2.40, 48.84–48.89). Three category buckets (cafes,
+    libraries, sightseeing tours) populate three Folder labels in the
+    KML — 45 placemarks total. The KML body is hand-written by
+    `_prepare_input.py` so the description-HTML structure (CDATA, mixed
+    tags and entities) is exactly the Google My Maps convention.
+  - |
+    Each Folder becomes a separate layer when read with pyogrio's KML
+    driver — the agent must iterate layers (or parse the XML) to
+    capture the `category` attribute, since pyogrio does not expose
+    the parent-Folder name as a Placemark column.
+  - |
+    The HTML description carries four logical lines (name, category,
+    "Voir la fiche" link, "Dernière vérification : YYYY-MM-DD"). The
+    first three are either redundant with structural fields or
+    display-only; only the last carries data worth keeping, which is
+    why the task asks for the date as a structured column rather than
+    a flat string. The redundancy is intentional — it mirrors the
+    Google My Maps info-card shape the persona encountered in reality.

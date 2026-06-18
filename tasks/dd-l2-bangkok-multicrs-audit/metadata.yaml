@@ -1,0 +1,105 @@
+task_id: dd-l2-bangkok-multicrs-audit
+category: data_discovery
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: null
+  area_pct: null
+  jaccard_min: null
+  geom_eps_m: null
+  rationale: |
+    The bundled GPKG is hand-crafted and committed — every metadata
+    field admits exactly one correct answer. The L2 ±5 % count default
+    therefore does not apply:
+
+    * `feature_count` is graded with strict equality. There is no
+      upstream drift, no filtering, no agent-controlled threshold —
+      the answer comes straight off the GPKG header.
+    * `declared_crs` and `geometry_type` are graded as case-insensitive
+      string equality on the canonical `"EPSG:NNNN"` / Polygon /
+      LineString / Point spelling.
+    * `encoding_detected` is graded against the categorical labels
+      `utf-8` and `latin1-mojibake`. Any other label flips the
+      subcheck.
+    * `sample_x` / `sample_y` use a *plausibility-window* check rather
+      than coordinate equality: the (x, y) pair must fall inside the
+      Bangkok-area bbox of the layer's declared CRS, expanded by a
+      generous margin. The agent's choice of "first feature" doesn't
+      have to match the reference; the test is whether the declared
+      coordinates are internally consistent with the declared CRS.
+      The window catches the canonical failure (degree-vs-metre slip
+      ≈ 6×10⁵ off, sample coordinates from the wrong layer's CRS
+      ≈ same magnitude) but absorbs benign agent-implementation
+      differences.
+    * `layers_complete` is its own subcheck so an agent that only
+      opens the first layer (a common GPKG-as-single-layer mistake)
+      is distinguishable from one that finds the wrong layers.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent emitted a JSON object (still named `crs_audit.csv`) instead
+      of a CSV. Gate 1 fails on the required-columns check (the JSON
+      string lacks `layer_name`, etc. as a header row). Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  partial_layers:
+    description: |
+      Agent treated the GPKG as a single-layer file and only opened
+      the default first layer (`markets`), writing a single audit row
+      and ignoring `parcels` and `roads`. `layers_complete` fails
+      plus the two missing layers' 10 subchecks fail; the surviving
+      layer's 5 subchecks pass. Under the 2026-06-14 severity weighting
+      (`layers_complete` 4.0; per layer `declared_crs` 3.0,
+      `sample_coords_plausible` 3.0, `encoding` 2.0, `geometry_type`
+      1.0, `feature_count` 1.0; total weight 34) the surviving `markets`
+      layer earns 10 / 34 = 0.2941.
+    expected_score_range: [0.25, 0.40]
+    measured_score: 0.2941
+  wrong_encoding:
+    description: |
+      Agent enumerated every layer and read declared CRS, geometry
+      type, feature counts, and sample coordinates correctly — but
+      skipped the Latin-1 mojibake heuristic and reported every
+      layer as `utf-8`. Two of three layers' encoding subchecks flip
+      (`parcels`, `roads`); the third (`markets`) is genuinely UTF-8
+      so its subcheck still passes. Under the 2026-06-14 severity
+      weighting the two flipped `encoding` subchecks (weight 2.0 each)
+      cost 4 of 34, so the score is 30 / 34 = 0.8824.
+    expected_score_range: [0.80, 0.95]
+    measured_score: 0.8824
+notes:
+  - |
+    Bundled input is a hand-crafted multi-layer GPKG with three layers
+    in three different CRSes plus a deliberately-corrupted text
+    encoding on two of them. Exact composition:
+
+      * `parcels` — 4000 Polygons, EPSG:24047 (Indian 1975 / UTM 47N),
+        Thai labels mojibake-corrupted via UTF-8→Latin-1→UTF-8
+        double-decode.
+      * `roads` — 5000 LineStrings, EPSG:32647 (WGS84 / UTM 47N),
+        Thai labels mojibake-corrupted; OSM-style `highway=*` tag.
+      * `markets` — 1000 Points, EPSG:4326, Thai labels intact UTF-8.
+
+    Total feature count 10000 (medium scale per the inventory).
+  - |
+    Hand-crafted rather than Overture-sliced because the task is
+    *about* a deliberately defective deliverable. Overture and OSM
+    both ship clean, single-CRS, properly-encoded text; corrupting
+    them synthetically is identical in effect to constructing the
+    fixture from scratch, and constructing it from scratch keeps every
+    dimension (per-layer CRS, mojibake set, geometry type, feature
+    count) under explicit authoring control. Geometry seeds are
+    generated in EPSG:4326 then per-layer reprojected so the spatial
+    distribution stays Bangkok-shaped under each CRS. This matches the
+    hand-crafted-fixture policy used by `dc-l2-cairo-invalid-dedup`,
+    `crs-l2-fiji-antimeridian`, and `fio-l2-cairo-mixedgeom-split`.
+  - |
+    Sample-coord subcheck deliberately uses a plausibility window, not
+    coordinate equality — the persona's question is whether the
+    declared coordinates are internally consistent with the declared
+    CRS, not whether the agent picked the same first feature as the
+    reference. An agent that samples *any* feature is fine; an agent
+    that sampled in the wrong CRS (e.g. read EPSG:24047 but reported
+    coords as longitude/latitude) lands ~6×10⁵ outside the window.

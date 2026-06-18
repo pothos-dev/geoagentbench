@@ -1,0 +1,97 @@
+task_id: dc-l1-bangkok-attribute-coercion
+category: data_cleaning
+difficulty: L1
+author: task-design-agent
+date: 2026-05-07
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.95
+  geom_eps_m: null
+  rationale: |
+    The task is a pure attribute-type-coercion repair on a fully bundled
+    fixture; there is no upstream drift, no projection step, and no
+    geometric transformation. The four type subchecks
+    (`station_id_is_integer`, `sensor_value_is_number_not_string`,
+    `pm25_ug_m3_is_number_not_string`,
+    `elevation_m_is_number_not_string`) are graded with a 0.95 pass
+    threshold per field — JSON type is well-defined for every value in
+    the bundled fixture, but a 0.95 floor lets a single stray
+    null-or-NaN row slip through without flipping the subcheck. Count
+    tolerance is the L1 default (±5%); the feature-count subcheck only
+    catches gross row drops or duplications. Feature-id Jaccard is tightened
+    from the heuristic 0.9 to 0.95 because every station has a unique
+    integer primary key and a correct solution preserves the set
+    exactly. `numeric_values_preserved` is set at 0.99 (≈ 4 mismatched
+    cells out of 400 allowed) and uses a relative tolerance of 1e-3 to
+    absorb any harmless float-printing differences (e.g.,
+    `repr(42.7)` vs the JSON serialiser that emits `42.7000` from
+    pandas) — float content is never the central skill, only float
+    *type* is. Geometry epsilon is 1e-6° (≈ 0.1 m at the equator)
+    because the cleanup is attribute-only and any coordinate edit is a
+    bug.
+broken_solutions:
+  wrong_format:
+    description: |
+      Output is GeoJSON in EPSG:4326 with correctly-typed numeric
+      columns, but the `pm25_ug_m3` column was dropped on the way out.
+      The `format_schema_valid` gate's required-property check fails.
+      Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  no_coercion:
+    description: |
+      Agent passed the input through unchanged: every numeric column
+      is still a JSON string. Gate passes; all four type subchecks
+      (the central skill, weight 6 each = 24/38) fail; everything else
+      (content / set / geometry plus geometry-type and both CRS
+      subchecks) passes because the underlying values, geometry, and
+      CRS are unchanged. → 14/38 ≈ 0.368 under the per-task reasoned
+      weights (was 21/25 = 0.84 under the repo-wide 3x content
+      weighting). The do-nothing pass-through now drops substantially
+      because it fails the operation under test wholesale.
+    expected_score_range: [0.33, 0.41]
+    measured_score: 0.3684210526315789
+  partial_coercion:
+    description: |
+      Agent coerced the float columns (`sensor_value`, `pm25_ug_m3`,
+      `elevation_m`) to floats but forgot `station_id`, which remains
+      a JSON string in the output. Gate passes. Only
+      `station_id_is_integer` (one of the four central type subchecks,
+      weight 6/38) fails; everything else (including both CRS
+      subchecks) passes. → 32/38 ≈ 0.842 under the per-task reasoned
+      weights (was 24/25 = 0.96 under the repo-wide 3x content
+      weighting). Forgetting one of the four central coercions is a
+      meaningful miss, so the score drops more than a cosmetic slip
+      but far less than the do-nothing pass-through.
+    expected_score_range: [0.80, 0.88]
+    measured_score: 0.8421052631578947
+notes:
+  - |
+    Bundled input is hand-crafted at authoring time
+    (`data/_prepare_input.py`) because the defect under test —
+    every numeric column serialised as a JSON string — does not exist
+    in clean upstream sources (Overture, OSM both emit properly typed
+    numerics). The geographic anchor is a curated list of real
+    Bangkok BTS / MRT / Airport Rail Link rail stations; the per-row
+    sensor readings (`sensor_value`, `pm25_ug_m3`, `elevation_m`) are
+    closed-form functions of the row index for full determinism.
+  - |
+    The grader parses raw JSON (not via GeoPandas) for the four type
+    subchecks because GeoPandas read_file silently coerces stringified
+    numerics on read, which would defeat the type test. GeoPandas is
+    used for CRS, geometry-type, and feature-count checks where its
+    type inference is harmless.
+  - |
+    Output GeoJSON is in EPSG:4326. The reference writes via
+    `json.dump` with stable formatting (rather than pyogrio's GeoJSON
+    driver) so the file is bit-identical across reruns and so Python's
+    distinction between `int` and `float` survives serialisation —
+    pyogrio's GeoJSON driver does not always preserve `42.7` as a
+    JSON float when pandas types it as object.
+  - |
+    `name_en` is included in the reference output as a courtesy
+    (the input carries it) but is not in `REQUIRED_PROPERTIES`; the
+    inventory only specifies `station_id`, `name_th`, `sensor_value`,
+    `pm25_ug_m3`, `elevation_m`. Agents may keep or drop `name_en`.

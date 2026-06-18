@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+{% block title %}{{ task.task_id }} · eval{% endblock %}
+{% block nav_tasks %}active{% endblock %}
+{% block breadcrumbs %}
+<nav class="breadcrumbs">
+  <a href="/">Tasks</a>
+  <span class="sep">/</span>
+  <span>{{ task.task_id }}</span>
+</nav>
+{% endblock %}
+{% block body %}
+<div class="task-nav-header">
+  <h1>{{ task.task_id }}</h1>
+  <div class="task-nav-buttons">
+    {% if prev_task_id %}
+      <a href="/tasks/{{ prev_task_id }}" class="btn btn-nav" title="{{ prev_task_id }}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Prev
+      </a>
+    {% else %}
+      <span class="btn btn-nav disabled">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Prev
+      </span>
+    {% endif %}
+    {% if next_task_id %}
+      <a href="/tasks/{{ next_task_id }}" class="btn btn-nav" title="{{ next_task_id }}">
+        Next
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+      </a>
+    {% else %}
+      <span class="btn btn-nav disabled">
+        Next
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+      </span>
+    {% endif %}
+  </div>
+</div>
+
+<div class="prompt-row">
+  <div class="prompt-avatar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+  </div>
+  <div class="prompt-bubble md" data-md="{{ task.instruction }}"></div>
+</div>
+
+{% if task.analyst_notes %}
+{% set notes = task.analyst_notes %}
+{% if notes.description or notes.approach or notes.pitfalls %}
+<h2>Analyst notes</h2>
+{% if notes.description %}
+<h3>Description</h3>
+<p>{{ notes.description }}</p>
+{% endif %}
+{% if notes.approach %}
+<h3>Approach</h3>
+<ol>
+{% for step in notes.approach %}
+  <li>{{ step }}</li>
+{% endfor %}
+</ol>
+{% endif %}
+{% if notes.pitfalls %}
+<h3>Pitfalls</h3>
+<ul>
+{% for p in notes.pitfalls %}
+  <li>{{ p }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endif %}
+{% endif %}
+
+<div class="io-grid">
+  <div>
+    <h3>Inputs</h3>
+    <table class="data">
+      <thead><tr><th>name</th><th>format</th><th>crs</th><th>geometry</th><th>features</th><th></th></tr></thead>
+      <tbody>
+      {% for i in task.inputs %}
+        {% set m = input_meta.get(i.name, {}) %}
+        {% set layer_name = 'in_' + i.name %}
+        {% set has_layer = m.crs and (layer_name in layer_names) %}
+        <tr{% if has_layer %} class="layer-row" data-layer="{{ layer_name }}"{% endif %}>
+          <td><code>{{ i.name }}</code></td>
+          <td>{{ i.format or '?' }}</td>
+          <td>{{ m.crs or '' }}</td>
+          <td>{{ m.geometry_type or '' }}</td>
+          <td>{{ '{:,}'.format(m.feature_count) if m.get('feature_count') is not none else '' }}</td>
+          <td class="row-actions">
+            <a href="/tasks/{{ task.task_id }}/inputs/{{ i.name }}" class="btn btn-dl" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </a>
+            {% if has_layer %}<span class="btn-eye" title="Toggle on map">
+              <svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-closed" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </span>{% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h3>Expected outputs</h3>
+    <table class="data">
+      <thead><tr><th>name</th><th>format</th><th>crs</th><th>geometry</th><th>features</th><th></th></tr></thead>
+      <tbody>
+      {% for o in task.expected_outputs %}
+        {% set m = output_meta.get(o.name, {}) %}
+        {% set layer_name = 'out_' + o.name.rsplit('.', 1)[0] %}
+        {% set has_layer = (o.crs or m.crs) and (layer_name in layer_names) %}
+        <tr{% if has_layer %} class="layer-row" data-layer="{{ layer_name }}"{% endif %}>
+          <td><code>{{ o.name }}</code></td>
+          <td>{{ o.format or '?' }}</td>
+          <td>{{ o.crs or '' }}</td>
+          <td>{{ o.geometry_type or '' }}</td>
+          <td>{{ '{:,}'.format(m.feature_count) if m.get('feature_count') is not none else '' }}</td>
+          <td class="row-actions">
+            <a href="/tasks/{{ task.task_id }}/reference/{{ o.name }}" class="btn btn-dl" title="Download reference">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </a>
+            {% if has_layer %}<span class="btn-eye" title="Toggle on map">
+              <svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-closed" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </span>{% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% if layers %}
+<h2>Map</h2>
+<div id="task-map" class="map"></div>
+<script>
+  const protocol = new pmtiles.Protocol();
+  maplibregl.addProtocol("pmtiles", protocol.tile);
+  const allLayers = {{ layers | tojson }};
+  const base = "{{ layers_base }}";
+  const vizGlobe = {{ viz_globe | tojson }};
+
+  const INPUT_COLOR = '#5b7faa';
+  const OUTPUT_COLOR = '#c2635e';
+
+  const map = new maplibregl.Map({
+    container: 'task-map',
+    style: 'https://tiles.openfreemap.org/styles/positron',
+    center: [0, 0], zoom: 1,
+  });
+
+  const pmtilesInstances = [];
+  const addedLayers = new Set();
+
+  function layerColor(L) {
+    return (L._group === 'input') ? INPUT_COLOR : OUTPUT_COLOR;
+  }
+
+  function addMapLayer(L) {
+    if (addedLayers.has(L.name)) return;
+    const sid = 'src_' + L.name;
+    const url = base + L.pmtiles;
+    const p = new pmtiles.PMTiles(url);
+    protocol.add(p);
+    pmtilesInstances.push(p);
+    map.addSource(sid, { type: 'vector', url: 'pmtiles://' + url });
+    const gt = (L.geometry_type || '').toLowerCase();
+    const type = gt.includes('point') ? 'circle' : gt.includes('line') ? 'line' : 'fill';
+    const color = layerColor(L);
+    const paint = L.style || (type === 'fill' ? { 'fill-color': color, 'fill-opacity': 0.4 } :
+                              type === 'line' ? { 'line-color': color, 'line-width': 1.4 } :
+                              { 'circle-color': color, 'circle-radius': 3 });
+    map.addLayer({ id: L.name, type, source: sid, 'source-layer': L.source_layer || L.name, paint });
+    addedLayers.add(L.name);
+
+    map.on('click', L.name, e => {
+      if (!e.features || !e.features.length) return;
+      const props = e.features[0].properties;
+      const rows = Object.entries(props).map(([k, v]) =>
+        `<tr><td style="font-weight:600;padding:2px 6px">${k}</td><td style="padding:2px 6px">${v}</td></tr>`
+      ).join('');
+      new maplibregl.Popup({ maxWidth: '360px' })
+        .setLngLat(e.lngLat)
+        .setHTML(`<table style="font-size:12px;border-collapse:collapse">${rows}</table>`)
+        .addTo(map);
+    });
+    map.on('mouseenter', L.name, () => { map.getCanvas().style.cursor = 'pointer'; });
+    map.on('mouseleave', L.name, () => { map.getCanvas().style.cursor = ''; });
+  }
+
+  function toggleLayer(name, visible) {
+    if (map.getLayer(name)) {
+      map.setLayoutProperty(name, 'visibility', visible ? 'visible' : 'none');
+    }
+  }
+
+  map.on('load', async () => {
+    if (vizGlobe) map.setProjection({ type: 'globe' });
+
+    // Add all layers (all visible by default)
+    allLayers.forEach(L => addMapLayer(L));
+
+    // Fit bounds
+    const headers = await Promise.all(pmtilesInstances.map(p => p.getHeader().catch(() => null)));
+    const bounds = new maplibregl.LngLatBounds();
+    let any = false;
+    for (const h of headers) {
+      if (!h) continue;
+      bounds.extend([h.minLon, h.minLat]);
+      bounds.extend([h.maxLon, h.maxLat]);
+      any = true;
+    }
+    if (vizGlobe) {
+      // Globe mode: aim camera at the bbox centre (falls back to layer
+      // centroid for a degenerate / single-point bbox).
+      let center = [0, 0];
+      if (any) {
+        center = bounds.getCenter().toArray();
+      } else {
+        const centroids = headers.filter(Boolean).map(h => [(h.minLon + h.maxLon) / 2, (h.minLat + h.maxLat) / 2]);
+        if (centroids.length) {
+          center = [
+            centroids.reduce((s, c) => s + c[0], 0) / centroids.length,
+            centroids.reduce((s, c) => s + c[1], 0) / centroids.length,
+          ];
+        }
+      }
+      map.jumpTo({ center, zoom: 2 });
+    } else if (any) {
+      map.fitBounds(bounds, { padding: 24, animate: false, maxZoom: 16 });
+    }
+  });
+
+  // Wire up row clicks to toggle layers
+  document.querySelectorAll('.layer-row').forEach(row => {
+    const layerName = row.dataset.layer;
+    row.addEventListener('click', (e) => {
+      // Don't toggle when clicking download link
+      if (e.target.closest('a')) return;
+      const visible = row.classList.toggle('layer-hidden');
+      toggleLayer(layerName, !row.classList.contains('layer-hidden'));
+    });
+  });
+</script>
+{% endif %}
+
+<h2>Recent runs <small class="task-version-label">task v{{ task_version }}</small></h2>
+{% if recent_runs %}
+<table class="data">
+  <thead><tr><th>adapter</th><th>started</th><th class="r">score</th><th class="r">steps</th><th class="r">duration</th><th class="r">cost</th><th>status</th></tr></thead>
+  <tbody>
+  {% for r in recent_runs %}
+    <tr class="clickable-row{% if r.outdated %} row-outdated{% endif %}" data-href="/runs/{{ r.run_id }}/{{ task.task_id }}"{% if r.outdated %} title="Scored against task v{{ r.task_version }}; current is v{{ task_version }}"{% endif %}>
+      <td>{{ r.adapter }}{% if r.outdated %} <span class="outdated-badge">v{{ r.task_version }} → v{{ task_version }}</span>{% endif %}</td>
+      <td>{{ r.started_at }}</td>
+      <td class="r">
+        {% if r.error %}<span class="status-failed">ERR</span>
+        {% elif r.score is not none %}{{ '%.2f' % r.score }}
+        {% else %}<span class="status-{{ r.status }}">{{ r.status or '' }}</span>{% endif %}
+      </td>
+      <td class="r">{{ r.step_count if r.step_count else '—' }}</td>
+      <td class="r">{% if r.duration_s %}{{ '%d:%02d' % (r.duration_s // 60, r.duration_s % 60) }}{% else %}—{% endif %}</td>
+      <td class="r">{% if r.estimated_cost_usd %}{{ '%.2f¢' % (r.estimated_cost_usd * 100) }}{% else %}—{% endif %}</td>
+      <td class="status status-{{ r.status }}">{{ r.status or '' }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p><em>no runs have included this task.</em></p>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/marked@14.1.3/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+<script>
+  marked.setOptions({ gfm: true, breaks: true });
+  document.querySelectorAll('.prompt-bubble.md').forEach(el => {
+    const src = el.getAttribute('data-md') || '';
+    el.innerHTML = DOMPurify.sanitize(marked.parse(src));
+  });
+  document.querySelectorAll('.clickable-row').forEach(row => {
+    row.addEventListener('click', () => { window.location = row.dataset.href; });
+  });
+</script>
+{% endblock %}

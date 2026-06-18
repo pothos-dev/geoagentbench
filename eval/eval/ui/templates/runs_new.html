@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}new run · eval{% endblock %}
+{% block nav_runs %}active{% endblock %}
+{% block breadcrumbs %}
+<nav class="breadcrumbs">
+  <a href="/runs">Runs</a>
+  <span class="sep">/</span>
+  <span>New run</span>
+</nav>
+{% endblock %}
+{% block body %}
+<h1>New run</h1>
+<form method="post" action="/runs">
+  <p>
+    <label>Adapter:
+      <select name="adapter">
+        <option value="">— (use ad-hoc URL) —</option>
+        {% for name, a in adapters.items() %}
+          <option value="{{ name }}">{{ name }} — {{ a.label or a.url }}</option>
+        {% endfor %}
+      </select>
+    </label>
+  </p>
+  <p>
+    <label>…or ad-hoc agent URL: <input name="agent_url" type="url" placeholder="http://localhost:8080"></label>
+  </p>
+  <p>
+    <label>Task filter (space- or comma-separated prefixes/globs; blank = all):
+      <input name="tasks" type="text" placeholder="crs-l1-*" size="40">
+    </label>
+  </p>
+  <p>
+    <label>Max parallel: <input name="max_parallel" type="number" min="1" max="64" value=""></label>
+    <small>blank → adapter default → 1</small>
+  </p>
+  <p>
+    <label>Label: <input name="label" type="text" size="40"></label>
+  </p>
+  <p>
+    <button type="submit" class="btn btn-primary">Start run</button>
+  </p>
+</form>
+
+<h2>Tasks in suite</h2>
+<ul>{% for t in tasks %}<li><code>{{ t.task_id }}</code></li>{% endfor %}</ul>
+{% endblock %}

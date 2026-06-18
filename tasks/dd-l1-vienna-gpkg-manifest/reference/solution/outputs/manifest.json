@@ -1,0 +1,86 @@
+[
+  {
+    "layer_name": "cafes",
+    "crs": "EPSG:31287",
+    "geometry_type": "Point",
+    "feature_count": 392,
+    "bbox": [
+      623796.53,
+      481107.25,
+      626399.56,
+      484498.92
+    ]
+  },
+  {
+    "layer_name": "cycleway_segments",
+    "crs": "EPSG:31287",
+    "geometry_type": "LineString",
+    "feature_count": 271,
+    "bbox": [
+      623787.49,
+      481134.93,
+      626619.16,
+      485245.66
+    ]
+  },
+  {
+    "layer_name": "districts",
+    "crs": "EPSG:31287",
+    "geometry_type": "Polygon",
+    "feature_count": 22,
+    "bbox": [
+      623867.39,
+      481236.58,
+      626371.31,
+      484403.73
+    ]
+  },
+  {
+    "layer_name": "parks",
+    "crs": "EPSG:31287",
+    "geometry_type": "MultiPolygon",
+    "feature_count": 119,
+    "bbox": [
+      623851.99,
+      481200.67,
+      626620.94,
+      485539.35
+    ]
+  },
+  {
+    "layer_name": "schools",
+    "crs": "EPSG:31287",
+    "geometry_type": "Point",
+    "feature_count": 40,
+    "bbox": [
+      624000.0,
+      481214.74,
+      626259.54,
+      484178.88
+    ]
+  },
+  {
+    "layer_name": "supermarkets",
+    "crs": "EPSG:31287",
+    "geometry_type": "Point",
+    "feature_count": 87,
+    "bbox": [
+      623794.05,
+      481148.39,
+      626392.62,
+      484489.92
+    ]
+  },
+  {
+    "layer_name": "waterbodies",
+    "crs": "EPSG:31287",
+    "geometry_type": "Polygon",
+    "feature_count": 33,
+    "bbox": [
+      624288.85,
+      481236.66,
+      626747.86,
+      484132.02
+    ]
+  }
+]

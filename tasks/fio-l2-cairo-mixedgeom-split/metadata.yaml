@@ -1,0 +1,121 @@
+task_id: fio-l2-cairo-mixedgeom-split
+category: format_io
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.9
+  geom_eps_m: 1.0
+  rationale: |
+    Format-conversion task on a hand-crafted, deterministic
+    bundled GeoJSON. The agent's job is to (1) split a single mixed-
+    geometry FeatureCollection into three typed layers,
+    (2) explode multi-part polygons, (3) reproject to EPSG:22992,
+    and (4) preserve `site_id` linking the three layers.
+
+    Per-layer count tolerance is the standard ±5%. The summed-count
+    subcheck tolerance is loosened to ±10% so a "kept multipolygons"
+    submission still passes it (its summed count of 50 vs 55 is off
+    by ~9%, and we want the singleton-explode skill to surface in
+    the dedicated singletons-only and per-layer count subchecks
+    rather than in the total).
+
+    Subcheck weights (2026-06-14 recalibration, replacing the blunt
+    cross-suite 3x data-content weighting from c749e57): the central
+    skills are the geometry split + explode and the correct regional
+    CRS. The subchecks that detect a central-skill failure carry the
+    highest weight (weight 4): polygons_singletons_only and
+    polygons_count_within_tolerance (the explode co-detectors) and
+    crs_is_canonical (proves reprojection landed on Egypt Red Belt).
+    The geometry-agreement trio (polygons_geometry_iou,
+    points_geometry_per_site, lines_geometry_per_site) and the
+    cross-layer site_id_jaccard_union carry weight 3 — they prove the
+    spatial work actually happened correctly. Structural / cosmetic /
+    pure-metadata-label checks stay at weight 1: the geometry-type
+    trio, total_count_within_tolerance, the points/lines per-layer
+    counts, site_id_populated, and crs_in_meaningful_set (the
+    permissive label check that passes for the defensible-but-wrong
+    UTM 36N pick). Total weight 32.
+
+    Geometry epsilon is 1 m in projected EPSG:22992 metres — well
+    above PROJ round-trip drift but tight enough to flag a swapped
+    x/y axis after reprojection (the broken solution
+    `geom_corruption` lands every feature ~5 km away after the
+    swap, far outside this band).
+
+    Polygon IoU threshold is 0.9 — the layer-wide IoU must drop
+    below 0.9 only when the agent corrupted geometries or dropped
+    features wholesale. A correctly-exploded versus
+    not-exploded polygons layer still IoU's to ~1.0 (the union of
+    exploded singletons equals the union of the original
+    multi-parts), so the IoU subcheck specifically catches
+    geometric corruption — *not* the explode skill, which is graded
+    by the singletons-only and post-explode count subchecks.
+
+    Site-id Jaccard ≥ 0.9 across the union of all three layers
+    catches a "dropped a whole layer of features" failure without
+    being so tight that one site disappearing trips it.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent did not convert the input — output is the original
+      mixed-geometry GeoJSON. Gate 1 rejects (file is not a GPKG /
+      missing `points`/`lines`/`polygons` layers). Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  geom_corruption:
+    description: |
+      Agent stratified the layers, exploded multi-polygons,
+      preserved site_id, and used EPSG:22992 — but reprojected with
+      the x/y axes swapped, so every geometry lands in the wrong
+      place while staying in the right CRS-coordinate-magnitude
+      range. Three weight-3 geometry subchecks fail
+      (`polygons_geometry_iou`, `points_geometry_per_site`,
+      `lines_geometry_per_site`); both CRS subchecks pass since the
+      layers are stamped 22992. 23 / 32 weight ≈ 0.719 under the
+      2026-06-14 reasoned weights — the most severe non-gate failure
+      (geometry wrong across all three layers), so it sits below
+      no_explode.
+    expected_score_range: [0.60, 0.75]
+    measured_score: 0.719
+  no_explode:
+    description: |
+      Agent stratified the layers correctly, reprojected to
+      EPSG:22992, preserved site_id — but did not explode the
+      MultiPolygons in the polygons layer. Two subchecks fail, both
+      now weight 4 (`polygons_singletons_only` and
+      `polygons_count_within_tolerance`, since the unexploded count
+      of 10 is 33 % below the post-explode reference of 15). Both
+      CRS subchecks pass since the layers are stamped 22992. 24 / 32
+      weight = 0.750 under the 2026-06-14 reasoned weights — the
+      explode-skill miss (a named central deliverable; the desktop
+      tool rejects multi-parts) now costs a meaningful 0.25, just
+      above geom_corruption.
+    expected_score_range: [0.70, 0.80]
+    measured_score: 0.750
+notes:
+  - |
+    Input is hand-crafted because the task is intrinsically about
+    mixed-geometry single-FeatureCollection handling and Overture's
+    themed parquet does not produce mixed-geometry feature
+    collections. The shapes are stylised representations of real
+    Cairo monuments (Sultan Hassan, Ibn Tulun, Al-Azhar, Khan
+    el-Khalili, etc.), geographically plausible within historic
+    Cairo bbox 31.245-31.270 E / 30.030-30.060 N but not surveyed.
+  - |
+    GPKG outputs need a tiny post-processing step in
+    `reference/solution/generate.py` to be bit-identical across runs:
+    `gpkg_contents.last_change` is timestamped at write time by the
+    GDAL GPKG driver. The reference and the broken-solution
+    generator both `UPDATE gpkg_contents SET last_change = …` to a
+    fixed value and `VACUUM` the SQLite container, so two
+    consecutive runs produce byte-identical output.
+  - |
+    Five of the ten sites carry MultiPolygon enclosures (outer
+    walls + a detached annex), so the post-explode polygon count is
+    15 (5 multi × 2 parts + 5 single). Exploded vs unexploded
+    differs by 33 %, which is well outside the ±5 % per-layer count
+    tolerance.

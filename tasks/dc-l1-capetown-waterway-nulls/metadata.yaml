@@ -1,0 +1,140 @@
+task_id: dc-l1-capetown-waterway-nulls
+category: data_cleaning
+difficulty: L1
+author: task-design-agent
+date: 2026-05-07
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.95
+  geom_eps_m: null
+  rationale: |
+    This is a data-cleaning task on a hand-crafted bundled fixture; there
+    is no upstream drift and no projection step, so most heuristic defaults
+    do not apply directly. The L1 ±5 % count default applies, but as a
+    subcheck rather than a gate element, so a partial-output broken
+    solution can be scored continuously rather than collapsed to zero by
+    the gate. Since 363aed2 there is a single hard gate
+    (format_schema_valid); geometry-type uniformity is a one-point
+    subcheck. The feature-id
+    Jaccard floor is tightened from the heuristic 0.9 to 0.95 because the
+    drop predicate is fully deterministic (a row is bad iff geometry is
+    null/empty or waterway_type is null) and a correct solution preserves
+    the kept-id set exactly. Geometry comparison uses a 1e-7° per-vertex
+    Hausdorff floor (~ 1 cm at the equator); the persona did not ask for
+    any geometric edit so a correct cleanup must not move LineString
+    vertices. The `dropped_count` foreign member is graded with strict
+    equality against the reference (20) — there is no legitimate source
+    of drift on a discrete count over a deterministic fixture. Areas / IoU
+    are not used (LineString geometries have zero area). Since 05aabd6 a
+    wrong-CRS submission no longer Gate-1-zeros; CRS choice is graded as
+    two soft subchecks (`crs_is_canonical`, `crs_in_meaningful_set`) so
+    the geometric work still counts. The c749e57 commit bluntly applied
+    weight 3.0 to all eight "data-content" subchecks; the 2026-06-14
+    severity recalibration replaced that with three tiers keyed to how
+    central each failure is to the task's null/empty-cleanup skill.
+    Weight 4.0 (central cleaning detectors): no_null_or_empty_geometry,
+    no_null_waterway_type, feature_id_set_preserved, null_name_rows
+    -- these directly detect a wrong drop predicate (missed a defect
+    class, or over-dropped the benign null-name rows). Weight 2.5
+    (no-mutation): geometry_preserved_per_id, attributes_preserved_per_id
+    -- real data corruption, but peripheral to the drop decision. Weight
+    2.0 (derivative / report value): feature_count_within_tolerance,
+    dropped_count_correct -- consequences of a correct drop plus the
+    reporting side-channel. Weight 1.0 (structural / cosmetic):
+    geometry-type uniformity, dropped_count_present, the two CRS checks.
+    Weighted denominator is 29. A central-cleaning failure (under-drop)
+    now drops to ~0.45, well below a cosmetic CRS slip (~0.93) or a
+    coordinate-mutation slip (~0.91), so the score reflects error
+    severity.
+broken_solutions:
+  wrong_format:
+    description: |
+      Output is GeoJSON but the agent reprojected to EPSG:3857 (forgot the
+      persona's CRS requirement). Under the soft-CRS policy introduced in
+      05aabd6, the submission no longer Gate-1-fails: it is reprojected to
+      the canonical EPSG:4326 for all geometric subchecks, so the agent
+      gets credit for the (correct) cleanup work. Only the two CRS
+      subchecks (`crs_is_canonical`, `crs_in_meaningful_set`) fail; both
+      are weight-1.0 cosmetic CRS checks under the 2026-06-14 severity
+      weighting, so the deduction is the smallest of the three brokens.
+      Weighted 27 / 29 ≈ 0.931.
+    expected_score_range: [0.85, 0.97]
+    measured_score: 0.931
+  under_drop:
+    description: |
+      Agent dropped only the JSON-null geometries and missed both the
+      empty-LineString defect and the null-`waterway_type` rows. Empty
+      LineStrings remain (`no_null_or_empty_geometry_in_output` fail),
+      null waterway_type rows remain (`no_null_waterway_type_in_output`
+      fail), reported `dropped_count` is 10 not 20 (`dropped_count_correct`
+      fail), kept-count is 90 not 80 (`feature_count_within_tolerance`
+      fail), and the kept-id set Jaccard slips below 0.95
+      (`feature_id_set_preserved` fail). The five null-name rows still
+      survive, per-id geometry / attributes for the 80 common rows agree,
+      and both CRS subchecks pass. Under the 2026-06-14 severity weighting
+      three of the failing checks are central cleaning detectors
+      (no_null_or_empty_geometry, no_null_waterway_type at 4.0 each;
+      feature_id_set_preserved at 4.0) and two are derivative/report
+      (dropped_count_correct, feature_count at 2.0 each), so the central-skill
+      failure drops the score hard. Weighted 13 / 29 ≈ 0.448.
+    expected_score_range: [0.4, 0.6]
+    measured_score: 0.448
+  wrong_geometry:
+    description: |
+      Agent ran the cleanup correctly (right rows kept, dropped_count
+      correct) but every kept LineString was shifted by ~ 0.01° in lon
+      and lat — the kind of drift a stray reprojection round-trip would
+      introduce. Only `geometry_preserved_per_id` fails (a weight-2.5
+      no-mutation check under the 2026-06-14 severity weighting); both
+      CRS subchecks pass. Because the no-mutation weight (2.5) exceeds the
+      two CRS weights combined (2 x 1.0), this coordinate-corruption slip
+      scores just below the cosmetic wrong_format slip.
+      Weighted 26.5 / 29 ≈ 0.914.
+    expected_score_range: [0.85, 0.95]
+    measured_score: 0.914
+design_note: |
+  The instruction's em-dash clause ("a feature needs both a drawable
+  geometry and a proper type to be useful") softens the original literal
+  enumeration ("null or empty geometry, or missing waterway_type") into
+  persona-level vocabulary. It was re-added in db638f4 to fix a
+  regression that the fully-stripped wording (64740d0, plain "valid,
+  usable waterway") caused on weaker agents, then trimmed further on
+  2026-05-28 by replacing "known waterway type" with "proper type" so
+  the attribute defect class is no longer named even in paraphrase.
+  Calibration evidence (2026-05-26..28, six post-cutoff runs against
+  the pre-trim wording): five at 1.0 and openrouter-gemma-4-26b
+  run-20260527-2321Z at 0.556 — the broken_under_drop signature, with
+  5 null geometries left in and dropped_count reported as 15. The
+  clause therefore discriminates rather than gives away the predicates;
+  HR-001 (prompt-vs-grader-judgment) is accepted as calibrated.
+notes:
+  - |
+    Bundled input is generated by `data/_prepare_input.py` from a fixed,
+    closed-form synthesis of 100 LineString centrelines inside a Cape
+    Town bounding box. Hand-crafting (rather than slicing Overture) is
+    justified by AUTHOR_CONTEXT.md: this task is *about* a malformed
+    contractor export (null geometries, empty LineStrings, null required
+    attributes) that does not exist in Overture's clean schema. The
+    inventory anchors the task on `waterway=*` (an OSM tag family with
+    no clean LineString equivalent in Overture's `base.water`, which is
+    polygon-dominant for water bodies).
+  - |
+    The grader splits the cleanup contract into four orthogonal
+    correctness subchecks (geometry well-formedness, waterway_type
+    presence, dropped_count presence, dropped_count value) plus three
+    set / per-id consistency subchecks (count, id-set Jaccard,
+    null-name rows preserved) plus two no-mutation subchecks (geometry
+    per id, attributes per id). This is what gives the broken solutions
+    their distinct measured scores: under-dropping fails the four
+    cleanup subchecks while passing per-id consistency, while a
+    coordinate jitter fails only one geometry subcheck.
+  - |
+    Output GeoJSON is in EPSG:4326. pyogrio's GeoJSON driver writes the
+    legacy `crs` member with the CRS84 URN; `gpd.read_file` recovers
+    EPSG:4326 on read-back, so the grader can rely on
+    `gdf.crs.to_epsg() == 4326` as the gate. The reference injects the
+    `dropped_count` foreign member at the top level via a json round-trip
+    after `gpd.to_file`, since pyogrio's GeoJSON driver does not preserve
+    foreign members.

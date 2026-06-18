@@ -1,0 +1,31 @@
+{
+  "task_id": "dc-l2-cairo-invalid-dedup",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": [
+    "task.json",
+    "grade.py",
+    "metadata.yaml",
+    "README.md",
+    "audit/AUTHORING_HISTORY.md",
+    "audit/status.json"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-001",
+      "category": "prompt-vs-grader-judgment",
+      "severity": "low",
+      "summary": "Instruction still names four output-contract clauses (every MultiPolygon, keep earliest record_seq, drop <1 m2 fragments, no duplicates). Author already did two strip rounds (64740d0, ca8994d); current state appears intentional. Borderline whether further stripping is warranted."
+    },
+    {
+      "id": "HR-002",
+      "category": "inventory-mismatch",
+      "severity": "low",
+      "summary": "task.json, metadata.yaml, and inventory.md tag data_scale as `medium` but the actual hand-crafted fixture has 290 input / 210 output features (~10^2), which the vocabulary calls `small`. coverage.yaml records the truthful `small`. Resolving requires retagging inventory.md (outside the task dir) or enlarging the fixture (touches inputs/), both out of unilateral scope."
+    }
+  ],
+  "blocker": null
+}

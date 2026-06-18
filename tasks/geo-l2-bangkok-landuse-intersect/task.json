@@ -1,0 +1,54 @@
+{
+  "task_id": "geo-l2-bangkok-landuse-intersect",
+  "tags": {
+    "region": ["bangkok"],
+    "data_source": ["bundled"],
+    "formats": ["geoparquet", "geojson"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["polygon", "multipolygon"],
+    "operations": ["intersection", "simplify", "area_calculation"],
+    "themes": ["base.land_cover"],
+    "quality_issues": ["invalid_geometry"],
+    "scale": "medium"
+  },
+  "version": 4,
+  "instruction": "Working on a flood-mitigation green-cover briefing. `landcover` has land-cover polygons for the Bangkok metro; `study_area` defines the BMA boundary. I need the land-cover within the study area, simplified enough that the file is small for the policy lead to preview in a browser, with the original `class` string and a per-feature `area_m2` in square metres.\n\nWrite the result to `bma_landcover_intersect.geojson` as a GeoJSON FeatureCollection with every feature stored as a MultiPolygon.",
+  "analyst_notes": {
+    "description": "Tests whether the agent can chain four geometric operations in the right order (repair invalid input rings, intersect against the study area, simplify, coerce single Polygons to MultiPolygon) while picking the right CRS for each step. The hidden gotcha is units: `area_m2` is square metres, so the agent has to compute area in a metric CRS even though the GeoJSON output is conventionally WGS84.",
+    "approach": [
+      "Read both inputs and notice the land-cover layer carries self-intersecting rings that will trip up the intersection step if left alone.",
+      "Repair the invalid geometries before doing any overlay work.",
+      "Intersect each cleaned land-cover polygon with the BMA study-area polygon and drop anything that ends up empty.",
+      "Stay in the inputs' metric CRS long enough to compute `area_m2` in square metres and to simplify at a tolerance that is small relative to the polygon edges.",
+      "Coerce every surviving feature to MultiPolygon and write the result as a GeoJSON FeatureCollection, reprojecting to WGS84 for the on-disk file."
+    ],
+    "pitfalls": [
+      "Computing `area_m2` directly on WGS84 lon/lat coordinates instead of in a metric CRS, which gives values in squared degrees and makes the totals off by a factor of about 10^10.",
+      "Skipping the geometry repair step and either crashing on the self-intersecting bowties or silently losing about 25 features when the intersection step gives up on them.",
+      "Treating the study area as a bbox and never running an actual intersection, so polygons that straddle the boundary keep their full extent and the totals come out far too high.",
+      "Leaving single-Polygon results as Polygon instead of wrapping them in MultiPolygon, which trips the `all_multipolygon` subcheck.",
+      "Writing the GeoJSON in the inputs' projected CRS (EPSG:32647) rather than WGS84, which costs CRS subcheck points even though the geometric work is correct."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "landcover",
+      "url": "tasks/geo-l2-bangkok-landuse-intersect/inputs/bangkok_landcover.parquet",
+      "format": "geoparquet"
+    },
+    {
+      "name": "study_area",
+      "url": "tasks/geo-l2-bangkok-landuse-intersect/inputs/bma_study_area.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "bma_landcover_intersect.geojson",
+      "format": "geojson",
+      "crs": "EPSG:4326",
+      "geometry_type": "MultiPolygon"
+    }
+  ],
+  "deadline_seconds": 600
+}

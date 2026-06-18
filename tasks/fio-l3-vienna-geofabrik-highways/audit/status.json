@@ -1,0 +1,23 @@
+{
+  "task_id": "fio-l3-vienna-geofabrik-highways",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": [
+    "grade.py",
+    "metadata.yaml",
+    "audit/AUTHORING_HISTORY.md",
+    "audit/status.json"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-001",
+      "category": "reference-or-data-edit-needed",
+      "severity": "low",
+      "summary": "Regenerate reference/failures/broken_*/outputs/vienna_network.gpkg against the current 380-PT-route reference (and fix the stale REF_PATH in tests/create_broken.py); broken_truncated_attrs scores 0.826 under the weighted grader, ~0.024 below the declared [0.85, 0.95] lower bound."
+    }
+  ],
+  "blocker": null
+}

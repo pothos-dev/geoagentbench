@@ -1,0 +1,22 @@
+{
+  "layers": [
+    {
+      "name": "nearest",
+      "pmtiles": "nearest.pmtiles",
+      "source_layer": "nearest",
+      "geometry_type": "Point",
+      "style": {
+        "circle-color": "#1a4480",
+        "circle-radius": 4,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-width": 1
+      },
+      "tooltip": [
+        "clinic_id",
+        "hospital_id",
+        "distance_m"
+      ]
+    }
+  ],
+  "error": null
+}

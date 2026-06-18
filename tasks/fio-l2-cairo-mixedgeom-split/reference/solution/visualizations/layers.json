@@ -1,0 +1,47 @@
+{
+  "layers": [
+    {
+      "name": "points",
+      "pmtiles": "points.pmtiles",
+      "source_layer": "points",
+      "geometry_type": "Point",
+      "style": {
+        "circle-color": "#1a4480",
+        "circle-radius": 4,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-width": 1
+      },
+      "tooltip": [
+        "site_id"
+      ]
+    },
+    {
+      "name": "lines",
+      "pmtiles": "lines.pmtiles",
+      "source_layer": "lines",
+      "geometry_type": "LineString",
+      "style": {
+        "line-color": "#1a4480",
+        "line-width": 2
+      },
+      "tooltip": [
+        "site_id"
+      ]
+    },
+    {
+      "name": "polygons",
+      "pmtiles": "polygons.pmtiles",
+      "source_layer": "polygons",
+      "geometry_type": "Polygon",
+      "style": {
+        "fill-color": "#1a4480",
+        "fill-opacity": 0.45,
+        "fill-outline-color": "#1a4480"
+      },
+      "tooltip": [
+        "site_id"
+      ]
+    }
+  ],
+  "error": null
+}

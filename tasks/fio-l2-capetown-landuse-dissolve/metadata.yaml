@@ -1,0 +1,74 @@
+task_id: fio-l2-capetown-landuse-dissolve
+category: format_io
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: 0.05
+  jaccard_min: 0.9
+  geom_eps_m: null
+  rationale: |
+    Format-I/O composition on a deterministic, bundled FlatGeobuf slice
+    of Overture `base.land_use` over the Cape Town metro (~31 k parcels
+    across 72 classes). The agent must dissolve by class, collect each
+    group into a single MultiPolygon, compute `area_m2` and
+    `parcel_count`, and write GeoParquet in EPSG:32734.
+
+    Standard heuristics apply: ±5 % count tolerance for the row-count
+    check (one row per class) and ±5 % area tolerance per class
+    (catches off-by-units mistakes such as reporting km² instead of
+    m²). Class-set Jaccard threshold is 0.9 — drift-tolerant if the
+    agent skips one or two singleton classes but firmly rejects a
+    "kept only the top N" submission.
+
+    Geometry IoU on the unioned per-class MultiPolygons uses the
+    standard 0.9 threshold. The reference's unioned area equals the
+    full input's footprint, so a correctly-dissolved submission
+    IoU's to 1.0; a "partial classes" submission drops to ~0.85
+    because the long tail of dropped classes contributes a small but
+    non-zero share of the overall footprint.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent did not convert the input — output is the original
+      FlatGeobuf renamed to `landuse_dissolved.geoparquet`. Gate 1
+      rejects (gpd.read_parquet fails). Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  wrong_area_units:
+    description: |
+      Agent dissolved correctly, produced a valid GeoParquet in
+      EPSG:32734 with one MultiPolygon per class and a populated
+      `parcel_count`, but reported `area_m2` in km² (off by 10⁶).
+      Subcheck `area_m2_per_class_within_tolerance` (weight 3) fails;
+      all other subchecks pass. 14 / 17 ≈ 0.824.
+    expected_score_range: [0.76, 0.90]
+    measured_score: 0.824
+  partial_classes:
+    description: |
+      Agent dissolved only the top 50 classes by parcel_count and
+      dropped the long tail of singleton / small classes. Two
+      weight-3 data-content subchecks fail (`class_set_jaccard`,
+      `unioned_geometry_iou`) plus the weight-1 structural
+      `row_count_within_tolerance`; per-class subchecks pass on the
+      retained subset. 10 / 17 ≈ 0.588.
+    expected_score_range: [0.50, 0.68]
+    measured_score: 0.588
+notes:
+  - |
+    Bundled input is sliced from Overture's `base.land_use`
+    collection (release 2026-04-15.0) over a Cape Town metro bbox
+    (18.30°-19.00° E, -34.40° to -33.55°). The slice is reprojected
+    to EPSG:32734 (Hartebeesthoek94 / UTM 34S) at authoring time so
+    the agent receives a FlatGeobuf already in the target CRS.
+  - |
+    Although the inventory row tags this task with OSM `landuse=*`,
+    Overture's `base.land_use` is the schema-clean equivalent for
+    designated-land-use mapping, and AUTHOR_CONTEXT.md prefers
+    Overture as the default authoring source whenever an equivalent
+    collection exists. The agent never sees the upstream source — it
+    only sees the bundled FlatGeobuf with a `class` column whose
+    values match OSM landuse keys (`residential`, `vineyard`,
+    `farmland`, `park`, ...).

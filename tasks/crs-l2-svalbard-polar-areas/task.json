@@ -1,0 +1,49 @@
+{
+  "task_id": "crs-l2-svalbard-polar-areas",
+  "version": 2,
+  "tags": {
+    "region": ["svalbard"],
+    "data_source": ["bundled"],
+    "formats": ["gpkg", "csv"],
+    "crs": ["EPSG:4326", "EPSG:3575"],
+    "geometry_type": ["polygon"],
+    "operations": ["reprojection", "area_calculation", "bbox"],
+    "themes": ["natural"],
+    "quality_issues": ["polar"],
+    "scale": "small"
+  },
+  "instruction": "svalbard_glaciers — I need an honest size ranking of these high-latitude glaciers using true geographic area, not the distorted values you'd get from raw lat/lon coordinates. Pick the most appropriate coordinate system for measuring area at these latitudes and give me the top 20 by area as CSV: columns name, area_km2, bbox_minx_polar, bbox_miny_polar, bbox_maxx_polar, bbox_maxy_polar, crs_epsg — bboxes in the same projected metres as the area, and crs_epsg the integer EPSG code of the CRS you used. Sort by area_km2 descending. File: svalbard_glaciers_top20.csv.",
+  "inputs": [
+    {
+      "name": "svalbard_glaciers",
+      "url": "tasks/crs-l2-svalbard-polar-areas/inputs/svalbard_glaciers_wgs84.gpkg",
+      "format": "gpkg"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "svalbard_glaciers_top20.csv",
+      "format": "csv",
+      "crs": "EPSG:3575",
+      "geometry_type": "Polygon"
+    }
+  ],
+  "deadline_seconds": 600,
+  "analyst_notes": {
+    "description": "Tests whether the agent recognises that area ranking at 78 degrees north is meaningless in WGS84 and that the textbook-correct fix is an equal-area projection, not just any polar one. The prompt asks for the 'most appropriate coordinate system for measuring area at these latitudes' but deliberately does not name LAEA or any EPSG code, so the agent has to make the equal-area-versus-conformal call on its own. A conformal polar pick (Polar Stereographic) still earns most of the credit because the area distortion at Svalbard latitudes is under 1%, but it loses the equal-area subcheck.",
+    "approach": [
+      "Open the GeoPackage and confirm the input is in WGS84 with named glacier polygons.",
+      "Pick a North-Pole-origin equal-area projection, ideally a Lambert Azimuthal Equal-Area variant centred on the European Arctic, and reproject the polygons into it.",
+      "Compute each polygon's area in square kilometres and its axis-aligned bounding box in the projected metres.",
+      "Sort by area descending and keep the top 20.",
+      "Write a CSV with name, area_km2, the four bbox columns, and a crs_epsg column whose integer value is the same on every row."
+    ],
+    "pitfalls": [
+      "Computing area directly on the WGS84 polygons gives values in square degrees and produces a ranking that has nothing to do with real glacier size, so the area and top-20 subchecks both collapse.",
+      "Picking a Polar Stereographic CRS (EPSG:3995 or EPSG:3413) is defensible and passes the area subchecks within tolerance, but it fails the equal-area subcheck because the instruction asks for true geographic area.",
+      "Picking UTM 33 North looks reasonable for Norway but is a cylindrical projection that distorts area badly at 78 degrees north, and it also falls outside the North-Pole-origin set the grader rewards.",
+      "Forgetting the crs_epsg column, or putting different EPSG values on different rows, fails Gate 1 because the grader cannot decide which frame the bbox values are in.",
+      "Reporting bboxes in WGS84 degrees while declaring crs_epsg as a projected code, or swapping min and max, breaks the bbox subchecks even when the area work is right."
+    ]
+  }
+}

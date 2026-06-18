@@ -1,0 +1,21 @@
+{
+  "layers": [
+    {
+      "name": "pois",
+      "pmtiles": "pois.pmtiles",
+      "source_layer": "pois",
+      "geometry_type": "Point",
+      "style": {
+        "circle-color": "#1a4480",
+        "circle-radius": 4,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-width": 1
+      },
+      "tooltip": [
+        "name",
+        "category"
+      ]
+    }
+  ],
+  "error": null
+}

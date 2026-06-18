@@ -1,0 +1,105 @@
+task_id: fio-l1-vienna-shapefile-recovery
+category: format_io
+difficulty: L1
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.0
+  area_pct: null
+  jaccard_min: 0.99
+  geom_eps_m: null
+  geom_eps_deg: 1.0e-5
+  numeric_rel_tol: 1.0e-6
+  rationale: |
+    Format-conversion task on a deterministic, hand-crafted bundled
+    shapefile. The agent's job is to rewrite the same row set as
+    GeoJSON with original column names restored, German diacritics
+    intact, and geometry reprojected from EPSG:31287 to EPSG:4326 — no
+    filtering, no aggregation. Row count is therefore a strict-equality
+    subcheck (weight 3, data-content; the former Gate 2 was dissolved
+    into subchecks on 2026-06-06).
+
+    Per-id value subchecks use ≥ 0.99 match thresholds because the
+    only legitimate sources of disagreement (encoding round-trips,
+    numeric round-trips of cadastral parcel areas) should round-trip
+    cleanly. Geometry centroids must agree within 1e-5° (~1.1 m at
+    Vienna's latitude), which is generous enough to absorb the tiny
+    numerical noise of the EPSG:31287 → EPSG:4326 transformation but
+    tight enough to flag a missed reprojection (parcels would land at
+    coordinates in the millions of metres) or a wrong-CRS-source bet
+    (e.g., reading EPSG:31287 as EPSG:31254 / Austria GK Central).
+
+    Per-id text subchecks use a column-name fallback (full name →
+    truncated alias) so that a "kept the dBase 10-char names but
+    otherwise correct" submission still earns credit for preserving
+    the values. This separates the *column-renaming* skill (5
+    subchecks, weight 1 each) from the *value-preservation* skill.
+    The central data-recovery skills are weighted 3 each: the two
+    per-id text matches, the per-id FLAECHE_M2 numeric match, the
+    per-id geometry/reprojection match, the exact row count, and
+    `diacritics_decoded` (the most direct detector of the encoding
+    skill, re-weighted from 1 to 3 on 2026-06-14 so a data-corruption
+    failure costs meaningfully more than a cosmetic schema slip). The
+    schema/structural checks stay at weight 1: the five
+    `column_renamed_*` checks, `geometry_type_polygonal`, and the two
+    soft-CRS checks. The denominator is 26 weighted points across 14
+    subchecks. Severity ordering: a truncated-names-but-correct-values
+    submission (≈0.81, only the 5 cosmetic rename checks fail) scores
+    above a mojibake submission (≈0.65, the encoding skill's three
+    data-content checks fail), consistent with the policy that
+    corrupted data content costs more than schema cosmetics. The grader
+    also runs the shared soft-CRS policy: a submission in canonical
+    EPSG:4326 gets both `crs_is_canonical` and `crs_in_meaningful_set`,
+    EPSG:31287 (the source) gets only the latter, and any other
+    parseable CRS is reprojected to canonical for the geometric
+    subchecks but loses both CRS subchecks.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent wrote the result as Shapefile (`parcels.shp` + sidecars)
+      instead of `parcels.geojson`. The single hard gate
+      (`format_schema_valid`) rejects (the expected output file is
+      missing entirely). Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  truncated_columns:
+    description: |
+      Agent decoded encoding correctly and reprojected geometry but
+      forgot to apply `column_map.csv` — output keeps the dBase
+      10-char names (`KATASTRALG`, `GRUNDSTUEC`, …). The five
+      column-rename subchecks (weight 1 each) fail; the value-,
+      geometry-, and diacritics-preservation subchecks (weight 3 each)
+      still pass via the truncated-alias fallback, and the two soft-CRS
+      subchecks both pass because the output is in canonical EPSG:4326.
+      → 21 / 26 weighted ≈ 0.808.
+    expected_score_range: [0.78, 0.84]
+    measured_score: 0.8077
+  mojibake_encoding:
+    description: |
+      Agent ignored the .cpg sidecar and read the dBase as UTF-8
+      (or Latin-1 then re-encoded as UTF-8) so every CP1252-encoded
+      diacritic byte ends up as Mojibake / replacement-character.
+      Column names recovered, geometry and FLAECHE_M2 fine. The
+      diacritics subcheck and the two per-id text subchecks all fail
+      (weight 3 each — they are the encoding skill's data-content
+      detectors); the two soft-CRS subchecks both pass because the
+      output is in canonical EPSG:4326.
+      → 17 / 26 weighted ≈ 0.654.
+    expected_score_range: [0.60, 0.70]
+    measured_score: 0.6538
+notes:
+  - |
+    Bundled input is hand-crafted. Overture has no parcel theme and
+    the persona's source is a 1990s BEV cadastre snapshot, so a real
+    Overture slice would not match the story. The 60 parcels are a
+    deterministic 6×10 grid of 30×25 m polygons in EPSG:31287, with
+    text attributes drawn from a fixed Vienna-flavoured vocabulary
+    that includes ä, ö, ü, ß, and an em-dash so encoding mistakes
+    are visible.
+  - |
+    The dBase columns are written *already truncated* to the 10-char
+    aliases — this avoids depending on OGR's truncation warning
+    behaviour and keeps the Shapefile schema deterministic across
+    OGR versions. The agent's job is the column-name *recovery*
+    side, not avoiding truncation themselves.

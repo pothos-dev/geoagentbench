@@ -1,0 +1,49 @@
+{
+  "task_id": "fio-l1-nyc-csvwkt-addresses",
+  "tags": {
+    "region": ["nyc"],
+    "data_source": ["bundled"],
+    "formats": ["csv_wkt", "geoparquet"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["point"],
+    "operations": ["format_conversion"],
+    "themes": ["addresses.address"],
+    "quality_issues": ["type_coercion"],
+    "scale": "small"
+  },
+  "instruction": "The vendor SQL export `nyc_addresses` needs proper GeoParquet so `WHERE recorded_at > '2024-01-01'` and `SUM(unit_count)` work without CASTs. Convert it to `addresses.geoparquet`: Point geometry in EPSG:4326, `recorded_at` as `timestamp[us]`, `unit_count` as `int32`, all other columns as string.",
+  "analyst_notes": {
+    "description": "Tests CSV-with-WKT reading plus Arrow-schema literacy on the GeoParquet write side. The agent has to parse the WKT geometry column, then coerce `recorded_at` to `timestamp[us]` and `unit_count` to `int32` exactly, not the pyarrow defaults (`timestamp[ns]`, `int64`). The prompt deliberately does not mention the leftover `geometry_wkt` text column, so the agent has to recognise on its own that storing both the parsed geometry and the original WKT string defeats the point of the conversion.",
+    "approach": [
+      "Read the all-quoted CSV and treat every column as text on the way in.",
+      "Parse the WKT column into Point geometry in EPSG:4326.",
+      "Cast `recorded_at` to a microsecond timestamp and `unit_count` to int32, keeping the other address text columns as strings so leading-zero postcodes survive.",
+      "Drop the original WKT text column so the output carries the geometry only once.",
+      "Write `addresses.geoparquet` with the row count matching the input exactly."
+    ],
+    "pitfalls": [
+      "Leaving the `geometry_wkt` text column in alongside the parsed geometry doubles storage and confuses downstream consumers.",
+      "Letting pandas default `recorded_at` to `timestamp[ns]` makes DuckDB and other tools cast on every query, which is exactly what the persona is trying to avoid.",
+      "Calling `.astype(int)` on `unit_count` lands int64 instead of the requested int32, so the SUM aggregations widen and the file gets larger than it needs to be.",
+      "Letting type inference re-type `postcode` or `number` to integer mangles leading-zero ZIPs and fraction-style house numbers like `1/2`.",
+      "Silently dropping malformed rows during CSV read breaks the persona's downstream `SUM(unit_count)` so the row count has to match the input exactly.",
+      "Forgetting to declare EPSG:4326 on the GeoParquet, or reprojecting the WKT to a metric CRS, throws the geometry comparison off."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "nyc_addresses",
+      "url": "tasks/fio-l1-nyc-csvwkt-addresses/inputs/nyc_addresses.csv",
+      "format": "csv"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "addresses.geoparquet",
+      "format": "geoparquet",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point"
+    }
+  ],
+  "deadline_seconds": 600
+}

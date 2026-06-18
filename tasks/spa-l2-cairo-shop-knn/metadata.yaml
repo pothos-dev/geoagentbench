@@ -1,0 +1,107 @@
+task_id: spa-l2-cairo-shop-knn
+category: spatial_analysis
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.95
+  geom_eps_m: 1.0
+  rationale: |
+    Bundled, fully deterministic inputs (10 000 shop points + 100
+    anchor points, two layers of one EPSG:22992 GPKG sliced from
+    Overture release 2026-04-15.0 at authoring time). Anchors live on
+    a 10×10 synthetic grid offset from real shop coordinates, so the
+    5-NN ranking is unambiguous (no shop / anchor coordinate
+    collisions and no large clusters of co-located shops dominating
+    a single anchor).
+
+    Per-knn `distance_m` is graded with a 1.0 m absolute tolerance
+    (≥ 99% of rows must agree) — generous against floating-point and
+    GPKG round-trip noise (~µm) but tight enough to catch unit
+    mistakes (km) or wrong-CRS computation (planar metres vs.
+    degrees). The same 1.0 m tolerance applies to the 5×3
+    distance-matrix cell check (subcheck 5) and to the
+    distance-vector-position match (subcheck 4, ≥ 95% — slacker
+    because tied-by-float-noise reorderings could legitimately let
+    the agent pick a different shop with the same distance).
+
+    `within_1km` flag check is binary per knn row, ≥ 99% must be
+    consistent with the reported `distance_m` — catches an agent
+    that hard-codes the flag or picks the wrong threshold.
+
+    Chain canonicalisation passes if ≥ 7 of 8 known chains have
+    exactly one distinct `normalised_name` across the agent's output
+    AND every shop_id is tagged consistently (same shop_id → same
+    name) globally. The 7/8 floor admits one chain split across two
+    canonical forms by a marginal agent (e.g. the Arabic-script
+    variant left untransliterated). The grader does not pin the
+    canonical *value* — any of the input variants is acceptable as
+    long as it's used consistently.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent wrote a CSV file (`market_neighbourhoods.csv`) instead of
+      the required JSON. Gate 1 rejects on missing `.json` →
+      score 0.0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  no_chain_normalisation:
+    description: |
+      Agent emitted the correct geometry, distances, and matrix but
+      skipped the chain canonicalisation step entirely — every
+      `normalised_name` is a per-row unique string. All other
+      subchecks pass; only `chain_variants_collapsed` (weight 2)
+      fails. 18/20 = 0.90 under the 2026-06-14 severity reweighting
+      (chain canonicalisation is an attribute-cleaning side-quest, not
+      the spatial kNN core, so its miss is a light drop). Was 19/22 ≈
+      0.864 under the 2026-06-07 flat 3x weighting and 5/6 ≈ 0.833
+      under equal weights.
+    expected_score_range: [0.86, 0.94]
+    measured_score: 0.9
+  wrong_knn_set:
+    description: |
+      Agent reversed the knn order and inflated the reported
+      distances 10× (a stand-in for picking the wrong shops or
+      computing distance in the wrong CRS). Schema is valid; chain
+      canonicalisation is preserved; within_1km flag is internally
+      consistent with the inflated distances; anchor names are
+      tidy. But knn_distances_agree_with_coords (weight 5),
+      knn_distance_vector_matches_reference (weight 5), and
+      distance_matrix_consistent_with_coords (weight 3) all fail —
+      the entire spatial kNN core. 7/20 = 0.35 under the 2026-06-14
+      severity reweighting (a heavy drop: the central skill failed).
+      Was 13/22 ≈ 0.591 under the 2026-06-07 flat 3x weighting and
+      3/6 = 0.5 under equal weights.
+    expected_score_range: [0.31, 0.39]
+    measured_score: 0.35
+notes:
+  - |
+    Bundled inputs slice Overture release 2026-04-15.0 places.place
+    over a downtown Cairo bbox (31.20–31.40 E, 29.95–30.15 N), take
+    the first 10 000 by stable Overture id as shops, and place 100
+    anchors on a synthetic 10×10 grid — Overture's `addresses` /
+    `places` collections collocate dozens of POIs per coordinate, so
+    using them directly for both layers would have made the 5-NN
+    answer nondeterministic at many anchors.
+  - |
+    Synthetic chain variants are injected in `_prepare_input.py`:
+    50% of shops belong to one of 8 chains, each with 4 deliberately-
+    inconsistent transliterations (Latin / Arabic / casing). The
+    truth map (shop_id → chain key) is persisted to
+    `reference/_chain_truth.json` (NOT under `data/`) so the grader
+    can group agent-emitted normalised_name values by true chain.
+  - |
+    OSM tag axis says `shop=*`; we substitute Overture's `places.place`
+    geometry (no category filter) and overwrite the `name` attribute
+    with synthetic chain variants. This sidesteps Overture's
+    inconsistent retail categorisation in Cairo while preserving the
+    realistic POI distribution. Recorded in
+    IMPLEMENTATION_NOTES.md > Open issues per AUTHOR_CONTEXT
+    guidance.
+  - |
+    JSON output writes ASCII-or-better for every chain variant the
+    agent might pick, including Arabic; the grader uses
+    `ensure_ascii=False` when echoing detail messages.

@@ -1,0 +1,18 @@
+{
+  "task_id": "spa-l1-capetown-hospital-nn",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "calibrated",
+  "unilateral_edits": [
+    "grade.py",
+    "metadata.yaml",
+    "README.md",
+    "audit/AUTHORING_HISTORY.md"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {"id": "HR-001", "category": "reference-or-data-edit-needed", "severity": "low", "summary": "inputs/_prepare.py docstring and .to_crs(\"EPSG:32734\") calls are stale vs the committed WGS84 inputs; refresh helper for reproducibility. No grading impact. (Re-raised from prior evaluator passes.)"}
+  ],
+  "blocker": null
+}

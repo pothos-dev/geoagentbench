@@ -1,0 +1,52 @@
+task_id: geo-l1-tokyo-busstop-buffer
+category: geometric_ops
+difficulty: L1
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: 0.02
+  jaccard_min: 0.95
+  geom_eps_m: null
+  rationale: |
+    Input is now WGS84 (300 connector points).  The model must independently
+    choose a projected CRS for metric buffering.  Area tolerance widened
+    to ±2% (from ±1%) to accept any reasonable projected CRS for the Tokyo
+    region (JGD2011 Plane IX, UTM 54N, etc.).  IoU threshold lowered to
+    0.95 (from 0.99) to accommodate minor projection differences.
+    A model buffering in WGS84 degrees will produce areas off by orders
+    of magnitude, easily caught at any reasonable tolerance.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent wrote CSV-WKT instead of GeoParquet. Gate 1 rejects.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  degrees_buffer:
+    description: |
+      Agent buffered 400 in WGS84 degrees without reprojecting.  Enormous
+      polygons.  After reprojection to reference CRS, areas and IoU are
+      completely wrong.  Primary target failure for this task redesign.
+      Fails the three central-skill subchecks (buffer_area_400m w=4,
+      per_id_iou_high w=4, buffer_contains_source_point w=3); passes the
+      four structural subchecks (5 of 16 weight).
+    expected_score_range: [0.25, 0.4]
+    measured_score: 0.3125
+  wrong_radius:
+    description: |
+      Agent buffered 200 m instead of 400 m in a correct projected CRS.
+      Area and IoU fail; IDs and contains-point pass.  Least severe of the
+      three geometric brokens: the central skill (projected CRS, correct
+      centring) is intact, only the radius magnitude is wrong, so
+      buffer_contains_source_point (w=3) still passes.
+    expected_score_range: [0.45, 0.55]
+    measured_score: 0.5
+  shifted_centers:
+    description: |
+      Agent shifted centres 1000 m east and used 200 m radius.  Area,
+      IoU, and contains-point all fail; only IDs pass.  Same failing
+      subchecks as degrees_buffer (both wreck the central buffering skill),
+      so the two score identically.
+    expected_score_range: [0.25, 0.4]
+    measured_score: 0.3125

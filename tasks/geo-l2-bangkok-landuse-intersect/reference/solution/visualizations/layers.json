@@ -1,0 +1,20 @@
+{
+  "layers": [
+    {
+      "name": "intersections",
+      "pmtiles": "intersections.pmtiles",
+      "source_layer": "intersections",
+      "geometry_type": "MultiPolygon",
+      "style": {
+        "fill-color": "#1a4480",
+        "fill-opacity": 0.45,
+        "fill-outline-color": "#1a4480"
+      },
+      "tooltip": [
+        "landuse_class",
+        "landcover_class"
+      ]
+    }
+  ],
+  "error": null
+}

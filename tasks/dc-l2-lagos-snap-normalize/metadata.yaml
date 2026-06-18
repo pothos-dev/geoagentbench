@@ -1,0 +1,120 @@
+task_id: dc-l2-lagos-snap-normalize
+category: data_cleaning
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: 0.005
+  jaccard_min: null
+  geom_eps_m: 0.001
+  area_recompute_rel_tol: 1.0e-3
+  area_recompute_abs_tol_m2: 1.0
+  rationale: |
+    Bundled-data cleaning task on a fully synthetic fixture; no
+    upstream drift, no projection step, no random sampling. Count
+    tolerance is the L2 default ±5 % — the legitimate four-row output
+    rounds the same either way; submissions with one missing or one
+    extra row trip the gate. Per-class area tolerance is tightened
+    from the heuristic ±5 % to ±0.5 %: the fixture's quadrants are
+    exact 500 m × 500 m squares (250 000 m² each) and the snap-
+    then-dissolve pipeline is exact in principle (set_precision rounds
+    every coordinate to a 1 mm grid; quadrant boundaries land on
+    50 m × 60 m grid pitch, well above the snap tolerance), so
+    anything looser would let a slightly-wrong dissolve pass. Snap
+    tolerance is fixed at 1 mm by the persona; this is a hard
+    parameter, not a heuristic. The area-recompute self-consistency
+    check uses max(1 m², 1e-3 relative) — 1 m² is generous on a
+    250 000 m² output (4 ppm) but catches an agent that wrote a
+    truncated integer (250 000 vs 250 000.0). The grader rejects
+    Polygon-mixed-with-MultiPolygon at the strict-Polygon subcheck
+    level (not at the gate) so a no-snap broken still has a path
+    through to subchecks for partial credit.
+broken_solutions:
+  wrong_format:
+    description: |
+      Output is GPKG with all schema fields present and the pipeline
+      run end-to-end, but the agent reprojected the result to
+      EPSG:3857 (mistaking Web Mercator for the universal output
+      CRS). Under the soft-CRS policy (commit 05aabd6) the grader
+      reprojects the submission to EPSG:26331 for the geometric
+      subchecks (which all then pass on this otherwise-correct
+      pipeline) and docks the weight-1 `crs_is_canonical` and
+      `crs_in_meaningful_set` subchecks - both fail because the
+      original CRS was 3857, not 26331. Under the per-task reasoned
+      weights (2026-06-14: total weight 24) this scores
+      22/24 = 0.917 - a structural/output-CRS slip, penalised more
+      than a cosmetic casing slip but less than skipping the central
+      snap step.
+    expected_score_range: [0.85, 0.97]
+    measured_score: 0.917
+  no_snap:
+    description: |
+      Agent ran zero-area drop, class normalisation, blank filter,
+      dissolve, and area recompute, but skipped the 1 mm vertex
+      snap. unary_union still completes on the perturbed parcels
+      (the sub-mm gaps are within GEOS's internal precision band)
+      but each per-class polygon comes out as a MultiPolygon riddled
+      with hundreds of sub-mm interior holes along internal grid
+      lines. Total per-class area drifts by ~0.0001 % (well inside
+      the 0.5 % tolerance) so per_class_area, IoU, area_recompute,
+      canonical_class, no_blank, no_zero pass; the snap-detecting
+      `geometry_type_polygon_only` and `no_interior_holes` subchecks
+      fail; CRS subchecks pass. Under the per-task reasoned weights
+      (2026-06-14) those two snap-detection subchecks carry weight 3
+      each (this task's central gotcha), so skipping the snap costs
+      6/24 and this scores 18/24 = 0.75 - the largest drop of the
+      three brokens, as the titular failure mode should be.
+    expected_score_range: [0.65, 0.85]
+    measured_score: 0.75
+  wrong_canonical:
+    description: |
+      Every step is correct except the agent emitted the four
+      canonical classes in ALL-CAPS (`RESIDENTIAL`/`COMMERCIAL`/
+      `INDUSTRIAL`/`AGRICULTURAL`) instead of the persona's TitleCase.
+      Only the `canonical_class_vocabulary` subcheck fails; the
+      per-class-area subcheck matches case-insensitively so it still
+      passes; CRS subchecks pass. Under the per-task reasoned weights
+      (2026-06-14) `canonical_class_vocabulary` is weight 1 (a
+      cosmetic house-style slip), so this scores 23/24 = 0.958 - the
+      smallest drop of the three brokens.
+    expected_score_range: [0.9, 0.99]
+    measured_score: 0.958
+notes:
+  - |
+    Bundled input is hand-crafted (not Overture-derived) because the
+    task is intrinsically about a deliberately corrupted zoning
+    snapshot — sub-millimetre vertex offsets between adjacent
+    parcels, zero-area collinear ghost polygons, variant spellings
+    of the zoning class across six legacy LGA digitisations, and
+    blank-class rows from incomplete data entry. Overture's
+    `base.land_use` ships normalised, deduplicated polygons with a
+    controlled vocabulary; corrupting it synthetically is identical
+    in effect to constructing the corruption from scratch. Same
+    hand-crafted policy as `dc-l2-cairo-invalid-dedup`.
+  - |
+    Fixture composition: 10 000 main-grid parcels arranged as a
+    100×100 grid of 10 m × 10 m squares in EPSG:26331, split into
+    four contiguous 50×50 quadrants (one canonical class each).
+    Each parcel's four corners are perturbed by 0–30 µm
+    deterministically; each parcel's `zoning_class` cycles through
+    one of six variant spellings (TitleCase / ALL-CAPS / lowercase /
+    abbreviation × 3 cases) per canonical family. 50 blank-class
+    parcels sit on a separate offset grid east of the main block
+    (variants: empty, whitespace, None, tab). 30 zero-area collinear
+    polygons sit further east with stray-but-plausible class labels
+    (tests that the agent drops by area, not by class label). Total
+    10 080 features. Reference output: 4 per-class rows of
+    250 000 m² each, all single-part Polygons.
+  - |
+    Output is GPKG in EPSG:26331. `gpd.read_file` round-trips the
+    CRS via the GPKG metadata. Both the bundled input and the
+    reference output pin `gpkg_contents.last_change` so two runs
+    of `_prepare_input.py` and `generate.py` produce byte-identical
+    files (GDAL otherwise stamps the current UTC time).
+  - |
+    The grader admits MultiPolygon at Gate 2 so the no-snap broken
+    has a path through to subchecks for partial credit. The
+    inventory-declared "Polygon" geometry type is enforced by the
+    `geometry_type_polygon_only` subcheck instead.

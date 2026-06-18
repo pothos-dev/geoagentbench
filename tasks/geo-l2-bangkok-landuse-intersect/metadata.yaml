@@ -1,0 +1,95 @@
+task_id: geo-l2-bangkok-landuse-intersect
+category: geometric_ops
+difficulty: L2
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: 0.05
+  jaccard_min: 0.9
+  geom_eps_m: null
+  rationale: |
+    Geometric-ops chain on a deterministic, bundled GeoParquet slice
+    of Overture `base.land_cover` over Bangkok (~21 660 polygons, 8
+    classes) plus a single hand-crafted BMA study-area polygon, both
+    in EPSG:32647 (WGS84 / UTM 47N). The agent must repair invalid
+    geometries, intersect each cleaned land-cover polygon with the
+    study area, simplify at 5 m, coerce to MultiPolygon, and report
+    `class` + `area_m2` per surviving feature.
+
+    Standard heuristics apply: ±5 % count tolerance, ±5 % total-area
+    tolerance, class-set Jaccard ≥ 0.9, unioned IoU ≥ 0.9. The 5 m
+    simplify tolerance is well below the typical land-cover polygon
+    edge length (~50–500 m), so simplification has negligible effect
+    on per-feature area — the area tolerance therefore catches
+    unit-scale mistakes (km² vs m²) cleanly without false-positives
+    on a correctly-simplified submission. (The former Gate 2 ±50 %
+    row-count gate was removed benchmark-wide in commit 363aed21;
+    a "skipped intersection" submission now grades directly against
+    the subchecks.)
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent wrote GeoParquet bytes under the GeoJSON-named output
+      path. Gate 1's GeoJSON-FeatureCollection sniff rejects.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  not_intersected:
+    description: |
+      Agent repaired and simplified but skipped the geometric
+      intersection step — only applied a study-area-bbox prefilter,
+      so polygons that touch the bbox but extend outside the study
+      polygon are kept un-clipped. Output is stored in EPSG:32647
+      (matches the input CRS), so under the soft-CRS grader (commit
+      05aabd64) it passes Gate 1 and loses two CRS subchecks plus
+      the three intended geometric subchecks. Under the
+      severity-calibrated weights (2026-06-14) that is 2 / 15 = 0.133 —
+      it fails the entire central geometric group (count w3, total_area
+      w4, IoU w4) plus the two CRS subchecks: the most severe failure.
+    expected_score_range: [0.08, 0.20]
+    # Re-measured 2026-06-14 under severity-calibrated weights:
+    # gate passes; passes `all_multipolygon` (w1) and `class_set_jaccard`
+    # (w1); fails `count_within_tolerance` (w3),
+    # `total_area_within_tolerance` (w4), `unioned_geometry_iou` (w4),
+    # `crs_is_canonical` (w1), `crs_in_meaningful_set` (w1). 2/15 = 0.133.
+    measured_score: 0.133
+  area_in_km2:
+    description: |
+      Agent did everything right but reported `area_m2` in km² (off
+      by 10⁶). Output is stored in EPSG:32647 (matches the input CRS),
+      so under the soft-CRS grader (commit 05aabd64) it passes Gate 1
+      and loses two CRS subchecks plus the `total_area_within_tolerance`
+      subcheck it was designed to fail. Under the severity-calibrated
+      weights (2026-06-14) that is 9 / 15 = 0.600 — only the central
+      area subcheck (w4) and the two CRS subchecks fail; intersection
+      geometry (count w3, IoU w4) is correct, so this lands well above
+      the skipped-intersection failure.
+    expected_score_range: [0.50, 0.70]
+    # Re-measured 2026-06-14 under severity-calibrated weights:
+    # gate passes; passes `all_multipolygon` (w1), `count_within_tolerance`
+    # (w3), `class_set_jaccard` (w1), `unioned_geometry_iou` (w4); fails
+    # `total_area_within_tolerance` (w4), `crs_is_canonical` (w1),
+    # `crs_in_meaningful_set` (w1). 9/15 = 0.600.
+    measured_score: 0.600
+notes:
+  - |
+    Bundled inputs are sliced from Overture's `base.land_cover`
+    collection (release 2026-04-15.0) over a Bangkok metro bbox
+    (100.30°-100.95° E, 13.50°-14.00° N) and reprojected at authoring
+    time to EPSG:32647 so the agent receives both inputs already in
+    the target CRS.
+  - |
+    Twenty-five self-intersecting bowtie rings are injected into
+    deterministic positions to model the persona's "some polygons
+    crash my desktop GIS" complaint. shapely.make_valid() repairs
+    each into a small MultiPolygon. An agent that skips
+    make_valid() before intersection will either crash (older
+    GEOS) or silently drop those ~25 features (~0.7 % of the
+    output) — within count tolerance but flagged in the README.
+  - |
+    The BMA study-area polygon is hand-crafted as an irregular
+    octagon over central Bangkok (~1 254 km²) rather than fetched
+    from `divisions.division_area`. Hand-crafting keeps the
+    intersection result fully deterministic and the study-area
+    geometry simple enough to interpret.

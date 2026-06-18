@@ -1,0 +1,48 @@
+{
+  "task_id": "dc-l1-capetown-waterway-nulls",
+  "version": 3,
+  "tags": {
+    "region": ["capetown"],
+    "data_source": ["bundled"],
+    "formats": ["geojson"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["linestring"],
+    "operations": ["attribute_filter"],
+    "themes": ["waterway"],
+    "quality_issues": ["null_geometry", "null_attributes"],
+    "scale": "small"
+  },
+  "instruction": "Hi, first time asking for help with this. The contractor delivered capetown_waterways.geojson but some features are unusable for our mapping pipeline. Drop any features that cannot represent a valid, usable waterway (a feature needs both a drawable geometry and a proper type to be useful) and keep the rest. I'd also like a top-level dropped_count so I can show my supervisor what we're flagging back at the contractor. Filename waterways_clean.geojson, please.\n\nThe output should contain only LineString features, each preserving all original columns, with feature_id as the key field. The FeatureCollection must include a top-level dropped_count foreign member (an integer) reporting how many features were removed.",
+  "inputs": [
+    {
+      "name": "capetown_waterways",
+      "url": "tasks/dc-l1-capetown-waterway-nulls/inputs/capetown_waterways.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "waterways_clean.geojson",
+      "format": "geojson",
+      "crs": "EPSG:4326",
+      "geometry_type": "LineString"
+    }
+  ],
+  "deadline_seconds": 600,
+  "analyst_notes": {
+    "description": "Tests whether the agent recognises that a contractor-style GeoJSON can be malformed in three independent ways (geometry is JSON null, geometry is a syntactically valid LineString with empty coordinates, or the required waterway_type column is null) and drops all three buckets while keeping rows whose only oddity is a null name. The prompt deliberately does not enumerate the three defect classes, only says the feature needs a drawable geometry and a proper type, so the agent must inspect the data to discover them and resist the urge to drop every row with any null in any column.",
+    "approach": [
+      "Read the bundled waterways file and inventory the null and empty cases column by column to learn which defects are present.",
+      "Decide that a feature is unusable when its geometry cannot be drawn or its waterway_type is missing, and that a null name on its own is fine.",
+      "Filter the features to keep the usable ones, count how many were dropped, and preserve the original attribute and geometry values verbatim on the survivors.",
+      "Write the cleaned features back out to GeoJSON under the requested filename, and add a top-level dropped_count member on the FeatureCollection so the persona can flag the contractor."
+    ],
+    "pitfalls": [
+      "Filtering only on geometry.isna() catches the ten JSON-null geometries but leaves the five empty LineStrings and the five surviving null-waterway_type rows in the output, so the cleanup ends up at ten dropped instead of twenty.",
+      "Applying a blanket drop-any-row-with-any-null rule removes the five null-name watercourses that the persona wants to keep.",
+      "Forgetting that pyogrio's GeoJSON driver does not preserve foreign members and writing dropped_count inside a feature property or omitting it entirely.",
+      "Reprojecting the file to a metric CRS before writing, which costs the two CRS subchecks even though the geometric work is correct.",
+      "Filling nulls with sentinel strings like 'unknown' instead of dropping the offending rows, which mutates the attribute values and breaks the per-id attribute check."
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "layers": [
+    {
+      "name": "schools",
+      "pmtiles": "schools.pmtiles",
+      "source_layer": "schools",
+      "geometry_type": "Point",
+      "style": {
+        "circle-color": "#1a4480",
+        "circle-radius": 4,
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-width": 1
+      },
+      "tooltip": [
+        "name",
+        "level"
+      ]
+    }
+  ],
+  "error": null
+}

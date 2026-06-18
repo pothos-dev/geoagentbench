@@ -1,0 +1,54 @@
+{
+  "task_id": "spa-l1-vienna-pip-count",
+  "version": 2,
+  "tags": {
+    "region": ["vienna"],
+    "data_source": ["bundled"],
+    "formats": ["geojson", "csv"],
+    "crs": ["EPSG:31287"],
+    "geometry_type": ["point", "polygon"],
+    "operations": ["pip_count"],
+    "themes": ["place", "boundary_administrative"],
+    "quality_issues": [],
+    "scale": "small"
+  },
+  "instruction": "I'm pulling together a coverage diagnostic for next year's air-quality budget round, and the committee wants to spot under-monitored areas at a glance. Can you take `stations.geojson` and `districts.geojson` and write `stations_per_district.csv` listing every Bezirk with its station count?\n\nPlease keep it as a plain CSV with no geometry column, one row per Bezirk. Use three columns with these exact names: `district_code` (integer-valued, the Bezirk number, not other identifier columns), `district_name` (the human-readable German Bezirk name from the districts layer), and `station_count` (integer). Sort rows by `district_code`.",
+  "analyst_notes": {
+    "description": "This task probes whether the agent recognises a coverage diagnostic needs every polygon in the polygon set, not just the ones that received at least one point. The prompt deliberately does not say 'include zero-count districts' or name the spatial predicate; the persona's framing ('spot under-monitored areas') is the only cue that a left-join-back onto the full Bezirk list is required.",
+    "approach": [
+      "Read both layers and confirm they share a CRS, so the spatial join is meaningful.",
+      "Spatially join each station to the Bezirk that contains it.",
+      "Group by district and count the stations.",
+      "Left-join the counts back onto the full district list so every Bezirk appears, filling missing counts with zero.",
+      "Write the result as plain CSV with the three named columns, sorted by district_code."
+    ],
+    "pitfalls": [
+      "Returning only the districts that contained at least one station, so the four zero-count Bezirke vanish and the coverage diagnostic loses its whole point.",
+      "Pulling the wrong attribute into district_name during the join (for example the OSM relation id from the merged-in column), giving the committee integer ids where Bezirk names should be.",
+      "Dropping the station_count column on write, leaving a two-column CSV that fails the schema gate.",
+      "Filling every row with the same constant count instead of running the per-Bezirk join, which inflates the total far past the 49 stations actually present.",
+      "Writing district_code under a different scheme (postal codes 1010..1230, the OSM relation id) so the values do not align with the canonical 1..23 Bezirk numbering."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "stations",
+      "url": "tasks/spa-l1-vienna-pip-count/inputs/stations.geojson",
+      "format": "geojson"
+    },
+    {
+      "name": "districts",
+      "url": "tasks/spa-l1-vienna-pip-count/inputs/districts.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "stations_per_district.csv",
+      "format": "csv",
+      "crs": null,
+      "geometry_type": null
+    }
+  ],
+  "deadline_seconds": 600
+}

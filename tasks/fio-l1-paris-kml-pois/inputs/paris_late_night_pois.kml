@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+  <name>Late-night POIs (RATP night-bus study)</name>
+  <Folder>
+    <name>Cafés ouverts tard</name>
+    <Placemark>
+      <name>% Arabica</name>
+      <description><![CDATA[<b>% Arabica</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/0">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-01-01]]></description>
+      <Point>
+        <coordinates>2.324676,48.854156,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>1T. rue Scribe</name>
+      <description><![CDATA[<b>1T. rue Scribe</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/1">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-08-14]]></description>
+      <Point>
+        <coordinates>2.329774,48.870581,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>1ndix Café</name>
+      <description><![CDATA[<b>1ndix Café</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/2">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-03-27]]></description>
+      <Point>
+        <coordinates>2.341361,48.880764,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>2 Steps Café</name>
+      <description><![CDATA[<b>2 Steps Café</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/3">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-10-12]]></description>
+      <Point>
+        <coordinates>2.376626,48.866261,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>3234 Café - Trente Deux Trente Quatre</name>
+      <description><![CDATA[<b>3234 Café - Trente Deux Trente Quatre</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/4">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-05-25]]></description>
+      <Point>
+        <coordinates>2.376249,48.853167,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>360 Cafe</name>
+      <description><![CDATA[<b>360 Cafe</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/5">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-12-10]]></description>
+      <Point>
+        <coordinates>2.321838,48.842293,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>3w Cafe Paris</name>
+      <description><![CDATA[<b>3w Cafe Paris</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/6">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-07-23]]></description>
+      <Point>
+        <coordinates>2.327530,48.851560,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>48 Collagen Caf√©</name>
+      <description><![CDATA[<b>48 Collagen Caf√©</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/7">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-02-08]]></description>
+      <Point>
+        <coordinates>2.340460,48.874840,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>86 Champs Elysées</name>
+      <description><![CDATA[<b>86 Champs Elysées</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/8">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-09-21]]></description>
+      <Point>
+        <coordinates>2.303767,48.871387,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>A la Ville de Paris</name>
+      <description><![CDATA[<b>A la Ville de Paris</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/9">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-04-06]]></description>
+      <Point>
+        <coordinates>2.344280,48.870530,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>A minima cafe</name>
+      <description><![CDATA[<b>A minima cafe</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/10">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-11-19]]></description>
+      <Point>
+        <coordinates>2.381290,48.845300,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>AD DictCafé</name>
+      <description><![CDATA[<b>AD DictCafé</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/11">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-06-04]]></description>
+      <Point>
+        <coordinates>2.390577,48.849002,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>ANGIOLO</name>
+      <description><![CDATA[<b>ANGIOLO</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/12">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-01-17]]></description>
+      <Point>
+        <coordinates>2.331682,48.854538,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Abaita</name>
+      <description><![CDATA[<b>Abaita</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/13">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-08-02]]></description>
+      <Point>
+        <coordinates>2.368446,48.864406,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Absinthe Café</name>
+      <description><![CDATA[<b>Absinthe Café</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/14">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-03-15]]></description>
+      <Point>
+        <coordinates>2.357228,48.865564,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Acai &amp; You</name>
+      <description><![CDATA[<b>Acai &amp; You</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/15">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-10-28]]></description>
+      <Point>
+        <coordinates>2.339001,48.854247,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Adulis Cafe Abyssinien</name>
+      <description><![CDATA[<b>Adulis Cafe Abyssinien</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/16">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-05-13]]></description>
+      <Point>
+        <coordinates>2.346929,48.851763,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>After Place</name>
+      <description><![CDATA[<b>After Place</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/17">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-12-26]]></description>
+      <Point>
+        <coordinates>2.336121,48.864266,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>After Place</name>
+      <description><![CDATA[<b>After Place</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/18">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-07-11]]></description>
+      <Point>
+        <coordinates>2.351101,48.862294,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>After Place</name>
+      <description><![CDATA[<b>After Place</b><br/>Cat&eacute;gorie&nbsp;: Cafés ouverts tard<br/><a href="https://example.org/poi/19">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-02-24]]></description>
+      <Point>
+        <coordinates>2.361560,48.869500,0</coordinates>
+      </Point>
+    </Placemark>
+  </Folder>
+  <Folder>
+    <name>Bibliothèques de nuit</name>
+    <Placemark>
+      <name>AUP Housing</name>
+      <description><![CDATA[<b>AUP Housing</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/20">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-09-09]]></description>
+      <Point>
+        <coordinates>2.306008,48.861754,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Academie de Medical</name>
+      <description><![CDATA[<b>Academie de Medical</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/21">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-04-22]]></description>
+      <Point>
+        <coordinates>2.334208,48.856342,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Ancêtres Italiens</name>
+      <description><![CDATA[<b>Ancêtres Italiens</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/22">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-11-07]]></description>
+      <Point>
+        <coordinates>2.363314,48.873246,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Apfelbaum Library</name>
+      <description><![CDATA[<b>Apfelbaum Library</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/23">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-06-20]]></description>
+      <Point>
+        <coordinates>2.330685,48.849518,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Archives de l'AP-HP</name>
+      <description><![CDATA[<b>Archives de l&#x27;AP-HP</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/24">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-01-05]]></description>
+      <Point>
+        <coordinates>2.366407,48.857094,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Arthur Rimbaud Library</name>
+      <description><![CDATA[<b>Arthur Rimbaud Library</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/25">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-08-18]]></description>
+      <Point>
+        <coordinates>2.355874,48.856134,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Association Bibliotheque Braille Enfantine</name>
+      <description><![CDATA[<b>Association Bibliotheque Braille Enfantine</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/26">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-03-03]]></description>
+      <Point>
+        <coordinates>2.372404,48.868038,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Association Francaise de Therapie</name>
+      <description><![CDATA[<b>Association Francaise de Therapie</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/27">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-10-16]]></description>
+      <Point>
+        <coordinates>2.308679,48.870960,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Attractive</name>
+      <description><![CDATA[<b>Attractive</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/28">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-05-01]]></description>
+      <Point>
+        <coordinates>2.326704,48.866369,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>BNF</name>
+      <description><![CDATA[<b>BNF</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/29">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-12-14]]></description>
+      <Point>
+        <coordinates>2.338076,48.867811,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>BPI Bibliotheque Publique D Information</name>
+      <description><![CDATA[<b>BPI Bibliotheque Publique D Information</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/30">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-07-27]]></description>
+      <Point>
+        <coordinates>2.352378,48.859478,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>BPI-Beaubourg</name>
+      <description><![CDATA[<b>BPI-Beaubourg</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/31">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-02-12]]></description>
+      <Point>
+        <coordinates>2.351867,48.860532,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Beaubourg Librairie des Arts</name>
+      <description><![CDATA[<b>Beaubourg Librairie des Arts</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/32">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-09-25]]></description>
+      <Point>
+        <coordinates>2.356791,48.865189,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Bib Cent du Service de Sante Des Armees</name>
+      <description><![CDATA[<b>Bib Cent du Service de Sante Des Armees</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/33">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-04-10]]></description>
+      <Point>
+        <coordinates>2.341252,48.841187,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Bibliothe que Centrale - Muse'um national d'histoire naturelle (MNHN)</name>
+      <description><![CDATA[<b>Bibliothe que Centrale - Muse&#x27;um national d&#x27;histoire naturelle (MNHN)</b><br/>Cat&eacute;gorie&nbsp;: Bibliothèques de nuit<br/><a href="https://example.org/poi/34">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-11-23]]></description>
+      <Point>
+        <coordinates>2.355838,48.842660,0</coordinates>
+      </Point>
+    </Placemark>
+  </Folder>
+  <Folder>
+    <name>Tours et infos touristiques</name>
+    <Placemark>
+      <name>24hourstravel</name>
+      <description><![CDATA[<b>24hourstravel</b><br/>Cat&eacute;gorie&nbsp;: Tours et infos touristiques<br/><a href="https://example.org/poi/35">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-06-08]]></description>
+      <Point>
+        <coordinates>2.347810,48.864739,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>2CVPrivateParis</name>
+      <description><![CDATA[<b>2CVPrivateParis</b><br/>Cat&eacute;gorie&nbsp;: Tours et infos touristiques<br/><a href="https://example.org/poi/36">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-01-21]]></description>
+      <Point>
+        <coordinates>2.337967,48.889998,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>382444404</name>
+      <description><![CDATA[<b>382444404</b><br/>Cat&eacute;gorie&nbsp;: Tours et infos touristiques<br/><a href="https://example.org/poi/37">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-08-06]]></description>
+      <Point>
+        <coordinates>2.326910,48.870680,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>A French Frye in Paris</name>
+      <description><![CDATA[<b>A French Frye in Paris</b><br/>Cat&eacute;gorie&nbsp;: Tours et infos touristiques<br/><a href="https://example.org/poi/38">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-03-19]]></description>
+      <Point>
+        <coordinates>2.340830,48.861240,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Aeon Tours of Paris</name>
+      <description><![CDATA[<b>Aeon Tours of Paris</b><br/>Cat&eacute;gorie&nbsp;: Tours et infos touristiques<br/><a href="https://example.org/poi/39">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-10-04]]></description>
+      <Point>
+        <coordinates>2.358590,48.863780,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Agence ORNIcom : location de gyropode Segway à Paris et sur toute la France</name>
+      <description><![CDATA[<b>Agence ORNIcom : location de gyropode Segway à Paris et sur toute la France</b><br/>Cat&eacute;gorie&nbsp;: Tours et infos touristiques<br/><a href="https://example.org/poi/40">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-05-17]]></description>
+      <Point>
+        <coordinates>2.303244,48.852662,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Al Abrar Voyages</name>
+      <description><![CDATA[<b>Al Abrar Voyages</b><br/>Cat&eacute;gorie&nbsp;: Tours et infos touristiques<br/><a href="https://example.org/poi/41">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-12-02]]></description>
+      <Point>
+        <coordinates>2.312770,48.886310,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Allison Zinder</name>
+      <description><![CDATA[<b>Allison Zinder</b><br/>Cat&eacute;gorie&nbsp;: Tours et infos touristiques<br/><a href="https://example.org/poi/42">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-07-15]]></description>
+      <Point>
+        <coordinates>2.398851,48.862635,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Association Touristique Cheminots</name>
+      <description><![CDATA[<b>Association Touristique Cheminots</b><br/>Cat&eacute;gorie&nbsp;: Tours et infos touristiques<br/><a href="https://example.org/poi/43">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-02-28]]></description>
+      <Point>
+        <coordinates>2.371287,48.846263,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Avenir Tourisme</name>
+      <description><![CDATA[<b>Avenir Tourisme</b><br/>Cat&eacute;gorie&nbsp;: Tours et infos touristiques<br/><a href="https://example.org/poi/44">Voir la fiche</a><br/>Derni&egrave;re v&eacute;rification&nbsp;: 2026-09-13]]></description>
+      <Point>
+        <coordinates>2.358040,48.868509,0</coordinates>
+      </Point>
+    </Placemark>
+  </Folder>
+</Document>
+</kml>

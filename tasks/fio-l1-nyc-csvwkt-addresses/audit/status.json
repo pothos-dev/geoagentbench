@@ -1,0 +1,29 @@
+{
+  "task_id": "fio-l1-nyc-csvwkt-addresses",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": [
+    "benchmark/tasks/fio-l1-nyc-csvwkt-addresses/grade.py",
+    "benchmark/tasks/fio-l1-nyc-csvwkt-addresses/metadata.yaml",
+    "benchmark/tasks/fio-l1-nyc-csvwkt-addresses/README.md",
+    "benchmark/tasks/fio-l1-nyc-csvwkt-addresses/audit/AUTHORING_HISTORY.md"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-001",
+      "category": "design-rationale",
+      "severity": "low",
+      "summary": "Commit b4583b4 ('Remove CRS/operation nudges from 5 CRS task prompts') mis-describes its effect on this FIO task: it removed the geometry_wkt-drop and row-count output-schema sentences, not a CRS nudge. Audit the rest of that 5-task sweep. Carried forward from prior blocks."
+    },
+    {
+      "id": "HR-002",
+      "category": "prompt-vs-grader-judgment",
+      "severity": "low",
+      "summary": "Instruction does not state 'drop geometry_wkt' but grader subcheck no_residual_geometry_wkt_column checks for its absence; 'all other columns as string' can even read as keep-everything. Inferable-convention conclusion stands; under the 2026-06-14 per-task weights this cosmetic miss docks only ~0.04. Optional: re-add the drop sentence. Carried forward."
+    }
+  ],
+  "blocker": null
+}

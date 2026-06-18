@@ -1,0 +1,53 @@
+task_id: geo-l3-antarctica-stations-geodesic
+category: geometric_ops
+difficulty: L3
+author: task-design-agent
+date: 2026-05-12
+drift_sensitivity: med
+tolerances:
+  count_pct: 0.30
+  area_pct: 0.40
+  jaccard_min: 0.60
+  geom_eps_m: null
+  rationale: |
+    Wide tolerances because L3 station identification from Overture places.place
+    is inherently ambiguous — different keyword/category filtering strategies
+    yield different station sets (10–25 stations). Count tolerance ±30% absorbs
+    this. Area tolerance ±40% accounts for geodesic vs. planar buffer differences
+    and varying station counts. Name overlap at 60% accepts that agents may find
+    a different but overlapping set of Antarctic research stations. Water area at
+    ±50% is generous because the intersection count depends heavily on which
+    stations are included and how the land mask is constructed.
+broken_solutions:
+  broken_wrong_crs:
+    description: Output in EPSG:4326 instead of EPSG:3031 - fails CRS, coordinate-range, and area subchecks
+    expected_score_range: [0.30, 0.45]
+    measured_score: 0.38
+  broken_no_coalition:
+    description: Half the stations, coalition=0 for all (no overlap detection)
+    expected_score_range: [0.55, 0.70]
+    measured_score: 0.62
+  broken_planar_buffer:
+    description: Buffers scaled to 30% area (simulates planar buffer at polar latitudes)
+    expected_score_range: [0.50, 0.65]
+    measured_score: 0.59
+# Subcheck weights (2026-06-14 reasoned recalibration, total 29):
+#   Central polar-geometry skill (geodesic buffer + correct polar CRS), weight 4.0:
+#     geodesic_buffer_check, buffer_area_reasonable, crs_is_3031, sphere_coords_projected
+#   Secondary skills (station identification, water attribution), weight 2.0:
+#     station_count_tolerance, station_name_overlap, water_station_overlap, water_area_reasonable
+#   Structural / cosmetic checks, weight 1.0:
+#     coalition_exists, water_output_present, water_source_attribution,
+#     min_station_count, sphere_geometry_types
+# Ordering rationale: wrong-CRS breaks all geometry (areas + degree coords + CRS metadata)
+#   -> lowest (0.38); planar-buffer fails the core geodesic skill but keeps CRS/identity
+#   -> middle (0.59); no-coalition gets the polar geometry right and only slips on
+#   station identification + coalition union -> highest (0.62).
+notes:
+  - Overture places.place has no "research_station" category; station identification
+    requires keyword filtering on names (station/base/基地/站) combined with
+    category exclusion to remove false positives (gas stations, shops, etc.)
+  - Some Overture POIs are clearly misplaced (e.g. Taiwanese real estate franchise
+    appearing in East Antarctica); reference uses deduplication and category filtering
+  - The water overlap output has ~2500 features (each station × each intersecting
+    water/bathymetry polygon), which is correct given the 200km buffer radius

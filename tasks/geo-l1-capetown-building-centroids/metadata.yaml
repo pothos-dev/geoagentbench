@@ -1,0 +1,129 @@
+task_id: geo-l1-capetown-building-centroids
+category: geometric_ops
+difficulty: L1
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.05
+  area_pct: null
+  jaccard_min: 0.95
+  geom_eps_m: 1.0
+  rationale: |
+    Bundled, fully deterministic input (122 building polygons sliced
+    from Overture release 2026-04-15.0 at authoring time), so the
+    centroid of each footprint is itself deterministic. The reference
+    centroid in EPSG:32734 is reproducible to floating-point noise;
+    the per-building distance subcheck uses 1.0 m as the
+    "structurally correct" threshold (a metric-CRS centroid roundtrip
+    through 4326 typically agrees with the reference to ≤ 1e-3 m, so
+    1.0 m is generous against numerical drift but tight enough to
+    flag any misapplied operation — bbox-corner, point-on-surface
+    on concave footprints, projected-vs-geographic confusion).
+
+    A second, tighter "median ≤ 0.05 m" subcheck distinguishes
+    near-correct answers from systematically-wrong-but-close ones:
+    point-on-surface lands close to the centroid for convex shapes
+    (well under 1 m), but its median offset across a building set
+    that includes L-shaped and U-shaped footprints exceeds the
+    0.05 m floor.
+
+    Building-id set Jaccard ≥ 0.95 catches an agent that fabricated
+    or re-numbered the join key. The centroid-inside-own-footprint-
+    bbox subcheck catches agents that emitted projected metres but
+    tagged them as EPSG:4326 (the centroid coordinate would land far
+    outside its source polygon's lon/lat bbox), or that paired the
+    correct centroid with the wrong building id.
+
+    Row count uses the standard ±5 % even though 122/122 is the
+    expected match — admits a small loss if the agent legitimately
+    drops a feature with empty geometry (none in the bundled file).
+
+    The grader also runs the shared soft-CRS policy (introduced in
+    commit 05aabd6): a submission in canonical EPSG:4326 gets both
+    `crs_is_canonical` and `crs_in_meaningful_set`, EPSG:32734 (the
+    natural metric CRS for the south-western Cape) gets only the
+    latter, and any other parseable CRS is reprojected to canonical
+    for the geometric subchecks but loses both CRS subchecks.
+
+    Two benchmark-wide grader refactors changed the arithmetic after
+    the soft-CRS pass: commit 363aed2 dropped the second gate and
+    migrated geometry-type and row-count into subchecks (7 -> 9
+    subchecks), and commit c749e57 bluntly weighted five data-content
+    subchecks 3x while schema/CRS subchecks stayed at weight 1.
+
+    A 2026-06-14 severity recalibration replaced that one-size-fits-all
+    weighting with weights reasoned from what the task actually tests.
+    The central skill is correct per-footprint centroid computation in
+    a projected CRS, so the two direct centroid-distance subchecks are
+    weighted highest (centroid_within_1m = 4, centroid_median_distance_
+    tight = 4). The join-key preservation check (building_id_set_
+    preserved) and the centroid-pairing sanity check (centroid_inside_
+    own_footprint_bbox) stay at weight 3. row_count_within_tolerance
+    was demoted 3 -> 1: it is a structural check, and the only realistic
+    way to fail it (union-everything -> 1 row) also fails every
+    id-keyed distance subcheck, so it does not need its own heavy
+    weight. Schema and CRS subchecks (building_id_populated, geometry_
+    types_point, crs_is_canonical, crs_in_meaningful_set) stay at
+    weight 1 - a reprojection miss is a cosmetic delivery slip, not a
+    failure of the central skill. The denominator is therefore a weight
+    total of 19 (4 + 4 + 3 + 3 + 1x5); broken-solution scores below are
+    stated as weight-points/19.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent wrote `building_centroids.csv` with a WKT column instead
+      of GeoJSON. Gate 1 rejects (the file is not parseable as
+      GeoJSON / the expected GeoJSON file path is missing). Score 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  bbox_corner_instead_of_centroid:
+    description: |
+      Agent emitted the upper-left corner of each building's bbox
+      instead of the geometric centroid. Schema, CRS, and IDs are
+      all valid, but the per-building distance subchecks fail
+      (median offset ≈ 17 m, no centroid within 1 m). The
+      centroid-inside-own-bbox subcheck fails for ≈ 23 % of rows
+      because GeoJSON serialisation rounding pushes the corner
+      slightly outside the source polygon's bbox. With the soft-CRS
+      subchecks added in 05aabd6 both CRS subchecks pass (output is
+      canonical EPSG:4326). Under the 2026-06-14 severity-weighted
+      9-subcheck grader the passing checks are id-populated (1), id
+      Jaccard (3), geometry types (1), row count (1), and both CRS
+      subchecks (1+1), so 8/19 ≈ 0.421. The drop from the prior 0.526
+      reflects the central centroid-distance subchecks now carrying
+      weight 4 each (so failing all three centroid checks costs more).
+    expected_score_range: [0.35, 0.50]
+    measured_score: 0.4211
+  wrong_ids:
+    description: |
+      Agent computed correct centroids but invented sequential
+      `b_0001` ids instead of preserving the originals. Gate 1 still
+      passes (column exists), but `building_id_set_preserved` fails
+      (Jaccard 0); the per-id distance subchecks fail because no ids
+      match between sub and reference; the bbox-containment check
+      also fails for the same reason. With the soft-CRS subchecks
+      added in 05aabd6 both CRS subchecks pass (output is canonical
+      EPSG:4326). Under the 2026-06-14 severity-weighted 9-subcheck
+      grader the passing checks are id-populated (1), geometry types
+      (1), row count (1), and both CRS subchecks (1+1), so
+      5/19 ≈ 0.263. This is the most severe non-gate broken (lost the
+      join key the persona explicitly required plus every centroid
+      check), so it correctly scores below bbox_corner (0.421).
+    expected_score_range: [0.20, 0.35]
+    measured_score: 0.2632
+notes:
+  - |
+    Bundled input is sliced from Overture release 2026-04-15.0,
+    `theme=buildings/type=building`, over a small Cape Town CBD bbox
+    (18.420..18.426, -33.926..-33.922). 122 footprints → 122
+    centroids. The shapefile ships in EPSG:32734 (Hartebeesthoek94 /
+    UTM 34S — the canonical metric CRS for the south-western Cape).
+    The output GeoJSON is in EPSG:4326 per the persona's request.
+  - |
+    Shapefile dBase column-name truncation: `building_id` is exactly
+    10 chars but pyogrio still normalises it to `building_i`. The
+    grader and reference both rename `building_i` → `building_id`
+    when reading the input, mirroring what a competent agent should
+    do. The persona's instruction names the join key as
+    `building_id`, so the output column must be `building_id`.

@@ -1,0 +1,36 @@
+task_id: spa-l3-paris-emergency-routing
+category: spatial_analysis
+difficulty: L3
+author: task-design-agent
+date: 2026-05-12
+drift_sensitivity: med
+tolerances:
+  count_pct: 0.15
+  area_pct: 0.15
+  jaccard_min: 0.60
+  geom_eps_m: null
+  rationale: |
+    Wider-than-default tolerances (15% count, 60% Jaccard) because L3 live OSM data
+    can shift: hospitals are added/removed, road geometry changes, and the largest
+    strongly-connected component of the graph may vary slightly between fetches.
+    Distance tolerance is 15% to absorb minor routing graph changes.
+    Isochrone IoU is 50% because convex-hull approximation is one of several valid
+    isochrone methods and shapes can vary significantly by algorithm choice.
+broken_solutions:
+  wrong_format:
+    description: Output is GeoJSON instead of GPKG — missing all four required layers
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  wrong_geometry:
+    description: Correct format and CRS but distances inflated 5x, fake hospital names, isochrones are tiny 50m circles
+    expected_score_range: [0.5, 0.8]
+    measured_score: 0.73
+  partial:
+    description: Only 4 of 8 incidents, distances inflated 2.5x, rank ordering scrambled, only 10 of 28 isochrones
+    expected_score_range: [0.1, 0.3]
+    measured_score: 0.30
+notes:
+  - Road network fetched manually via Overpass (not osmnx) for reliability and control over query size
+  - Graph built as directed (respects oneway tags) with haversine edge lengths
+  - Isochrones use convex hull of reachable nodes — a valid but coarse approximation
+  - Distance matrix is stored as a GPKG layer with dummy point geometry since GPKG requires geometry

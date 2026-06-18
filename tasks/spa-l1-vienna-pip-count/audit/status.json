@@ -1,0 +1,23 @@
+{
+  "task_id": "spa-l1-vienna-pip-count",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "calibrated",
+  "unilateral_edits": [
+    "grade.py",
+    "metadata.yaml",
+    "README.md",
+    "audit/AUTHORING_HISTORY.md"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-001",
+      "category": "prompt-vs-grader-judgment",
+      "severity": "low",
+      "summary": "Instruction says 'Sort rows by district_code.' but the grader is order-insensitive (key-joins on district_code), so an unsorted-but-correct CSV scores 1.0. Decide: add a low-weight sort-order subcheck to grade.py (version bump required), or keep the suite-conventional leniency and optionally drop the sort directive from the instruction."
+    }
+  ],
+  "blocker": null
+}

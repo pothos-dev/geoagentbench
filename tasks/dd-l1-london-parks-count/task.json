@@ -1,0 +1,51 @@
+{
+  "task_id": "dd-l1-london-parks-count",
+  "tags": {
+    "region": ["london"],
+    "data_source": ["bundled"],
+    "formats": ["flatgeobuf", "json"],
+    "crs": ["EPSG:27700", "EPSG:4326"],
+    "geometry_type": ["polygon"],
+    "operations": ["attribute_filter", "area_calculation", "bbox"],
+    "themes": ["leisure"],
+    "quality_issues": [],
+    "scale": "small"
+  },
+  "instruction": "I've got inner-London parks (london_parks) and I'm sizing the corpus before commissioning a green-space accessibility study. How many of those parks come in at one hectare or more, what's their combined area in hectares, and what bounding box would I draw around that subset on a WGS84 map? Output parks_summary.json with keys count, total_area_ha, and bbox_wgs84 (as a [xmin, ymin, xmax, ymax] array).",
+  "version": 2,
+  "inputs": [
+    {
+      "name": "london_parks",
+      "url": "tasks/dd-l1-london-parks-count/inputs/london_parks.fgb",
+      "format": "flatgeobuf"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "parks_summary.json",
+      "format": "json",
+      "crs": "EPSG:4326",
+      "geometry_type": "Polygon"
+    }
+  ],
+  "deadline_seconds": 600,
+  "analyst_notes": {
+    "description": "An L1 data-discovery probe testing whether the agent can read a bundled FlatGeobuf in a projected national CRS (EPSG:27700), filter by planar area in the right units, and report a bounding box back in WGS84. The hidden gotcha is that area must be computed in the projected CRS and converted from square metres to hectares, while the bbox must be reprojected the other way to lon/lat. The instruction deliberately omits the input CRS and the input format, so the agent has to discover both from the file itself; the bbox shape and component order are pinned in the prompt since version 2.",
+    "approach": [
+      "Open london_parks.fgb and inspect its CRS, columns, and geometry type before doing anything else.",
+      "Filter the features by area in the projected CRS, taking care that one hectare means ten thousand square metres.",
+      "Sum the filtered areas and convert to hectares for total_area_ha.",
+      "Reproject the filtered subset (or its bounding box corners) to EPSG:4326 and read the bbox in lon/lat as [xmin, ymin, xmax, ymax].",
+      "Write parks_summary.json with count, total_area_ha, and bbox_wgs84 as a four-number list."
+    ],
+    "pitfalls": [
+      "Computing area on the geometries while still in EPSG:4326 gives degree-squared values, so the one-hectare filter rejects almost everything and the totals come out astronomically wrong.",
+      "Reporting total_area_ha as raw square metres (skipping the divide-by-ten-thousand step) puts the number off by a factor of ten thousand and fails the area tolerance.",
+      "Returning the bounding box in EPSG:27700 metres instead of WGS84 lon/lat puts the values around 5x10^5 and 1.8x10^5, far outside any valid latitude or longitude range.",
+      "Swapping lon and lat (writing [ymin, xmin, ymax, xmax]) keeps the numbers inside WGS84 range but flips every bbox componentwise check.",
+      "Reprojecting only the four EPSG:27700 envelope corners to WGS84 instead of reprojecting the filtered features dilates the box by roughly 50 to 200 metres on every side, so all four componentwise checks fail even though count and area are perfect.",
+      "Shaping bbox_wgs84 as a dict instead of the requested four-number array is only sometimes recoverable by the grader's coercion, and an unrecognised key spelling forfeits all four componentwise checks even when the values themselves are correct.",
+      "Computing the bbox over the full unfiltered set rather than the >= 1 ha subset shifts the bbox edges enough to fail several of the componentwise checks."
+    ]
+  }
+}

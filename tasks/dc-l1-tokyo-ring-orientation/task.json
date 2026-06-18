@@ -1,0 +1,50 @@
+{
+  "task_id": "dc-l1-tokyo-ring-orientation",
+  "version": 3,
+  "tags": {
+    "region": ["tokyo"],
+    "data_source": ["bundled"],
+    "formats": ["geojson"],
+    "crs": ["EPSG:4326"],
+    "geometry_type": ["polygon"],
+    "operations": [],
+    "themes": ["building"],
+    "quality_issues": ["wrong_ring_orientation"],
+    "scale": "small"
+  },
+  "instruction": "tokyo_buildings_legacy.geojson is a footprint export from an old in-house tool. When we load it into web-based GeoJSON viewers, building interiors are shaded incorrectly: holes appear filled and exteriors render as empty space. Our tile-server import script also rejects every feature with geometry warnings. Fix the geometries so that standard GeoJSON web viewers render them correctly. Attributes must be untouched. Output to tokyo_buildings_fixed.geojson.\n\nEvery feature must remain a Polygon with interior rings and holes preserved exactly as they are; do not flatten them. feature_id is the join key.",
+  "analyst_notes": {
+    "description": "Tests whether the agent can diagnose a polygon ring-orientation defect from symptoms alone. The prompt describes the rendering and tile-server symptoms but never names RFC 7946, never says 'ring orientation', and never gives an EPSG code. The agent has to inspect the file, notice the rings wind the wrong way (exteriors clockwise and interiors counter-clockwise, the OGC convention, which is the inverse of what GeoJSON requires), and reverse them, preserving every attribute and the exact shape.",
+    "approach": [
+      "Read the legacy GeoJSON and inspect a sample polygon's exterior and interior rings to see how they wind.",
+      "Recognise that web-based GeoJSON viewers and validators follow RFC 7946's right-hand rule (exterior CCW, interior CW) and that the file uses the opposite convention.",
+      "Reverse the vertex order of every ring that is on the wrong side of the rule, leaving the coordinates themselves untouched.",
+      "Confirm that the geometric shape, the feature count, the feature_id set, and every attribute column are unchanged.",
+      "Write the result back as GeoJSON with the same schema, in the same CRS, under the requested filename."
+    ],
+    "pitfalls": [
+      "Reading the file with geopandas and writing it straight back, which preserves the malformed winding because geopandas does not normalise ring orientation on round-trip, so the symptom remains and both orientation subchecks fail.",
+      "Fixing the exterior rings but forgetting that interior rings have the opposite rule, so holes still wind the wrong way and the interior subcheck fails.",
+      "Rebuilding each polygon from just the reversed exterior, which silently drops every interior ring; the area changes only by the tiny hole areas but the polygons-with-holes subcheck catches the structural loss.",
+      "Calling simplify, buffer(0), or make_valid as part of the fix, which nudges vertices and trips the per-feature IoU check even though the orientation is now correct.",
+      "Reprojecting the output into EPSG:3857 or another CRS, which costs both soft CRS subchecks even though the rest of the work is correct.",
+      "Round-tripping through Shapefile as a staging format, which truncates long attribute names and re-flips rings to OGC convention on write."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "tokyo_buildings_legacy",
+      "url": "tasks/dc-l1-tokyo-ring-orientation/inputs/tokyo_buildings_legacy.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "tokyo_buildings_fixed.geojson",
+      "format": "geojson",
+      "crs": "EPSG:4326",
+      "geometry_type": "Polygon"
+    }
+  ],
+  "deadline_seconds": 600
+}

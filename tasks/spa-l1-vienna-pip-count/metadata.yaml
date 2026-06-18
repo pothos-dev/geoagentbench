@@ -1,0 +1,156 @@
+task_id: spa-l1-vienna-pip-count
+category: spatial_analysis
+difficulty: L1
+author: task-design-agent
+date: 2026-05-07
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.25
+  area_pct: null
+  jaccard_min: 1.00
+  geom_eps_m: null
+  rationale: |
+    L1 single-operation task on two fully bundled GeoJSON layers (49
+    monitoring-station Points + 23 Vienna Bezirk Polygons), both
+    already in EPSG:31287 (MGI / Austria Lambert). The output is
+    non-spatial CSV — no geometry tolerance applies.
+
+    Historical note: the grader originally had a second gate
+    (structural_correctness) with a row-count tolerance of ±25%
+    (count_pct below), deliberately wider than the L1 default ±5% so
+    the canonical persona-gotcha "agent did the join correctly but
+    never left-joined the result back onto the full 23-Bezirk list,
+    dropping the four zero-count districts" landed inside the
+    partial-credit band instead of zeroing the score. The 2026-06-06
+    benchmark-wide refactor removed Gate 2 entirely; row count is now
+    diagnosed by the strict ``exact_count_match`` and
+    ``district_code_set_complete`` subchecks, so the count_pct value
+    is retained for provenance but no longer gates anything. The four
+    zero-count districts are the persona's whole point — the coverage
+    diagnostic is *about* surfacing under-monitored Bezirke — so the
+    failure gets visible per-subcheck diagnosis, not a silent
+    gate-fail.
+
+    Subcheck floors:
+      * ``exact_count_match`` and ``district_code_set_complete`` are
+        strict (the full 23-row, {1..23}-code answer is the only
+        correct one).
+      * Per-row attribute checks (``district_name``, ``station_count``)
+        use a 95% match-rate floor — matches the L1 default and absorbs
+        at most one or two ambiguous rows.
+      * ``station_count_total_match`` is strict (sum across rows must
+        equal the reference sum, 49). Catches double-counting on
+        Bezirk boundaries, unit / scaling errors, and "constant filler
+        in every row" failures.
+
+    Subcheck weights (severity-calibrated 2026-06-14). The central
+    skill this task probes is the correct point-in-polygon join and the
+    per-district counts (including the left-join-back so every Bezirk
+    appears). The four subchecks that detect that skill —
+    ``exact_count_match``, ``district_code_set_complete``,
+    ``station_count_per_row_match``, ``station_count_total_match`` —
+    carry ``weight=3.0``. ``district_name_per_row_match`` is a
+    cosmetic / attribute-label check: when it is the *sole* failure
+    (the ``name_used_id`` broken) the join, the per-district counts,
+    and the total are all correct, so only the human-readable display
+    column is wrong; it carries ``weight=1.0``. With these weights the
+    total weight budget is 13. The score for a single failing subcheck
+    is ``(13 - weight_of_failed) / 13``: a cosmetic name-only failure
+    scores 12/13 ≈ 0.923, while the central inner-join failure (two of
+    the weight-3.0 count/code checks fail together) scores 7/13 ≈
+    0.538 — the meaningful mistake drops the score far more than the
+    cosmetic one. (Before this calibration all five subchecks were a
+    uniform 3.0, giving 0.8 and 0.6 respectively — a defensible
+    ordering but one that penalised the cosmetic label slip almost as
+    hard, per failing check, as a core count error.)
+
+    The set-membership Jaccard floor is implicit at 1.0 because all
+    23 Vienna Bezirk codes (1..23) are uniquely defined integers; any
+    missing or extra code is a real error, not drift.
+broken_solutions:
+  wrong_format:
+    description: |
+      Output CSV has the correct row count, ``district_code``, and
+      ``district_name`` columns but the ``station_count`` column is
+      missing — agent dropped it on write. Gate 1's required-column
+      check fails. Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  inner_join:
+    description: |
+      Agent grouped stations by their containing Bezirk but never
+      left-joined the result back onto the full 23-Bezirk list, so the
+      four zero-count districts (Mariahilf, Josefstadt, Simmering,
+      Hernals) vanish from the output. → 19 rows. The format gate
+      passes. ``exact_count_match`` and
+      ``district_code_set_complete`` fail; the per-row name+count
+      subchecks pass on the 19 districts present (their values are
+      sliced verbatim from the reference); ``station_count_total_match``
+      passes (the 49 stations all live in the 19 non-zero districts,
+      so the sum is preserved). Two weight-3.0 count/code subchecks
+      fail out of a 13-point budget → 7/13 ≈ 0.538.
+    expected_score_range: [0.45, 0.65]
+    measured_score: 0.5385
+  name_used_id:
+    description: |
+      Agent did the count correctly and produced 23 rows but pulled
+      the OSM ``relation_id`` (an integer like 1990592) into the
+      ``district_name`` column instead of the human-readable Bezirk
+      name — a left/right-of-the-merge column-confusion bug an agent
+      could plausibly hit when carrying attributes through a sjoin.
+      Only ``district_name_per_row_match`` fails — the cosmetic
+      weight-1.0 label check — out of a 13-point budget → 12/13 ≈
+      0.923. The join and all counts are correct, so the score sits
+      just below 1.0, reflecting a minor label slip.
+    expected_score_range: [0.88, 0.96]
+    measured_score: 0.9231
+notes:
+  - |
+    Bundled inputs come from OpenStreetMap via Overpass attic at the
+    pinned timestamp ``2026-05-01T00:00:00Z``, reprojected to
+    EPSG:31287:
+
+      * ``districts.geojson`` — 23 ``boundary=administrative
+        admin_level=9`` relations under Vienna's ``ISO3166-2=AT-9``
+        admin area. Each carries the Bezirk number 1..23 in its
+        ``ref`` tag (parsed into ``district_code`` as an int) and the
+        German Bezirk name in ``name`` (carried through verbatim into
+        ``district_name``: "Innere Stadt", "Leopoldstadt", …,
+        "Liesing", with diacritics preserved on Währing, Döbling,
+        Landstraße, Rudolfsheim-Fünfhaus). The OSM relation id is
+        kept under ``osm_relation_id`` for provenance.
+      * ``stations.geojson`` — 49 ``man_made=monitoring_station``
+        nodes inside the Vienna admin area, post-clipped to the union
+        of the 23 Bezirk polygons (Overpass area-bounded queries
+        occasionally include nodes whose coordinates fall in
+        Niederösterreich; clipping keeps the ``station_count`` totals
+        on the 23-Bezirk accounting the persona expects).
+  - |
+    OSM-vs-Overture: a probe of Overture release 2026-04-15.0 confirmed
+    Overture's Vienna divisions do *not* expose the 23 statutory
+    ``Gemeindebezirke`` cleanly — the 76 ``subtype='macrohood'`` rows
+    over the Vienna bbox include sub-Bezirk locales (Spittelberg,
+    Schottenfeld) and ``Katastralgemeinden`` ("KG ..."), and exclude
+    six whole Bezirke (Wieden, Neubau, Alsergrund, Rudolfsheim-Fünfhaus,
+    Döbling, Donaustadt). OSM's ``boundary=administrative
+    admin_level=9`` relations are the canonical Vienna-Bezirk source
+    and are the inventory's declared OSM-tag axis for this task. The
+    fall-back to OSM is recorded under ``audit/AUTHORING_HISTORY.md > Open
+    issues`` per ``docs/AUTHOR_CONTEXT.md``'s "Overture is the default
+    authoring source" rule.
+  - |
+    Coverage distribution (reference): four Bezirke have zero
+    monitoring stations (Mariahilf, Josefstadt, Simmering, Hernals);
+    Innere Stadt and Döbling each have six; Donaustadt has the most at
+    seven; the remaining 16 spread between one and four. The
+    distribution is uneven enough that neither "constant 2 stations
+    per Bezirk" nor "zero everywhere" is a defensible solution — both
+    fail multiple per-row and total subchecks.
+  - |
+    The grader's join key is ``district_code`` coerced to int — a
+    submission that wrote the code as ``"01"`` (zero-padded string),
+    ``1.0`` (float), or ``1`` (int) all alias correctly. A submission
+    that wrote a totally different code scheme (e.g., postal codes
+    1010..1230) will not align and will collapse the per-row
+    subchecks; that's intentional, since "1010" is not the
+    ``district_code`` the persona's CSV-schema reminder asked for.

@@ -1,0 +1,20 @@
+{
+  "layers": [
+    {
+      "name": "metro_hulls",
+      "pmtiles": "metro_hulls.pmtiles",
+      "source_layer": "metro_hulls",
+      "geometry_type": "Polygon",
+      "style": {
+        "fill-color": "#1a4480",
+        "fill-opacity": 0.45,
+        "fill-outline-color": "#1a4480"
+      },
+      "tooltip": [
+        "name_en",
+        "name_ar"
+      ]
+    }
+  ],
+  "error": null
+}

@@ -1,0 +1,80 @@
+task_id: fio-l1-nyc-csvwkt-addresses
+category: format_io
+difficulty: L1
+author: task-design-agent
+date: 2026-05-08
+drift_sensitivity: low
+tolerances:
+  count_pct: 0.0
+  area_pct: null
+  jaccard_min: 0.99
+  geom_eps_m: null
+  geom_eps_deg: 1.0e-9
+  rationale: |
+    Format-conversion task on a deterministic bundled CSV. The agent's
+    job is to rewrite the same row set in a different container with
+    proper Arrow types — no filtering, no projection, no aggregation.
+    Row count is therefore strict-equality (any silent row drop would
+    break the persona's downstream `SUM(unit_count)` query), and
+    feature-id Jaccard / per-id geometry / per-id value comparisons all
+    use a tight threshold (≥ 0.99) because the only legitimate causes
+    of disagreement are encoding round-trips that should round-trip
+    cleanly for ASCII text and WKT-encoded points in EPSG:4326.
+
+    Type subchecks are exact: `recorded_at` Arrow type must be
+    `timestamp[us]` (the inventory pins us-precision so DuckDB and
+    pandas comparisons agree without further casts), and `unit_count`
+    must be `int32` (the inventory pins int32 so the column is half
+    the storage of int64 and SUM aggregations stay in a predictable
+    width). The seven Overture address text columns must remain
+    Arrow string — a partial credit subcheck protects against agents
+    that aggressively re-typed numeric-looking strings like postcode
+    "10002" to integer 10002.
+
+    Geometry comparison uses 1e-9° per axis (≈ 0.1 mm at this
+    latitude) — well below any realistic float drift through a WKT
+    round-trip but tight enough to flag a reprojection or axis-order
+    mistake.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent wrote the result as CSV-with-WKT instead of GeoParquet.
+      Gate 1 rejects (pyarrow cannot read the file as parquet). Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  no_type_coercion:
+    description: |
+      Agent produced a structurally valid GeoParquet but skipped the
+      type coercion — `recorded_at` and `unit_count` are still
+      Arrow string. Both type subchecks fail; the value-preservation
+      subchecks still pass because the values themselves round-trip
+      correctly. Under the per-task reasoned weights (type subchecks
+      weight 3, value-preservation weight 2, structural/CRS weight 1;
+      total weight 23) skipping the task's central type-coercion skill
+      drops two weight-3 checks → 17 / 23 ≈ 0.739.
+    expected_score_range: [0.70, 0.80]
+    measured_score: 0.739
+  int64_unit_count:
+    description: |
+      Agent typed `recorded_at` as `timestamp[us]` correctly but left
+      `unit_count` at the pyarrow default of int64 instead of casting
+      to int32. Only `unit_count_is_int32` (weight 3) fails. Under the
+      per-task reasoned weights (total weight 23) → 20 / 23 ≈ 0.870.
+    expected_score_range: [0.85, 0.92]
+    measured_score: 0.870
+notes:
+  - |
+    Bundled input is sliced from Overture release 2026-04-15.0,
+    `theme=addresses/type=address` over a lower-Manhattan bbox
+    (-74.020, 40.700, -73.990, 40.730), `country = 'US'`. 8441
+    addresses returned; down-sampled with a stride-8 stable filter to
+    1056 rows so the bundled file fits the inventory's "small (~10³)"
+    tier. The two synthesised columns (`recorded_at` ISO timestamp,
+    `unit_count` int) are deterministic functions of the row index so
+    re-running `_prepare_input.py` produces a byte-identical CSV.
+  - |
+    The CSV is written with `csv.QUOTE_ALL` so every field arrives
+    quoted — a default `pd.read_csv()` reads `unit_count` and
+    `recorded_at` as `object` dtype, forcing the agent to perform an
+    explicit type-coercion step rather than rely on pandas' inference
+    fallback.

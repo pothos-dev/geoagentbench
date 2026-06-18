@@ -1,0 +1,151 @@
+# Named adapter targets for `eval run <name>`.
+#
+# `attributes` is a free-form dict copied verbatim into run.json.
+# `headers` values support ${VAR} env-var substitution.
+# `max_concurrent_sessions` is the default; --max-parallel overrides it.
+#
+# Model selection: the Claude Code harness reads `X-Harness-Model` on
+# POST /sessions and passes it to `claude --model`. Short aliases
+# (opus|sonnet|haiku) and full ids (claude-haiku-4-5-20251001) both work.
+
+adapters:
+  claude-code-opus-basic:
+    url: http://localhost:8080
+    label: "Claude Code (Opus) — basic prompt"
+    headers:
+      X-Harness-Model: opus
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: basic
+      model: opus
+      family: claude-code
+
+  claude-code-sonnet-basic:
+    url: http://localhost:8080
+    label: "Claude Code (Sonnet) — basic prompt"
+    headers:
+      X-Harness-Model: sonnet
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: basic
+      model: sonnet
+      family: claude-code
+
+  claude-code-haiku-basic:
+    url: http://localhost:8080
+    label: "Claude Code (Haiku) — basic prompt"
+    headers:
+      X-Harness-Model: haiku
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: basic
+      model: haiku
+      family: claude-code
+
+  openrouter-minimax-m2-basic:
+    url: http://localhost:8080
+    label: "OpenRouter MiniMax M2.7 — basic prompt"
+    headers:
+      X-Harness-Model: minimax/minimax-m2.7
+      X-Harness-Prompt-Variant: basic
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: basic
+      model: minimax/minimax-m2.7
+      family: openrouter
+
+  openrouter-deepseek-v4-flash-basic:
+    url: http://localhost:8080
+    label: "OpenRouter DeepSeek V4 Flash — basic prompt"
+    headers:
+      X-Harness-Model: deepseek/deepseek-v4-flash
+      X-Harness-Prompt-Variant: basic
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: basic
+      model: deepseek/deepseek-v4-flash
+      family: openrouter
+
+  openrouter-deepseek-v4-flash-detailed:
+    url: http://localhost:8080
+    label: "OpenRouter DeepSeek V4 Flash — gis_detailed prompt"
+    headers:
+      X-Harness-Model: deepseek/deepseek-v4-flash
+      X-Harness-Prompt-Variant: gis_detailed
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: gis_detailed
+      model: deepseek/deepseek-v4-flash
+      family: openrouter
+
+  openrouter-deepseek-v4-pro-basic:
+    url: http://localhost:8080
+    label: "OpenRouter DeepSeek V4 Pro — basic prompt"
+    headers:
+      X-Harness-Model: deepseek/deepseek-v4-pro
+      X-Harness-Prompt-Variant: basic
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: basic
+      model: deepseek/deepseek-v4-pro
+      family: openrouter
+
+  openrouter-deepseek-v4-pro-detailed:
+    url: http://localhost:8080
+    label: "OpenRouter DeepSeek V4 Pro — gis_detailed prompt"
+    headers:
+      X-Harness-Model: deepseek/deepseek-v4-pro
+      X-Harness-Prompt-Variant: gis_detailed
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: gis_detailed
+      model: deepseek/deepseek-v4-pro
+      family: openrouter
+
+  openrouter-gemma4-26b-basic:
+    url: http://localhost:8080
+    label: "OpenRouter Gemma 4 26B A4B IT — basic prompt"
+    headers:
+      X-Harness-Model: google/gemma-4-26b-a4b-it
+      X-Harness-Prompt-Variant: basic
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: basic
+      model: google/gemma-4-26b-a4b-it
+      family: openrouter
+
+  openrouter-gemma4-26b-detailed:
+    url: http://localhost:8080
+    label: "OpenRouter Gemma 4 26B A4B IT — gis_detailed prompt"
+    headers:
+      X-Harness-Model: google/gemma-4-26b-a4b-it
+      X-Harness-Prompt-Variant: gis_detailed
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: gis_detailed
+      model: google/gemma-4-26b-a4b-it
+      family: openrouter
+
+  openrouter-opus-4-7-detailed:
+    url: http://localhost:8080
+    label: "OpenRouter Claude Opus 4.7 — gis_detailed prompt"
+    headers:
+      X-Harness-Model: anthropic/claude-opus-4-7
+      X-Harness-Prompt-Variant: gis_detailed
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: gis_detailed
+      model: anthropic/claude-opus-4-7
+      family: openrouter
+
+  openrouter-hy3-preview-basic:
+    url: http://localhost:8080
+    label: "OpenRouter Tencent HY3 Preview — basic prompt"
+    headers:
+      X-Harness-Model: tencent/hy3-preview
+      X-Harness-Prompt-Variant: basic
+    max_concurrent_sessions: 1
+    attributes:
+      prompt_variant: basic
+      model: tencent/hy3-preview
+      family: openrouter

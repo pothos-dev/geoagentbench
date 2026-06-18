@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ run_id }} · eval{% endblock %}
+{% block nav_runs %}active{% endblock %}
+{% block breadcrumbs %}
+<nav class="breadcrumbs">
+  <a href="/runs">Runs</a>
+  <span class="sep">/</span>
+  <span>{{ run_id }}</span>
+</nav>
+{% endblock %}
+{% block body %}
+<h1>{{ run_id }}</h1>
+<div class="meta-row">
+  <div>Adapter: <strong>{{ (state.adapter or {}).label or (state.adapter or {}).name or (state.adapter or {}).url }}</strong></div>
+  <div>Status: <span class="status-pill status-{{ state.status }}">{{ state.status }}</span></div>
+  <div>Started: <strong>{{ state.started_at }}</strong></div>
+  <div>Finished: <strong>{{ state.finished_at or '—' }}</strong></div>
+  <div>Parallel: <strong>{{ (state.invocation or {}).max_parallel }}</strong></div>
+</div>
+{% if state.label %}<p>Label: {{ state.label }}</p>{% endif %}
+{% if state.status == 'running' %}
+  <form method="post" action="/runs/{{ run_id }}/cancel" style="display:inline; margin-bottom: 16px;">
+    <button type="submit" class="btn btn-danger">Cancel run</button>
+  </form>
+{% elif state.status in ('failed', 'cancelled') %}
+  {% set incomplete = state.tasks.values()|selectattr('status', 'in', ['pending', 'running', 'failed', 'cancelled'])|list %}
+  {% if incomplete %}
+  <form method="post" action="/runs/{{ run_id }}/resume" style="display:inline; margin-bottom: 16px;">
+    <button type="submit" class="btn btn-nav">Resume ({{ incomplete|length }} task{{ 's' if incomplete|length != 1 }})</button>
+  </form>
+  {% endif %}
+{% endif %}
+
+<div id="run-table"
+     hx-get="/runs/{{ run_id }}/_table"
+     hx-trigger="load, every 1.5s"
+     hx-swap="innerHTML">
+  loading…
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{
+  "task_id": "geo-l3-antarctica-stations-geodesic",
+  "evaluator_finished_at": "2026-06-14",
+  "status": "completed-with-flags",
+  "verdict": "insufficient-evidence",
+  "unilateral_edits": [
+    "grade.py",
+    "metadata.yaml",
+    "audit/AUTHORING_HISTORY.md",
+    "audit/status.json"
+  ],
+  "grader_score_after_edits": 1.0,
+  "pytest_status": "not-run",
+  "human_review_items": [
+    {
+      "id": "HR-002",
+      "category": "design-rationale",
+      "severity": "low",
+      "summary": "Global grader refactors 363aed2 (gate removal) and c749e57 (3x weights) changed scoring semantics without bumping task.json version, so the eval UI's version-based de-emphasis cannot distinguish pre/post-refactor runs. Benchmark-wide process gap, not task-specific."
+    },
+    {
+      "id": "HR-003",
+      "category": "design-rationale",
+      "severity": "low",
+      "summary": "Commit f40e39e ('Strip deducible information from GEO task instructions') changed only one phrase; the message implies a broader strip than the diff supports. Carried over from prior reviews; record only."
+    },
+    {
+      "id": "HR-004",
+      "category": "design-rationale",
+      "severity": "low",
+      "summary": "Commit 64740d0 ('Remove answer-giving nudges from data-cleaning task prompts') edits this GEO task although its title scopes to data-cleaning. Carried over from prior reviews; record only."
+    }
+  ],
+  "blocker": null
+}

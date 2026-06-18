@@ -1,0 +1,50 @@
+{
+  "task_id": "dc-l2-cairo-invalid-dedup",
+  "version": 3,
+  "tags": {
+    "region": ["cairo"],
+    "data_source": ["bundled"],
+    "formats": ["geojson", "geoparquet"],
+    "crs": ["EPSG:22992"],
+    "geometry_type": ["polygon", "multipolygon"],
+    "operations": ["dissolve", "area_calculation"],
+    "themes": [],
+    "quality_issues": ["invalid_geometry", "duplicate_geometries", "multi_single_coercion", "sliver_polygons"],
+    "scale": "medium"
+  },
+  "instruction": "cairo_parcels_legacy.geojson is a parcel snapshot stitched together from three legacy provincial systems before unification, and I need to turn it into the foundation for our new central registry. Can you clean it up so we end up with one canonical record per parcel? When duplicates exist, keep the record with the earliest record_seq, and discard any polygon fragments smaller than 1 m².\n\nPlease write the result to parcels_canonical.geoparquet including these columns: parcel_id (the join key), parcel_class, district, and area_m2. Every feature must be a MultiPolygon, and there should be no null or empty geometries, no invalid geometries, no duplicate geometries, and no artifact slivers.",
+  "inputs": [
+    {
+      "name": "cairo_parcels_legacy",
+      "url": "tasks/dc-l2-cairo-invalid-dedup/inputs/cairo_parcels_legacy.geojson",
+      "format": "geojson"
+    }
+  ],
+  "expected_outputs": [
+    {
+      "name": "parcels_canonical.geoparquet",
+      "format": "geoparquet",
+      "crs": "EPSG:22992",
+      "geometry_type": "MultiPolygon"
+    }
+  ],
+  "deadline_seconds": 600,
+  "analyst_notes": {
+    "description": "This task tests whether the agent can plan and execute a multi-step polygon-cleanup chain on a deliberately corrupted parcel snapshot. The hidden gotcha is that the bowtie polygons report shapely `.area` of 0, so a naive `geometry.area < 1` sliver filter will silently delete the bowtie features instead of repairing them. The agent has to run `make_valid` first, then filter slivers on the repaired geometry, then dedup and recompute area before coercing to MultiPolygon.",
+    "approach": [
+      "Read the input GeoJSON and inspect a few rows to spot the mixed Polygon and MultiPolygon types, the self-intersecting bowties, the duplicated rows with conflicting attributes, and the sub-1 m² slivers.",
+      "Repair invalid geometries first so subsequent area-based filters see the real area, not the 0 area shapely returns for a self-intersecting ring.",
+      "Drop fragments below 1 m² using the repaired geometry's own area.",
+      "Collapse exact-duplicate geometries by WKB equality, keeping the row with the smallest record_seq.",
+      "Recompute area_m2 from the surviving geometry rather than carrying over the stale legacy value.",
+      "Promote every single-part Polygon to a 1-part MultiPolygon so the output schema is homogeneous, and write parcels_canonical.geoparquet with the requested columns."
+    ],
+    "pitfalls": [
+      "Filtering slivers on raw geometry.area before running make_valid silently deletes the 20 bowtie parcels, because self-intersecting rings report area 0 and fall under the 1 m² threshold.",
+      "Half-repairing a bowtie by keeping only one of the two triangles make_valid would produce halves the parcel's area and drops the union IoU below 0.99, which trips geometric_extent_preserved.",
+      "Using keep=\"last\" on the dedup step keeps the synthetic 900_000+ parcel_ids and the conflicting parcel_class values, so both the parcel_id Jaccard and the attribute-match subchecks collapse.",
+      "Carrying the legacy area_m2 column through unchanged makes area_m2_recomputed fail on the 20 bowtie rows whose repaired area no longer matches the stale value.",
+      "Writing the output in EPSG:4326 (the GeoJSON convention) instead of the input's EPSG:22992 costs both CRS subchecks even though the geometric work otherwise scores."
+    ]
+  }
+}

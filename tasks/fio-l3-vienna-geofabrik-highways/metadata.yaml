@@ -1,0 +1,35 @@
+task_id: fio-l3-vienna-geofabrik-highways
+category: format_io
+difficulty: L3
+author: task-design-agent
+date: "2026-05-12"
+drift_sensitivity: med
+tolerances:
+  count_pct: 0.15
+  area_pct: null
+  jaccard_min: null
+  geom_eps_m: null
+  rationale: |
+    L3 task with live OSM data — feature counts can shift ±15 % between runs
+    as mappers add/remove highway segments and PT routes.  No area or Jaccard
+    checks are used because the task is about format I/O fidelity (multi-layer
+    GPKG, attribute preservation, CRS) rather than geometric precision.
+    Diacritic preservation is checked as a binary subcheck because the task
+    explicitly requires untruncated German tag names.
+broken_solutions:
+  broken_no_pt_layer:
+    description: "Missing pt_routes layer entirely — only highways exported"
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  broken_wrong_crs:
+    description: "CRS stamped as EPSG:31287 but coordinates are actually in EPSG:4326 (no reprojection)"
+    expected_score_range: [0.6, 0.7]
+    measured_score: 0.636  # 14/22 weight under the 2026-06-14 severity-recalibrated grader (CRS metadata subchecks pass — reads 31287 — but the central spatial-extent detectors fail: pt_route_count w3, highway_coords_range w3, pt_route_projected w2)
+  broken_truncated_attrs:
+    description: "Correct structure/CRS but diacritics stripped from names (ü→u, ö→o, ß→ss)"
+    expected_score_range: [0.8, 0.9]
+    measured_score: 0.818  # 18/22 weight under the 2026-06-14 severity-recalibrated grader; only the cosmetic diacritics_preserved (w1) fails plus the legacy pt_route_count w3 drift — see audit/AUTHORING_HISTORY.md HR-001 (broken set still references pre-2026-05-16 reference with 292 PT routes vs current 380)
+notes:
+  - Reference solution uses Overpass API (lz4.overpass-api.de) rather than downloading the full Geofabrik PBF, for practical runtime reasons.
+  - PT route relations can span far outside the Gürtel buffer area (whole bus lines); coordinate range check for pt_routes only confirms coordinates are projected (not in degrees).
+  - Reference run stats — highways: ~10 k features, pt_routes: ~290 features (as of 2026-05-12).

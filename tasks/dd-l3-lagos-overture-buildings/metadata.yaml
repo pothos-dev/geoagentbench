@@ -1,0 +1,76 @@
+task_id: dd-l3-lagos-overture-buildings
+category: data_discovery
+difficulty: L3
+author: task-design-agent
+date: 2026-05-12
+drift_sensitivity: med
+tolerances:
+  count_pct: 0.10
+  area_pct: 0.20
+  jaccard_min: 0.80
+  geom_eps_m: null
+  rationale: |
+    L3 task fetching live data from Overture's S3 bucket.  Two runs
+    against the same pinned release are deterministic, but an agent
+    that targets a different release (or the release is updated between
+    authoring and evaluation) may see feature-count and attribute drift.
+
+    * count_pct = 0.10 — wider than the L2 default (0.05) to absorb
+      ±10 % building-count drift across Overture releases.  The Lagos
+      building corpus grows ~5 %/quarter from OSM mapper activity.
+    * area_pct = 0.20 — total footprint area tolerance is wider because
+      different reprojection implementations (pyproj vs GDAL vs DuckDB
+      spatial) yield slightly different polygon areas, and the set of
+      buildings can differ across releases.
+    * jaccard_min = 0.80 — set membership tolerance is looser than
+      the L2 default (0.90) because upstream Overture ID minting can
+      change across releases.
+    * geom_eps_m = null — no per-feature geometry comparison; grading
+      is by set membership and aggregate statistics.
+broken_solutions:
+  wrong_format:
+    description: |
+      Agent emitted a CSV file with the .geoparquet extension instead
+      of a valid GeoParquet file.  Gate 1 fails on the Parquet/GeoParquet
+      read step.  Score = 0.
+    expected_score_range: [0.0, 0.0]
+    measured_score: 0.0
+  no_area_filter:
+    description: |
+      Agent fetched buildings from Overture and wrote them without
+      applying the > 1000 m² footprint area filter.  Contains tens of
+      thousands of extra small-footprint buildings; the summary is
+      derived consistently from the (un-filtered) building file.
+      building_count_tolerance, feature_set_jaccard, area_filter_applied
+      and summary_area_reasonable fail; summary_total_consistent passes
+      because file and summary agree internally.  Score ≈ 0.42.
+    expected_score_range: [0.35, 0.55]
+    measured_score: 0.4242
+  wrong_crs_area:
+    description: |
+      Agent computed footprint areas in WGS84 (degrees²) instead of
+      reprojecting to EPSG:26331.  Building set is correct (same IDs)
+      but area values are orders of magnitude too small.
+      area_filter_applied and summary_area_reasonable fail.  Score ≈ 0.73.
+    expected_score_range: [0.65, 0.85]
+    measured_score: 0.7273
+notes:
+  - |
+    Reference was generated against Overture release 2026-04-15.0
+    using the Lagos State polygon (subtype='region', country='NG',
+    names.primary='Lagos') as the scope.  The state's bbox is roughly
+    [2.71, 6.37, 4.35, 6.70].  The agent must derive this bbox itself
+    from the polygon for S3 partition pushdown — the instruction does
+    not hand it over.
+  - |
+    20 Lagos State LGAs are identified by region='NG-LA' and
+    subtype='county' in Overture's divisions.division_area theme.
+    Because the LGAs partition the state polygon, every building
+    retained by the reference belongs to exactly one LGA — there is
+    no "unassigned" bucket.  Any building whose representative point
+    falls outside every LGA polygon (rare topology slivers) is
+    dropped.
+  - |
+    Overture height data is very sparse in Lagos.  Eti Osa (Victoria
+    Island / Lekki) carries most of the records, consistent with it
+    being the primary commercial district with high-rise development.
