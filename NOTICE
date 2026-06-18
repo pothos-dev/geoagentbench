@@ -1,0 +1,28 @@
+GeoAgentBench
+Copyright 2026 Daniel Allmer
+
+Licensed under the Apache License, Version 2.0 (the "License"); see the
+LICENSE file. This license covers the original code and task definitions
+(graders, harness, eval, prompts, scripts).
+
+------------------------------------------------------------------------
+Bundled geospatial data
+------------------------------------------------------------------------
+
+The data under tasks/*/inputs/ and tasks/*/reference/ is DERIVED from the
+sources below and remains subject to their licenses, which the Apache-2.0
+license above does NOT override:
+
+- OpenStreetMap. (c) OpenStreetMap contributors.
+  Licensed under the Open Database License (ODbL) v1.0.
+  https://www.openstreetmap.org/copyright
+  Data fetched via the Overpass API, and Overture themes sourced from OSM,
+  remains subject to the ODbL, including its attribution and share-alike
+  requirements.
+
+- Overture Maps Foundation. https://overturemaps.org
+  Released under CDLA-Permissive-2.0 (places theme) and ODbL (base,
+  transportation, and buildings themes, which are derived from OpenStreetMap).
+
+Each task's _prepare.py / generate.py documents the exact source, release,
+and query used to produce its bundled data.

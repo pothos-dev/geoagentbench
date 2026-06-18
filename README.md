@@ -86,3 +86,11 @@ harness/      HTTP harness wrapping an agent + tools in a sandbox
 eval/         eval runner, graders, and results-browser UI
 authoring/    tooling and prompts used to author and audit tasks
 ```
+
+## License
+
+Code and task definitions are licensed under **Apache-2.0** (see `LICENSE`).
+
+The bundled geospatial data is **derived from OpenStreetMap** (© OpenStreetMap
+contributors, [ODbL](https://www.openstreetmap.org/copyright)) and **Overture
+Maps**, and remains subject to those licenses - see `NOTICE` for details.

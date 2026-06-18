@@ -9,8 +9,8 @@ from pathlib import Path
 import geopandas as gpd
 
 TASK_DIR = Path(__file__).resolve().parent.parent
-REF_PATH = TASK_DIR / "reference" / "outputs" / "vienna_network.gpkg"
-TESTS_DIR = TASK_DIR / "tests"
+REF_PATH = TASK_DIR / "reference" / "solution" / "outputs" / "vienna_network.gpkg"
+FAILURES_DIR = TASK_DIR / "reference" / "failures"
 
 
 def _write(gdf_layers: list[tuple[gpd.GeoDataFrame, str]], out_path: Path) -> None:
@@ -24,7 +24,7 @@ def _write(gdf_layers: list[tuple[gpd.GeoDataFrame, str]], out_path: Path) -> No
 
 def create_broken_no_pt_layer():
     """Missing pt_routes layer entirely. Should fail Gate 1 → score 0."""
-    out_dir = TESTS_DIR / "broken_no_pt_layer" / "outputs"
+    out_dir = FAILURES_DIR / "broken_no_pt_layer" / "outputs"
     out_dir.mkdir(parents=True, exist_ok=True)
     hw = gpd.read_file(REF_PATH, layer="highways")
     _write([(hw, "highways")], out_dir / "vienna_network.gpkg")
@@ -35,7 +35,7 @@ def create_broken_wrong_crs():
     EPSG:31287 (agent reprojected name/geometry separately, or just stamped
     the CRS without reprojecting). Passes gates but fails coordinate-range
     and projected-coordinates subchecks → partial score."""
-    out_dir = TESTS_DIR / "broken_wrong_crs" / "outputs"
+    out_dir = FAILURES_DIR / "broken_wrong_crs" / "outputs"
     out_dir.mkdir(parents=True, exist_ok=True)
     hw = gpd.read_file(REF_PATH, layer="highways").to_crs("EPSG:4326")
     pt = gpd.read_file(REF_PATH, layer="pt_routes").to_crs("EPSG:4326")
@@ -50,7 +50,7 @@ def create_broken_truncated_attrs():
     with ASCII transliterations (ü→u), route/operator emptied, diacritics
     stripped. Should pass gates, fail attribute and diacritic subchecks →
     partial score."""
-    out_dir = TESTS_DIR / "broken_truncated_attrs" / "outputs"
+    out_dir = FAILURES_DIR / "broken_truncated_attrs" / "outputs"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     hw = gpd.read_file(REF_PATH, layer="highways")
